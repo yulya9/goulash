@@ -1034,7 +1034,7 @@ input.is-invalid {
 @media (max-width: 767px) { .calcx { padding-inline: 0; } }
 
 /* Первый экран: длинный заголовок не должен залезать под рендер */
-.g2-hero__title { font-size: clamp(34px, 4vw, 52px); line-height: 1.08; max-width: 20ch; }
+.g2-hero__title { font-size: clamp(34px, 3.7vw, 48px); line-height: 1.1; max-width: 20ch; }
 .g2-hero__title-accent { display: inline; font-size: inherit; line-height: inherit; }
-.g2-hero__lead { max-width: 440px; }
+.g2-hero__lead { max-width: 600px; }
 @media (max-width: 1100px) { .g2-hero__lead { max-width: none; } }
