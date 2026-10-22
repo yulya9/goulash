@@ -1347,3 +1347,6 @@ html.rv-on .rv--fade.is-in { animation-name: rvFade; animation-duration: 1.2s; }
 }
 
 @media (min-width: 1024px) { .sc__meta dt { white-space: nowrap; } .sc__meta .sc__res { white-space: nowrap; } }
+
+/* Метка кейса: обычный регистр, нейтральный цвет */
+.sc__tag { text-transform: none !important; letter-spacing: normal !important; color: var(--g-od-tertiary) !important; font-size: var(--g-t4-size) !important; font-weight: 400 !important; }
