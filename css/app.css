@@ -1381,3 +1381,8 @@ html.rv-on .rv--fade.is-in { animation-name: rvFade; animation-duration: 1.2s; }
 #partners .g2-partners-mobile { padding-block: 40px; }
 #partners .g2-marquee { margin-top: 0; }
 #partners .g2-partners__logo { opacity: 0.8; }
+
+/* Партнёры: заголовок вернулся, лента под ним с небольшим отступом */
+#partners .g2-partners-mobile { padding-block: 56px; }
+#partners .g2-marquee { margin-top: 28px; }
+@media (max-width: 767px) { #partners .g2-partners-mobile { padding-block: 40px; } }
