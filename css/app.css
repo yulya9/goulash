@@ -1223,3 +1223,4 @@ input.is-invalid {
 .sg .sg__panel.is-open:nth-child(n) .sg__img { opacity: 1; transform: scale(1); }
 .sg .sg__img::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(10, 10, 12, 0.05) 25%, rgba(10, 10, 12, 0.78) 100%); }
 .sg .sg__btn { z-index: 2; }
+.sg .sg__panel:nth-child(n) .sg__img { background-color: transparent; }
