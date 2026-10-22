@@ -240,12 +240,30 @@ function setFormState(form, status, html) {
   out.setAttribute("aria-hidden", html ? "false" : "true");
 }
 
-// Тестовое задание: настоящей отправки нет. Здесь подставляется сервис приёма заявок;
-// пока он имитируется. Состояние ошибки можно посмотреть по адресу ?form=error.
+// Адрес приёма заявок. Сейчас открытый тестовый сервис httpbin.org: он принимает запрос и возвращает его обратно,
+// никуда дальше данные не уходят. Для боевого сайта заменить на свой адрес (CRM, Telegram-бот, сервис форм).
+// Состояние ошибки можно посмотреть по адресу ?form=error.
+const LEAD_ENDPOINT = "https://httpbin.org/post";
+
 async function sendLead(payload) {
-  await new Promise((r) => setTimeout(r, 900));
-  if (new URLSearchParams(location.search).get("form") === "error") throw new Error("demo");
-  return { ok: true, payload };
+  if (new URLSearchParams(location.search).get("form") === "error") {
+    await new Promise((r) => setTimeout(r, 900));
+    throw new Error("demo");
+  }
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), 10000);
+  try {
+    const res = await fetch(LEAD_ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...payload, source: "landing", sentAt: new Date().toISOString() }),
+      signal: ctrl.signal,
+    });
+    if (!res.ok) throw new Error("http " + res.status);
+    return await res.json();
+  } finally {
+    clearTimeout(timer);
+  }
 }
 
 async function submitLead(event) {
