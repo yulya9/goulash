@@ -1368,3 +1368,10 @@ html.rv-on .rv--fade.is-in { animation-name: rvFade; animation-duration: 1.2s; }
 #partners .g2-partners__logo { max-height: 32px; filter: grayscale(100%); opacity: 0.55; }
 #partners .g2-marquee { -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
 @media (max-width: 767px) { #partners .g2-partners-mobile { padding-block: 40px; } }
+
+/* Партнёры без заголовка: неспешная лента, плавный линейный ход */
+#partners .g2-partners-mobile { padding-block: 44px; }
+#partners .g2-marquee { margin-top: 0; }
+#partners .g2-marquee__track { animation-duration: 90s; animation-timing-function: linear; }
+#partners .g2-marquee:hover .g2-marquee__track { animation-play-state: paused; }
+@media (max-width: 767px) { #partners .g2-partners-mobile { padding-block: 32px; } #partners .g2-marquee__track { animation-duration: 60s; } }
