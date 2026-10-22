@@ -1251,3 +1251,6 @@ input.is-invalid {
 
 /* Первый экран: контент по центру между шапкой и полосой логотипов (отступ сверху от шапки = отступ снизу до логотипов) */
 @media (min-width: 769px) { .g2-hero { --g2-hero-pt: var(--g-header-h); } .g2-hero__inner { padding-bottom: 12px; } }
+
+/* Тёмная кнопка: при наведении стрелка только сдвигается, цвет не меняется */
+.g2-btn--dark:hover .g2-btn__icon { color: inherit; }
