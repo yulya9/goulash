@@ -22,8 +22,9 @@
   display: grid;
   grid-template-columns: 168px minmax(0, 1fr);
   background: var(--gp-bg);
-  border-radius: 0;
+  border-radius: 16px;
   overflow: hidden;
+  border: 1px solid #c8d8e1;
   /* окно как экран ПК: размер фиксирован, на узких экранах масштабируется целиком */
   position: absolute;
   top: 0;
@@ -38,7 +39,7 @@
   width: 100%;
   overflow: hidden;
   border-radius: 16px;
-  box-shadow: 0 0 0 1px rgba(20, 45, 40, 0.12), 0 2px 6px rgba(16, 40, 35, 0.04), 0 16px 40px rgba(16, 40, 35, 0.08), 0 40px 80px rgba(16, 40, 35, 0.04);
+  box-shadow: 0 2px 6px rgba(16, 40, 35, 0.04), 0 16px 40px rgba(16, 40, 35, 0.08), 0 40px 80px rgba(16, 40, 35, 0.04);
 }
 :where(.gp) button { font: inherit; color: inherit; cursor: pointer; border: 0; background: none; }
 .gp b { font-weight: 600; }
