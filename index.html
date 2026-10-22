@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="css/header.css" />
   <link rel="stylesheet" href="css/home.css" />
   <link rel="stylesheet" href="css/app.css" />
-  <link rel="stylesheet" href="css/demo.css?v=3" />
+  <link rel="stylesheet" href="css/demo.css?v=7" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M35.87 0H11.65C5.22 0 0 5.25 0 11.72v24.35C0 42.54 5.22 47.78 11.65 47.78h24.22c6.44 0 11.65-5.25 11.65-11.72V11.72C47.52 5.24 42.3 0 35.87 0z' fill='%2300FFFF'/%3E%3C/svg%3E" />
 </head>
 <body class="g2">
@@ -199,14 +199,15 @@
           <p class="g2-section-head__sub">Окно живое: заказы приходят и&nbsp;двигаются сами. Откройте заказ, включите фильтр или нажмите «Форс-мажор».</p>
         </div>
 
+        <div class="gp-stage" id="gp-stage">
         <div class="gp" id="gp" aria-label="Демо интерфейса Goulash">
           <aside class="gp__side">
-            <div class="gp__brand">
+            <button type="button" class="gp__brand" data-screen="Главная" aria-label="На главную">
               <svg viewBox="0 0 48 48" fill="none" aria-hidden="true"><path d="M35.8708 0H11.6535C5.21774 0 0 5.24615 0 11.7169V36.0662C0 42.5369 5.21774 47.7831 11.6535 47.7831H35.8708C42.3065 47.7831 47.5243 42.5369 47.5243 36.0662V11.7154C47.5243 5.24462 42.3065 0 35.8708 0Z" fill="#00FFFF"/><path d="M15.8418 15.9297H7.92188V31.8558H15.8418V15.9297Z" fill="#040406"/><path d="M31.6827 15.9295V7.96484H15.8413V15.9295H31.6827Z" fill="#040406"/><path d="M15.8413 31.8555V39.8201H31.6827V31.8555H15.8413Z" fill="#040406"/><path d="M39.6031 23.8945H31.6831V31.8576H39.6031V23.8945Z" fill="#040406"/></svg>
               Goulash.tech
-            </div>
+            </button>
             <div class="gp__ip">212.49.110.58</div>
-            <ul class="gp__menu"><li class="is-on"><button type="button" tabindex="-1"><i></i>Главная</button></li><li><button type="button" tabindex="-1"><i></i>Станция кухни</button></li><li><button type="button" tabindex="-1"><i></i>Принять заказ</button></li><li><button type="button" tabindex="-1"><i></i>Принять заказ NEW</button></li><li><button type="button" tabindex="-1"><i></i>Зал</button></li><li><button type="button" tabindex="-1"><i></i>Справочники</button></li><li><button type="button" tabindex="-1"><i></i>Заказы</button></li><li><button type="button" tabindex="-1"><i></i>Пост охраны</button></li><li><button type="button" tabindex="-1"><i></i>Учёт расходов</button></li><li><button type="button" tabindex="-1"><i></i>Учёт выручки</button></li><li><button type="button" tabindex="-1"><i></i>Стоп-лист</button></li><li><button type="button" tabindex="-1"><i></i>Учёт товаров</button></li><li><button type="button" tabindex="-1"><i></i>Закупочные цены</button></li><li><button type="button" tabindex="-1"><i></i>Настройки</button></li><li><button type="button" tabindex="-1"><i></i>Гости</button></li><li><button type="button" tabindex="-1"><i></i>Видео</button></li><li><button type="button" tabindex="-1"><i></i>Чек-листы</button></li></ul>
+            <ul class="gp__menu"><li class="is-on"><button type="button" data-screen="Главная"><i></i>Главная</button></li><li><button type="button" data-screen="Станция кухни"><i></i>Станция кухни</button></li><li><button type="button" data-screen="Принять заказ"><i></i>Принять заказ</button></li><li><button type="button" data-screen="Принять заказ NEW"><i></i>Принять заказ NEW</button></li><li><button type="button" data-screen="Зал"><i></i>Зал</button></li><li><button type="button" data-screen="Справочники"><i></i>Справочники</button></li><li><button type="button" data-screen="Заказы"><i></i>Заказы</button></li><li><button type="button" data-screen="Пост охраны"><i></i>Пост охраны</button></li><li><button type="button" data-screen="Учёт расходов"><i></i>Учёт расходов</button></li><li><button type="button" data-screen="Учёт выручки"><i></i>Учёт выручки</button></li><li><button type="button" data-screen="Стоп-лист"><i></i>Стоп-лист</button></li><li><button type="button" data-screen="Учёт товаров"><i></i>Учёт товаров</button></li><li><button type="button" data-screen="Закупочные цены"><i></i>Закупочные цены</button></li><li><button type="button" data-screen="Настройки"><i></i>Настройки</button></li><li><button type="button" data-screen="Гости"><i></i>Гости</button></li><li><button type="button" data-screen="Видео"><i></i>Видео</button></li><li><button type="button" data-screen="Чек-листы"><i></i>Чек-листы</button></li></ul>
           </aside>
 
           <div class="gp__main">
@@ -217,12 +218,12 @@
                   <span id="gp-unit-name">Все подразделения</span> ▾
                   <div class="gp__unit-menu" id="gp-unit-menu" role="listbox"></div>
                 </button>
-                <div class="gp__promise"><small>Обещаем гостю</small><strong><span id="gp-promise">35</span><em>мин</em></strong></div>
-                <div class="gp__promise"><small>Расчётное время</small><strong><span id="gp-calc">34</span><em>мин</em></strong></div>
-                <div class="gp__nps"><span>★ NPS</span> <b>▲ 4,74</b></div>
-                <div><b id="gp-cash">115&nbsp;038 ₽</b></div>
+                <button type="button" class="gp__promise" data-info="promise"><small>Обещаем гостю</small><strong><span id="gp-promise">35</span><em>мин</em></strong></button>
+                <button type="button" class="gp__promise" data-info="calc"><small>Расчётное время</small><strong><span id="gp-calc">34</span><em>мин</em></strong></button>
+                <button type="button" class="gp__nps" data-info="nps"><span>★ NPS</span> <b>▲ 4,74</b></button>
+                <button type="button" class="gp__cashb" data-info="cash"><b id="gp-cash">115&nbsp;038 ₽</b></button>
               </div>
-              <div class="gp__user"><div>Администратор<span>с&nbsp;11:17</span></div></div>
+              <button type="button" class="gp__user" data-info="user"><div>Администратор<span>с&nbsp;11:17</span></div></button>
             </div>
 
             <div class="gp__actions" role="group" aria-label="Действия смены">
@@ -233,25 +234,27 @@
               <button type="button" class="gp__pill" data-act="close"><i></i>Закрытие смены</button>
             </div>
 
+            <div class="gp__screen" id="gp-screen" hidden></div>
+
             <div class="gp__panels">
               <div class="gp__stats">
-                <div class="gp__stat">
+                <div class="gp__stat" data-stage="3" role="button" tabindex="0" aria-label="Показать этап «Приготовлено»">
                   <h4>Напитки</h4>
-                  <div class="gp__stat-label">Опоздания</div>
+                  <div class="gp__stat-label">Опоздания <button type="button" class="gp__i" data-info="late" aria-label="Что это">i</button></div>
                   <div class="gp__nums"><div><b id="gp-d-late">0</b><span>max</span></div><div class="is-dim"><b>0</b><span>среднее</span></div></div>
                   <div class="gp__bars"><div class="gp__row"><i></i><div class="gp__cells" data-cells="drinks"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div></div></div>
                   <div class="gp__facts"><div>Среднее факт. время приготовления <b>14</b></div><div>Лучшее: Широкая гречка <b>12</b></div></div>
                 </div>
-                <div class="gp__stat">
+                <div class="gp__stat" data-stage="2" role="button" tabindex="0" aria-label="Показать этап «Кухня»">
                   <h4>Кухня</h4>
-                  <div class="gp__stat-label">Опоздания</div>
+                  <div class="gp__stat-label">Опоздания <button type="button" class="gp__i" data-info="late" aria-label="Что это">i</button></div>
                   <div class="gp__nums"><div id="gp-k-box"><b id="gp-k-late">0</b><span>max</span></div><div class="is-dim"><b>0</b><span>среднее</span></div></div>
                   <div class="gp__bars"><div class="gp__row"><i></i><div class="gp__cells" data-cells="kitchen"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div></div></div>
                   <div class="gp__facts"><div>Среднее факт. время приготовления <b id="gp-k-avg">12</b></div><div>Лучшее: Шербакова <b>8</b></div></div>
                 </div>
-                <div class="gp__stat">
+                <div class="gp__stat" data-stage="4" role="button" tabindex="0" aria-label="Показать этап «В пути»">
                   <h4>Доставка</h4>
-                  <div class="gp__stat-label">Среднее опоздание</div>
+                  <div class="gp__stat-label">Среднее опоздание <button type="button" class="gp__i" data-info="avg" aria-label="Что это">i</button></div>
                   <div class="gp__nums"><div><b id="gp-c-all">1</b><span>Все заказы</span></div><div><b>1</b><span>Ближайшие</span></div><div id="gp-c-box"><b id="gp-c-max">2</b><span>max</span></div></div>
                   <div class="gp__bars">
                     <div class="gp__row"><i></i><div class="gp__cells" data-cells="walk"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div></div>
@@ -268,9 +271,9 @@
                 <div class="gp__plan"><span>План: 2&nbsp;000&nbsp;000 ₽</span><em id="gp-plan">56%</em></div>
                 <div class="gp__meter"><span id="gp-m1" style="background:#e8b33f;width:22%"></span><span id="gp-m2" style="background:#5aa0b8;width:44%"></span><span id="gp-m3" style="background:#7cb342;width:34%"></span></div>
                 <div class="gp__pay">
-                  <div><span><i style="background:#e8b33f"></i>Наличные</span><span>22%</span><b id="gp-p1">247&nbsp;060</b></div>
-                  <div><span><i style="background:#5aa0b8"></i>Безнал</span><span>44%</span><b id="gp-p2">494&nbsp;120</b></div>
-                  <div><span><i style="background:#7cb342"></i>Онлайн</span><span>34%</span><b id="gp-p3">381&nbsp;820</b></div>
+                  <button type="button" class="gp__payrow" data-pay="0"><span><i style="background:#e8b33f"></i>Наличные</span><span>22%</span><b id="gp-p1">247&nbsp;060</b></button>
+                  <button type="button" class="gp__payrow" data-pay="1"><span><i style="background:#5aa0b8"></i>Безнал</span><span>44%</span><b id="gp-p2">494&nbsp;120</b></button>
+                  <button type="button" class="gp__payrow" data-pay="2"><span><i style="background:#7cb342"></i>Онлайн</span><span>34%</span><b id="gp-p3">381&nbsp;820</b></button>
                 </div>
                 <div class="gp__total"><span>Всего заказов</span><b id="gp-total">2&nbsp;909</b></div>
               </div>
@@ -279,7 +282,7 @@
             <div class="gp__orders">
               <div class="gp__orders-head">
                 <span>Текущие заказы — <span id="gp-count">0</span> заказов</span>
-                <span class="gp__badge" id="gp-late-badge">Опаздывает 0</span>
+                <button type="button" class="gp__badge" id="gp-late-badge" aria-label="Показать только опаздывающие">Опаздывает 0</button>
               </div>
               <div class="gp__tools">
                 <input class="gp__search" id="gp-search" type="search" inputmode="search" placeholder="Номер заказа или телефон" autocomplete="off" aria-label="Поиск заказа" />
@@ -302,7 +305,7 @@
           </div>
           <div class="gp__toast" id="gp-toast" role="status" aria-live="polite"></div>
         </div>
-        <p class="gp-note">Демо-данные: заказы, суммы и&nbsp;время выдуманы для&nbsp;примера.</p>
+        </div>
       </div>
     </section>
 
@@ -665,6 +668,6 @@
   </footer>
 
   <script src="js/app.js"></script>
-  <script src="js/demo.js?v=3"></script>
+  <script src="js/demo.js?v=7"></script>
 </body>
 </html>

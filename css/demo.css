@@ -25,8 +25,21 @@
   border-radius: 16px;
   overflow: hidden;
   border: 1px solid #c8d8e1;
-  position: relative;
+  /* окно как экран ПК: размер фиксирован, на узких экранах масштабируется целиком */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1200px;
+  height: 760px;
+  transform-origin: 0 0;
+  --gp-cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath fill='%23FFB21E' stroke='%230a0a0c' stroke-width='1.4' stroke-linejoin='round' d='M3 3l26 7-19 19z'/%3E%3Cpath fill='%23E8731E' stroke='%230a0a0c' stroke-width='1.4' stroke-linejoin='round' d='M29 10l-3.2 4.6-11.2 11.2L10 29z'/%3E%3Ccircle cx='13' cy='13' r='2' fill='%23C93A2B'/%3E%3Ccircle cx='9' cy='17' r='1.7' fill='%23C93A2B'/%3E%3Ccircle cx='16.5' cy='18' r='1.7' fill='%23C93A2B'/%3E%3C/svg%3E") 3 3, pointer;
+  --gp-cursor-click: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ccircle cx='9' cy='9' r='7.5' fill='none' stroke='%2300FFFF' stroke-width='2'/%3E%3Cpath fill='%23FFB21E' stroke='%230a0a0c' stroke-width='1.4' stroke-linejoin='round' d='M3 3l26 7-19 19z'/%3E%3Cpath fill='%23E8731E' stroke='%230a0a0c' stroke-width='1.4' stroke-linejoin='round' d='M29 10l-3.2 4.6-11.2 11.2L10 29z'/%3E%3Ccircle cx='13' cy='13' r='2' fill='%23C93A2B'/%3E%3Ccircle cx='9' cy='17' r='1.7' fill='%23C93A2B'/%3E%3Ccircle cx='16.5' cy='18' r='1.7' fill='%23C93A2B'/%3E%3C/svg%3E") 3 3, pointer;
+  cursor: var(--gp-cursor);
 }
+.gp *, .gp button, .gp label, .gp select { cursor: var(--gp-cursor); }
+.gp input[type="search"] { cursor: text; }
+.gp button:active, .gp label:active, .gp .gp__card:active { cursor: var(--gp-cursor-click); }
+.gp-stage { position: relative; width: 100%; overflow: hidden; border-radius: 16px; }
 :where(.gp) button { font: inherit; color: inherit; cursor: pointer; border: 0; background: none; }
 .gp b { font-weight: 600; }
 
@@ -43,7 +56,9 @@
 .gp__menu li.is-on i { border-color: #cfe0e8; }
 
 /* основная колонка */
-.gp__main { padding: 8px; display: grid; gap: 8px; min-width: 0; align-content: start; }
+.gp__main { padding: 8px; display: flex; flex-direction: column; gap: 8px; min-width: 0; min-height: 0; height: 760px; }
+.gp__main > * { flex: none; }
+.gp__main > .gp__orders { flex: 1 1 0; min-height: 0; display: flex; flex-direction: column; }
 .gp__top { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; align-items: center; }
 .gp__bar { display: flex; align-items: stretch; background: var(--gp-dark-2); color: #fff; border-radius: 8px; min-height: 52px; min-width: 0; overflow: hidden; }
 .gp__bar > * { display: flex; align-items: center; gap: 8px; padding: 0 14px; border-right: 1px solid rgba(255, 255, 255, 0.1); white-space: nowrap; }
@@ -100,7 +115,7 @@
 .gp__meter { display: flex; height: 6px; border-radius: 3px; overflow: hidden; background: #2b4654; }
 .gp__meter span { display: block; transition: width 0.6s; }
 .gp__pay { display: grid; gap: 4px; }
-.gp__pay > div { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 8px; align-items: center; padding: 6px 8px; background: #101f27; border-radius: 4px; font-size: 11px; }
+.gp__pay > div, .gp__pay > button { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 8px; align-items: center; padding: 6px 8px; background: #101f27; border-radius: 4px; font-size: 11px; }
 .gp__pay i { display: inline-block; width: 6px; height: 6px; border-radius: 50%; margin-right: 6px; }
 .gp__pay b { font-variant-numeric: tabular-nums; }
 .gp__pay span { color: #9db6c2; }
@@ -128,14 +143,14 @@
 .gp__upd button svg { width: 14px; height: 14px; display: block; margin: auto; transition: transform 0.5s; }
 .gp__upd button.is-spin svg { transform: rotate(360deg); }
 
-.gp__kanban { display: grid; grid-template-columns: repeat(5, minmax(150px, 1fr)); gap: 8px; padding: 0 12px 12px; overflow-x: auto; }
-.gp__col-h { display: flex; align-items: center; gap: 8px; padding: 6px 0; font-weight: 600; font-size: 13px; }
+.gp__kanban { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0 8px; padding: 0 12px 12px; overflow-y: auto; flex: 1 1 0; min-height: 0; align-content: start; scrollbar-width: thin; scrollbar-color: #9fb8c5 transparent; }
+.gp__col-h { position: sticky; top: 0; z-index: 1; background: var(--gp-win); display: flex; align-items: center; gap: 8px; padding: 6px 0; font-weight: 600; font-size: 13px; }
 .gp__col-h em { font-style: normal; background: var(--gp-dark); color: #fff; font-size: 10px; padding: 2px 6px; border-radius: 4px; }
 .gp__group { grid-column: 1 / -1; display: flex; align-items: center; gap: 8px; color: var(--gp-muted); font-size: 12px; }
 .gp__group::after { content: ""; flex: 1; border-top: 1px solid #c3d2da; }
 .gp__group b { color: var(--gp-text); }
 .gp__group i { width: 7px; height: 7px; border-radius: 50%; background: var(--gp-late); }
-.gp__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; align-content: start; min-width: 0; }
+.gp__list { padding-top: 6px; list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; align-content: start; min-width: 0; }
 .gp__card { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 8px; width: 100%; text-align: left; padding: 8px 10px; background: var(--gp-card); border-radius: 4px; transition: background 0.2s, transform 0.2s; }
 .gp__card.is-new { animation: gpIn 0.4s ease both; }
 .gp__card:hover { background: #d3e2ea; }
@@ -181,23 +196,59 @@
 
 .gp-note { margin: 12px 0 0; color: var(--g-ol-tertiary); font-size: var(--g-t5-size); }
 
-@media (max-width: 1100px) {
-  .gp { grid-template-columns: minmax(0, 1fr); }
-  .gp__side { display: none; }
-  .gp__panels { grid-template-columns: minmax(0, 1fr); }
-  .gp__top { grid-template-columns: minmax(0, 1fr); }
-  .gp__user { display: none; }
-  .gp__bar { overflow-x: auto; }
-}
-@media (max-width: 700px) {
-  .gp__stats { grid-template-columns: minmax(0, 1fr); gap: 16px; }
-  .gp__stat { border-left: 0; padding: 0; }
-  .gp__search { width: 100%; }
-  .gp__upd { margin-left: 0; width: 100%; }
-  .gp__kanban { grid-template-columns: repeat(5, 200px); }
-  .gp__facts2 { grid-template-columns: minmax(0, 1fr); }
-}
 @media (prefers-reduced-motion: reduce) {
   .gp__card.is-new { animation: none; }
   .gp__toast, .gp__cells span, .gp__meter span { transition: none; }
 }
+
+/* кликабельные элементы */
+.gp__brand { width: calc(100% - 24px); text-align: left; }
+.gp__bar > button { color: #fff; text-align: left; transition: background 0.2s; }
+.gp__bar > button:hover { background: rgba(255, 255, 255, 0.06); }
+.gp__user { padding: 4px 8px; border-radius: 6px; text-align: left; }
+.gp__user:hover { background: rgba(255, 255, 255, 0.5); }
+.gp__i { width: 18px; height: 18px; border-radius: 50%; border: 1.5px solid #7fb0c4; color: #7fb0c4; font-size: 11px; line-height: 1; display: inline-grid; place-items: center; }
+.gp__i:hover { background: #7fb0c4; color: var(--gp-dark); }
+.gp__stat { cursor: var(--gp-cursor); border-radius: 6px; transition: background 0.2s, opacity 0.2s; }
+.gp__stat:hover { background: rgba(255, 255, 255, 0.04); }
+.gp__stat:focus-visible { outline: 2px solid #7fb0c4; outline-offset: 2px; }
+.gp__stats.has-stage .gp__stat:not(.is-on) { opacity: 0.55; }
+.gp__stat.is-on { background: rgba(255, 255, 255, 0.07); }
+.gp__payrow { text-align: left; width: 100%; transition: opacity 0.2s, background 0.2s; }
+.gp__payrow:hover { background: #17303b; }
+.gp__pay.has-pick .gp__payrow:not(.is-on) { opacity: 0.45; }
+.gp__cells span[data-uid] { cursor: var(--gp-cursor); }
+.gp__cells span[data-uid]:hover { filter: brightness(1.2); outline: 1px solid #fff; }
+.gp__badge { cursor: var(--gp-cursor); }
+.gp__badge:hover { background: #b5403f; }
+.gp__col-h { cursor: var(--gp-cursor); border-radius: 4px; }
+.gp__col-h:hover em { background: #26475a; }
+.gp__col-h.is-on { color: var(--gp-link); }
+.gp__group { cursor: var(--gp-cursor); }
+.gp__group:hover b { color: var(--gp-link); }
+.gp__kanban.has-stage .gp__list li:not(.is-stage) { opacity: 0.3; }
+.gp__list.is-collapsed { display: none; }
+.gp__chip { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; background: var(--gp-pill); color: var(--gp-pill-text); border-radius: 12px; font-size: 12px; }
+.gp__chip button { font-size: 14px; line-height: 1; }
+
+/* экраны меню */
+.gp__screen { background: var(--gp-win); border-radius: 8px; padding: 14px; min-height: 0; flex: 1 1 0; overflow-y: auto; display: grid; gap: 12px; align-content: start; }
+.gp__screen[hidden] { display: none; }
+.gp__screen h3 { margin: 0; font-size: 18px; }
+.gp__screen p { margin: 0; color: var(--gp-muted); }
+.gp__tickets { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+.gp__ticket { background: #fff; border-radius: 6px; padding: 10px 12px; display: grid; gap: 6px; border: 1px solid #d3e2ea; }
+.gp__ticket.is-late { border-color: #eab0b0; background: #fff6f6; }
+.gp__ticket strong { font-size: 15px; color: var(--gp-link); }
+.gp__ticket.is-late strong { color: var(--gp-late); }
+.gp__ticket ul { margin: 0; padding-left: 16px; color: var(--gp-text); }
+.gp__ticket button { padding: 8px 10px; border-radius: 6px; background: var(--gp-dark); color: #fff; font-weight: 600; }
+.gp__ticket button:hover { background: #26475a; }
+.gp__stoplist { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.gp__stoprow { display: flex; justify-content: space-between; align-items: center; gap: 12px; background: #fff; border-radius: 6px; padding: 10px 12px; border: 1px solid #d3e2ea; }
+.gp__stoprow.is-stop { background: #fff6f6; border-color: #eab0b0; }
+.gp__stoprow em { font-style: normal; color: var(--gp-muted); font-size: 12px; margin-left: 8px; }
+.gp__stoprow.is-stop em { color: var(--gp-late); }
+.gp__soon { display: grid; place-items: center; text-align: center; gap: 10px; padding: 60px 0; }
+.gp__soon button { padding: 10px 16px; background: var(--gp-dark); color: #fff; border-radius: 6px; font-weight: 600; }
+.gp__main.is-view-orders .gp__panels, .gp__main.is-screen .gp__panels, .gp__main.is-screen .gp__orders { display: none; }

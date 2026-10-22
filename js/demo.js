@@ -54,6 +54,10 @@
     onlyLate: false,
     onlyPre: false,
     open: null,
+    stage: null,
+    collapsed: false,
+    screen: "Главная",
+    payPick: null,
     clock: 13 * 3600 + 57 * 60 + 44,
     rev: 1123000,
     pay: [247060, 494120, 381820],
@@ -103,9 +107,13 @@
       return { name, n: items.length, html: cards };
     });
     kb.innerHTML =
-      cols.map((c) => `<div class="gp__col-h">${c.name} <em>${c.n}</em></div>`).join("") +
-      `<div class="gp__group"><i></i><b>Доставка</b> (${list.length} ${plural(list.length, "заказ", "заказа", "заказов")})</div>` +
-      cols.map((c) => `<ul class="gp__list">${c.html}</ul>`).join("");
+      cols.map((c, i) => `<div class="gp__col-h${state.stage === i ? " is-on" : ""}" data-colstage="${i}" role="button" tabindex="0">${c.name} <em>${c.n}</em></div>`).join("") +
+      `<div class="gp__group" data-group role="button" tabindex="0"><i></i><b>Доставка</b> (${list.length} ${plural(list.length, "заказ", "заказа", "заказов")}) ${state.collapsed ? "▸" : "▾"}</div>` +
+      cols.map((c, i) => `<ul class="gp__list${state.collapsed ? " is-collapsed" : ""}" data-stage="${i}">${c.html}</ul>`).join("");
+    kb.classList.toggle("has-stage", state.stage !== null);
+    kb.querySelectorAll(".gp__list").forEach((ul) => {
+      if (Number(ul.dataset.stage) === state.stage) ul.querySelectorAll("li").forEach((li) => li.classList.add("is-stage"));
+    });
     list.forEach((o) => seen.add(o.uid + ":" + o.stage));
     const lateAll = orders.filter((o) => o.late && (state.unit === "all" || o.unit === state.unit)).length;
     $("gp-count").textContent = String(list.length);
@@ -129,6 +137,7 @@
     cells.forEach((c, i) => {
       const o = items[i];
       c.className = o ? (o.late >= 10 ? "r" : o.late ? "y" : "g") : "";
+      if (o) c.dataset.uid = o.uid; else delete c.dataset.uid;
     });
   }
   function renderPanels() {
@@ -173,10 +182,22 @@
     });
   }
 
+  function renderChrome() {
+    root.querySelectorAll(".gp__stat").forEach((s) => s.classList.toggle("is-on", Number(s.dataset.stage) === state.stage));
+    root.querySelector(".gp__stats").classList.toggle("has-stage", state.stage !== null);
+    const pay = root.querySelector(".gp__pay");
+    pay.classList.toggle("has-pick", state.payPick !== null);
+    pay.querySelectorAll(".gp__payrow").forEach((r) => r.classList.toggle("is-on", Number(r.dataset.pay) === state.payPick));
+    [1, 2, 3].forEach((n) => { $("gp-m" + n).style.opacity = state.payPick === null || state.payPick === n - 1 ? 1 : 0.25; });
+    root.querySelectorAll(".gp__menu li").forEach((li) => li.classList.toggle("is-on", li.firstChild.dataset.screen === state.screen));
+  }
+
   function renderAll() {
+    renderChrome();
     renderBoard();
     renderPanels();
     renderTop();
+    if (state.screen !== "Главная" && state.screen !== "Заказы" && typeof renderScreen === "function") renderScreen(state.screen);
     if (state.open) renderSheet();
   }
 
@@ -321,6 +342,100 @@
     simulate();
   });
 
+  // экраны меню
+  const DISHES = ["Пепперони 30 см", "Филадельфия", "Wok курица", "Бургер классик", "Шаурма XL", "Цезарь ролл", "Калифорния", "Маргарита"];
+  const stops = new Set(["Филадельфия"]);
+  function dishesOf(o) { return [DISHES[o.uid % DISHES.length], DISHES[(o.uid * 3 + 1) % DISHES.length]]; }
+  function setScreen(name) {
+    state.screen = name;
+    const main = root.querySelector(".gp__main");
+    const sc = $("gp-screen");
+    main.classList.toggle("is-view-orders", name === "Заказы");
+    const special = name !== "Главная" && name !== "Заказы";
+    main.classList.toggle("is-screen", special);
+    sc.hidden = !special;
+    if (special) renderScreen(name);
+    renderChrome();
+  }
+  function renderScreen(name) {
+    const sc = $("gp-screen");
+    if (name === "Станция кухни") {
+      const items = orders.filter((o) => o.stage === 2).sort(bySort);
+      sc.innerHTML = `<h3>Станция кухни</h3><p>${items.length ? "Заказы в работе. Нажмите «Готово», когда блюда собраны." : "Все блюда приготовлены."}</p>
+        <div class="gp__tickets">${items.map((o) => `<div class="gp__ticket${o.late ? " is-late" : ""}"><strong>${esc(o.id)}</strong><span>к ${o.t}${o.late ? " · −" + o.late + NB + "мин" : ""}</span><ul>${dishesOf(o).map((d) => `<li>${esc(d)}${stops.has(d) ? " (стоп)" : ""}</li>`).join("")}</ul><button type="button" data-ready="${o.uid}">Готово</button></div>`).join("")}</div>`;
+    } else if (name === "Стоп-лист") {
+      sc.innerHTML = `<h3>Стоп-лист</h3><p>Блюдо в стопе пропадает из каналов заказа. Нажмите на строку, чтобы поставить или снять.</p>
+        <div class="gp__stoplist">${DISHES.map((d) => `<button type="button" class="gp__stoprow${stops.has(d) ? " is-stop" : ""}" data-dish="${esc(d)}"><span>${esc(d)}<em>${stops.has(d) ? "в стопе" : "в меню"}</em></span><span>${stops.has(d) ? "Снять" : "В стоп"}</span></button>`).join("")}</div>`;
+    } else {
+      sc.innerHTML = `<div class="gp__soon"><h3>${esc(name)}</h3><p>Этот раздел в демо не открывается. Попробуйте «Станция кухни», «Стоп-лист» или «Заказы».</p><button type="button" data-screen="Главная">На главную</button></div>`;
+    }
+  }
+
+  const INFO = {
+    late: "Опоздания: заказы, которые выходят позже обещанного гостю времени.",
+    avg: "Среднее опоздание доставки по заказам, которые уже в работе.",
+    promise: "Обещаем гостю: время, которое видит гость при заказе.",
+    calc: "Расчётное время: сколько займёт заказ при текущей загрузке кухни и курьеров.",
+    nps: "NPS 4,74: средняя оценка гостей по заказам смены.",
+    cash: "Наличные в кассе на текущий момент смены.",
+    user: "Администратор смены. Смена открыта в 11:17.",
+  };
+
+  root.addEventListener("click", (e) => {
+    const t = e.target;
+    const menu = t.closest("[data-screen]");
+    if (menu) { setScreen(menu.dataset.screen); return; }
+    const info = t.closest("[data-info]");
+    if (info) { toast(INFO[info.dataset.info]); return; }
+    const ready = t.closest("[data-ready]");
+    if (ready) {
+      const o = orders.find((x) => x.uid === Number(ready.dataset.ready));
+      if (o) { advance(o, true); toast("Заказ " + o.id + " передан дальше."); stampUpdate(); renderAll(); renderScreen(state.screen); }
+      return;
+    }
+    const dish = t.closest("[data-dish]");
+    if (dish) {
+      const d = dish.dataset.dish;
+      if (stops.has(d)) { stops.delete(d); toast("«" + d + "» снова в меню."); } else { stops.add(d); toast("«" + d + "» в стопе: гости её не увидят."); }
+      renderScreen(state.screen);
+      return;
+    }
+    const cell = t.closest(".gp__cells span[data-uid]");
+    if (cell) { openSheet(Number(cell.dataset.uid), cell); return; }
+    const st = t.closest(".gp__stat");
+    if (st && !t.closest(".gp__i")) {
+      const n = Number(st.dataset.stage);
+      state.stage = state.stage === n ? null : n;
+      renderChrome(); renderBoard();
+      if (state.stage !== null) toast("Подсвечен этап «" + STAGES[state.stage] + "» на доске заказов.");
+      return;
+    }
+    const col = t.closest("[data-colstage]");
+    if (col) {
+      const n = Number(col.dataset.colstage);
+      state.stage = state.stage === n ? null : n;
+      renderChrome(); renderBoard();
+      return;
+    }
+    if (t.closest("[data-group]")) { state.collapsed = !state.collapsed; renderBoard(); return; }
+    const pr = t.closest("[data-pay]");
+    if (pr) {
+      const n = Number(pr.dataset.pay);
+      state.payPick = state.payPick === n ? null : n;
+      renderChrome();
+      if (state.payPick !== null) toast(["Наличные", "Безнал", "Онлайн"][n] + ": " + money(state.pay[n]) + NB + "₽ за смену.");
+      return;
+    }
+    if (t.closest("#gp-late-badge")) {
+      const c = $("gp-only-late"); c.checked = !c.checked; state.onlyLate = c.checked; renderBoard();
+    }
+  });
+  root.addEventListener("keydown", (e) => {
+    if (e.key !== "Enter" && e.key !== " ") return;
+    const el = e.target.closest('[role="button"][tabindex]');
+    if (el && el.tagName !== "BUTTON") { e.preventDefault(); el.click(); }
+  });
+
   // подразделения
   const menu = $("gp-unit-menu");
   menu.innerHTML = UNITS.map((u) => `<button type="button" role="option" data-unit="${u.id}"${u.id === state.unit ? ' class="is-on"' : ""}>${u.name}</button>`).join("");
@@ -368,6 +483,18 @@
       toast("Смену нельзя закрыть: в работе " + n + " " + plural(n, "заказ", "заказа", "заказов") + ".");
     }
   });
+
+  // окно как экран ПК: размер фиксирован, на узких экранах масштабируется целиком
+  const stage = $("gp-stage");
+  function fit() {
+    const w = stage.clientWidth;
+    const k = Math.min(1, w / 1200);
+    root.style.transform = `scale(${k})`;
+    root.style.left = Math.max(0, (w - 1200 * k) / 2) + "px";
+    stage.style.height = 760 * k + "px";
+  }
+  fit();
+  window.addEventListener("resize", fit);
 
   // старт и цикл
   stampUpdate();
