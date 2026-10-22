@@ -104,7 +104,7 @@ function computeCalc(c) {
 function verdictFor(r) {
   return {
     key: "ok",
-    title: `За год это около ${rub(r.saved * 12)} комиссии, которая остаётся у вас`,
+    title: `За год это около ${rub(r.saved * 12)}: столько сейчас уходит агрегаторам`,
     why: `Возврат ${state.shift}% заказов из агрегаторов экономит комиссию.`,
   };
 }
@@ -157,7 +157,7 @@ function refreshAttach() {
   }
   const { c, r } = state.calc;
   el.hidden = false;
-  el.textContent = `К заявке приложим ваш расчёт: ${c.orders} заказов в день, чек ${rub(c.check)}, переход ${state.shift}%, вернётся комиссии около ${rub(r.net)} в месяц.`;
+  el.textContent = `К заявке приложим ваш расчёт: ${c.orders} заказов в день, чек ${rub(c.check)}, переход ${state.shift}%, у вас останется около ${rub(r.net)} в месяц вместо комиссии агрегатору.`;
 }
 
 function digits(phone) {
