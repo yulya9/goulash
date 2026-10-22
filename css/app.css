@@ -1111,7 +1111,7 @@ input.is-invalid {
 .lead-modal { position: fixed; inset: 0; z-index: 1000; display: grid; place-items: center; padding: 16px; background: rgba(10, 10, 12, 0.66); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); animation: leadFade 0.2s ease both; }
 .lead-modal[hidden] { display: none; }
 .has-modal { overflow: hidden; }
-.lead-modal__box { position: relative; width: min(440px, 100%); display: grid; gap: 16px; justify-items: start; padding: 40px 32px 32px; border-radius: var(--g-r-xl); background: var(--g-dark-card); color: var(--g-od-primary); border: 1px solid var(--g-line-on-dark); animation: leadRise 0.28s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.lead-modal__box { position: relative; width: min(440px, 100%); display: grid; gap: 16px; justify-items: center; text-align: center; padding: 40px 32px 32px; border-radius: var(--g-r-xl); background: var(--g-dark-card); color: var(--g-od-primary); border: 1px solid var(--g-line-on-dark); animation: leadRise 0.28s cubic-bezier(0.22, 1, 0.36, 1) both; }
 .lead-modal__x { position: absolute; top: 12px; right: 12px; width: 36px; height: 36px; display: grid; place-items: center; border-radius: var(--g-r-sm); color: var(--g-od-tertiary); background: none; border: 0; cursor: pointer; transition: color var(--g-dur) var(--g-ease); }
 .lead-modal__x:hover { color: var(--g-od-primary); }
 .lead-modal__x svg { width: 20px; height: 20px; }
