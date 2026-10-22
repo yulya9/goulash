@@ -798,7 +798,15 @@
       cap._t = setTimeout(() => cap.classList.remove("is-press"), 460);
     });
     window.addEventListener("blur", hide);
-    document.addEventListener("scroll", () => { if (shown) { wrap.classList.remove("is-on"); shown = false; } }, { passive: true });
+    // при скролле страницы или списка внутри окна курсор остаётся, пока под ним окно демо
+    const TEXT_SEL = 'input[type="search"], input[type="text"], input[type="tel"], input[type="number"], textarea';
+    function sync() {
+      if (!shown) return;
+      const el = document.elementFromPoint(target.x, target.y);
+      if (el && stage.contains(el)) wrap.classList.toggle("is-on", !el.closest(TEXT_SEL));
+      else hide();
+    }
+    document.addEventListener("scroll", sync, { passive: true, capture: true });
   })();
 
   // старт и цикл

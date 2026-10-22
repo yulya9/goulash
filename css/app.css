@@ -1353,3 +1353,6 @@ html.rv-on .rv--fade.is-in { animation-name: rvFade; animation-duration: 1.2s; }
 
 .sc__tag strong { font-weight: 500; color: var(--g-od-primary); }
 @media (max-width: 1023px) { .sc__meta { margin-top: 24px; } .sc__media { background-position: center 20%; } }
+
+/* «Как начать»: кнопка по центру блока */
+.steps__cta { display: flex; justify-content: center; }
