@@ -294,12 +294,6 @@ input {
   align-items: center;
 }
 
-.g2-connect__glow {
-  background-image: none;
-  background: radial-gradient(ellipse 70% 120% at 10% 50%, rgba(0, 255, 255, 0.16), transparent 55%),
-    var(--g-dark-primary);
-}
-
 /* Calc */
 .app-calc-top {
   display: flex;
@@ -1060,5 +1054,12 @@ input.is-invalid {
 .g2-form input.g2-input:focus, .g2-form input.g2-input:focus-visible { border-color: var(--g-border-on-light); background: var(--g-dark-card); outline: none; }
 .g2-form input.g2-input.wpcf7-not-valid { border-color: var(--g-error); }
 /* Фон формы: свечение слева, как на оригинале */
-.g2-connect__glow { background-image: url("../assets/img/cta-bg.png"); }
+.g2-connect__glow {
+  background-color: #222222;
+  background-image: url("../assets/img/cta-bg.png");
+  background-position: center;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-blend-mode: lighten;
+}
 @media (max-width: 768px) { .g2-connect__glow { background-image: url("../assets/img/cta-bg-mobile.png"); } }
