@@ -313,9 +313,56 @@ function bind() {
   updateCalc();
   bindFaq();
   bindQuotes();
+  bindCasesSlider();
   bindHeaderStuck();
   bindCountUps();
   bindReveals();
+}
+
+function bindCasesSlider() {
+  const track = document.querySelector("[data-g2-slider-track]");
+  if (!track) return;
+  const prev = document.querySelector("[data-g2-slider-prev]");
+  const next = document.querySelector("[data-g2-slider-next]");
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function step() {
+    const card = track.querySelector(".g2-case");
+    const gap = parseFloat(getComputedStyle(track).columnGap) || 20;
+    return card ? card.getBoundingClientRect().width + gap : 400;
+  }
+  function sync() {
+    const max = track.scrollWidth - track.clientWidth - 2;
+    if (prev) prev.disabled = track.scrollLeft <= 2;
+    if (next) next.disabled = track.scrollLeft >= max;
+  }
+  function go(dir) {
+    track.scrollBy({ left: dir * step(), behavior: reduce ? "auto" : "smooth" });
+  }
+  if (prev) prev.addEventListener("click", () => go(-1));
+  if (next) next.addEventListener("click", () => go(1));
+  track.addEventListener("scroll", sync, { passive: true });
+  window.addEventListener("resize", sync);
+  sync();
+
+  // перетаскивание мышью
+  let down = false, startX = 0, startLeft = 0, moved = false;
+  track.addEventListener("pointerdown", (e) => {
+    if (e.pointerType !== "mouse" || e.button !== 0) return;
+    down = true; moved = false; startX = e.clientX; startLeft = track.scrollLeft;
+  });
+  window.addEventListener("pointermove", (e) => {
+    if (!down) return;
+    const dx = e.clientX - startX;
+    if (Math.abs(dx) > 4) { moved = true; track.classList.add("is-dragging"); }
+    if (moved) track.scrollLeft = startLeft - dx;
+  });
+  window.addEventListener("pointerup", () => {
+    if (!down) return;
+    down = false;
+    track.classList.remove("is-dragging");
+  });
+  track.addEventListener("click", (e) => { if (moved) { e.preventDefault(); moved = false; } }, true);
 }
 
 function bindReveals() {
