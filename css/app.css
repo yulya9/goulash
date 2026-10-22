@@ -1168,3 +1168,37 @@ input.is-invalid {
 .step:not(:last-child)::before { content: ""; position: absolute; top: 63px; left: calc(100% + 8px); width: 36px; height: 4px; background-image: radial-gradient(circle, var(--g-ol-tertiary) 1.4px, transparent 1.8px); background-size: 9px 4px; background-repeat: repeat-x; }
 .step:not(:last-child)::after { content: ""; position: absolute; top: 59px; left: calc(100% + 40px); width: 10px; height: 10px; border-top: 2.2px solid var(--g-ol-secondary); border-right: 2.2px solid var(--g-ol-secondary); transform: rotate(45deg); animation: stepNudge 1.8s ease-in-out infinite; animation-delay: calc(var(--i) * 0.35s); }
 @keyframes stepNudge { 0%, 100% { margin-left: 0; } 50% { margin-left: 4px; } }
+
+/* Как начать: раскрывающиеся панели (вариант «шторки») */
+.sg { list-style: none; margin: 0; padding: 0 12px; display: flex; gap: 12px; height: 420px; }
+.sg__panel { position: relative; flex: 1 1 0; min-width: 0; border-radius: 20px; overflow: hidden; background: var(--g-dark-card); border: 1px solid var(--g-border-dark); transition: flex-grow 0.55s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.3s; }
+.sg__panel.is-open { flex-grow: 4.2; border-color: #5a5a5a; }
+.sg__panel::before { content: ""; position: absolute; inset: 0; background-image: radial-gradient(circle, rgba(255, 255, 255, 0.07) 1.2px, transparent 1.6px); background-size: 10px 10px; pointer-events: none; }
+.sg__panel::after { content: ""; position: absolute; inset: auto 0 0 0; height: 70%; background: radial-gradient(70% 90% at 30% 100%, rgba(0, 255, 255, 0.16), transparent 70%); opacity: 0; transition: opacity 0.5s; pointer-events: none; }
+.sg__panel.is-open::after { opacity: 1; }
+.sg__btn { position: relative; z-index: 1; display: flex; flex-direction: column; justify-content: space-between; width: 100%; height: 100%; padding: 24px; text-align: left; color: var(--g-od-primary); background: none; border: 0; cursor: pointer; font-family: inherit; }
+.sg__btn:focus-visible { outline: 2px solid var(--g-light-primary); outline-offset: -4px; border-radius: 20px; }
+.sg__top { display: flex; flex-direction: column; align-items: flex-start; gap: 16px; }
+.sg__panel.is-open .sg__top { flex-direction: row; justify-content: space-between; align-items: flex-start; width: 100%; }
+.sg__tile { width: 48px; height: 48px; flex: none; display: grid; place-items: center; border-radius: 14px; background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.14); color: var(--g-od-primary); }
+.sg__panel.is-open .sg__tile { color: var(--g-cyan); border-color: rgba(0, 255, 255, 0.4); }
+.sg__tile svg { width: 24px; height: 24px; }
+.sg__n { font-size: var(--g-t3-size); line-height: var(--g-t3-lh); color: var(--g-od-tertiary); font-variant-numeric: tabular-nums; }
+.sg__vt { position: absolute; left: 24px; bottom: 24px; writing-mode: vertical-rl; transform: rotate(180deg); font-size: var(--g-t2-size); line-height: 1; color: var(--g-od-secondary); white-space: nowrap; transition: opacity 0.25s; }
+.sg__panel.is-open .sg__vt { opacity: 0; }
+.sg__open { display: grid; gap: 8px; max-width: 34ch; opacity: 0; transform: translateY(8px); transition: opacity 0.3s, transform 0.4s; pointer-events: none; }
+.sg__panel.is-open .sg__open { opacity: 1; transform: none; transition-delay: 0.22s; pointer-events: auto; }
+.sg__title { font-size: var(--g-h3-size); line-height: var(--g-h3-lh); color: var(--g-od-primary); }
+.sg__text { font-size: var(--g-t4-size); line-height: 1.45; color: var(--g-od-secondary); }
+@media (max-width: 767px) {
+  .sg { flex-direction: column; height: auto; gap: 8px; }
+  .sg__panel { flex: none; transition: none; }
+  .sg__btn { padding: 16px 20px; gap: 12px; }
+  .sg__top { flex-direction: row; justify-content: space-between; align-items: center; width: 100%; }
+  .sg__vt { position: static; writing-mode: horizontal-tb; transform: none; order: 2; opacity: 1; font-size: var(--g-t3-size); margin-top: -34px; margin-left: 68px; margin-bottom: 4px; }
+  .sg__panel.is-open .sg__vt { opacity: 1; }
+  .sg__open { max-height: 0; overflow: hidden; opacity: 0; transform: none; }
+  .sg__panel.is-open .sg__open { max-height: 160px; opacity: 1; }
+  .sg__title { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { .sg__panel, .sg__panel::after, .sg__open, .sg__vt { transition: none; } }
