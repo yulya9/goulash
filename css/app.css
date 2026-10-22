@@ -1248,3 +1248,6 @@ input.is-invalid {
   .sg .sg__panel.is-open .sg__open { max-height: none; margin-top: 72px; }
   .sg .sg__panel.is-open::before { opacity: 1; background: linear-gradient(180deg, rgba(10, 10, 12, 0.2) 0%, rgba(10, 10, 12, 0.82) 100%); }
 }
+
+/* Первый экран: контент по центру между шапкой и полосой логотипов (отступ сверху от шапки = отступ снизу до логотипов) */
+@media (min-width: 769px) { .g2-hero { --g2-hero-pt: var(--g-header-h); } .g2-hero__inner { padding-bottom: 12px; } }
