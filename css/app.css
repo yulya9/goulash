@@ -1048,3 +1048,10 @@ input.is-invalid {
 .g2-accordion__link { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
 @media (max-width: 1100px) { .rev-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 @media (max-width: 800px) { .rev-grid { grid-template-columns: minmax(0, 1fr); } .rev-metric { min-height: 0; } }
+
+/* Форма как на goulash.tech: дополнения к оригинальным стилям */
+#lead-form[hidden] { display: none; }
+.g2-form .wpcf7-form.sent .wpcf7-response-output { padding: 12px 16px; border: 1px solid var(--g-border-situative); border-radius: 12px; font-size: var(--g-t6-size); line-height: 145%; color: var(--g-od-primary); }
+.g2-form .wpcf7-form.failed .wpcf7-response-output a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+.g2-form .g2-form__note { order: 0; }
+.g2-form .g2-form__submit:disabled { opacity: 0.6; cursor: default; }

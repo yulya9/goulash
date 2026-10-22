@@ -189,59 +189,55 @@ function digits(phone) {
   return phone.replace(/\D/g, "");
 }
 
+const LEAD_MSG = {
+  name: "Укажите имя",
+  phone: "Введите номер полностью, например +7\u00a0900\u00a0000-00-00",
+  city: "Укажите город",
+  company: "Укажите название компании",
+  points: "Укажите количество точек",
+  privacy: "Нужно согласие на обработку данных",
+};
+
 function validateLead(form) {
   const data = Object.fromEntries(new FormData(form));
   const errors = {};
-  if (!String(data.name).trim()) errors.name = "Как к вам обращаться";
-  const contact = String(data.contact).trim();
-  if (state.method === "phone") {
-    if (digits(contact).length < 10) errors.contact = "Введите номер полностью, например +7 900 000-00-00";
-  } else if (!/^@?[A-Za-z0-9_]{5,32}$/.test(contact.replace(/^https?:\/\/t\.me\//, ""))) {
-    errors.contact = "Укажите ник в Telegram, например @name";
-  }
-  if (data.points && (Number(data.points) < 1 || Number(data.points) > 99)) {
-    errors.points = "От 1 до 99";
-  }
+  if (!String(data.name || "").trim()) errors.name = LEAD_MSG.name;
+  if (digits(String(data.phone || "")).length < 10) errors.phone = LEAD_MSG.phone;
+  if (!String(data.city || "").trim()) errors.city = LEAD_MSG.city;
+  if (!String(data.company || "").trim()) errors.company = LEAD_MSG.company;
+  if (!(Number(data.points) >= 1)) errors.points = LEAD_MSG.points;
+  if (!form.querySelector('[name="privacy"]').checked) errors.privacy = LEAD_MSG.privacy;
   return { data, errors };
 }
 
 function paintErrors(form, errors) {
-  form.querySelectorAll("[data-err]").forEach((el) => {
-    const key = el.dataset.err;
-    el.textContent = errors[key] || "";
-    const input = form.querySelector(`[name="${key}"]`);
-    if (input) input.classList.toggle("is-invalid", Boolean(errors[key]));
+  form.querySelectorAll(".wpcf7-not-valid-tip").forEach((n) => n.remove());
+  form.querySelectorAll(".wpcf7-not-valid").forEach((n) => {
+    n.classList.remove("wpcf7-not-valid");
+    n.setAttribute("aria-invalid", "false");
+  });
+  Object.entries(errors).forEach(([name, msg]) => {
+    const input = form.querySelector(`[name="${name}"]`);
+    const wrap = input.closest(".wpcf7-form-control-wrap");
+    if (name !== "privacy") {
+      input.classList.add("wpcf7-not-valid");
+      input.setAttribute("aria-invalid", "true");
+    }
+    const tip = document.createElement("span");
+    tip.className = "wpcf7-not-valid-tip";
+    tip.setAttribute("role", "alert");
+    tip.textContent = msg;
+    wrap.appendChild(tip);
   });
 }
 
-function showForm(which) {
-  ["lead-form", "form-loading", "form-ok", "form-bad"].forEach((id) => {
-    const node = document.getElementById(id);
-    if (id === "lead-form") node.hidden = which !== "form";
-    else node.hidden = which !== id;
-  });
-}
-
-function setMethod(method) {
-  state.method = method;
-  document.querySelectorAll("[data-method]").forEach((b) => {
-    b.classList.toggle("is-on", b.dataset.method === method);
-  });
-  const input = document.getElementById("contact-input");
-  const label = document.getElementById("contact-lbl");
-  if (method === "phone") {
-    label.textContent = "Номер телефона";
-    input.placeholder = "+7 900 000-00-00";
-    input.setAttribute("inputmode", "tel");
-    input.setAttribute("autocomplete", "tel");
-  } else {
-    label.textContent = "Ник в Telegram";
-    input.placeholder = "@name";
-    input.setAttribute("inputmode", "text");
-    input.setAttribute("autocomplete", "off");
-  }
-  input.value = "";
-  paintErrors(document.getElementById("lead-form"), {});
+function setFormState(form, status, html) {
+  form.classList.remove("init", "invalid", "sending", "sent", "failed");
+  form.classList.add(status);
+  form.dataset.status = status;
+  const out = document.getElementById("form-out");
+  out.innerHTML = html || "";
+  out.setAttribute("aria-hidden", html ? "false" : "true");
 }
 
 // Тестовое задание: настоящей отправки нет. Здесь подставляется сервис приёма заявок;
@@ -255,29 +251,36 @@ async function sendLead(payload) {
 async function submitLead(event) {
   event.preventDefault();
   const form = event.currentTarget;
+  const btn = document.getElementById("lead-submit");
   const { data, errors } = validateLead(form);
   paintErrors(form, errors);
-  const firstBad = form.querySelector(".is-invalid");
   if (Object.keys(errors).length) {
-    if (firstBad) firstBad.focus();
+    setFormState(form, "invalid", "");
+    const first = form.querySelector(".wpcf7-not-valid") || form.querySelector('[name="privacy"]');
+    if (first) first.focus();
     return;
   }
-
-  const payload = { ...data, method: state.method, calc: state.calcTouched ? state.calc : null };
-  state.pendingLead = payload;
-  showForm("form-loading");
+  const payload = { ...data, calc: state.calcTouched ? state.calc : null };
+  btn.disabled = true;
+  btn.textContent = "Отправляем…";
+  setFormState(form, "sending", "");
   try {
     await sendLead(payload);
-    document.getElementById("form-ok-text").textContent =
-      state.method === "telegram"
-        ? "Менеджер напишет вам в Telegram."
-        : "Менеджер позвонит вам по указанному номеру.";
-    if (payload.calc) {
-      document.getElementById("form-ok-text").textContent += " Расчёт приложен.";
-    }
-    showForm("form-ok");
+    form.reset();
+    setFormState(
+      form,
+      "sent",
+      "Заявка отправлена. Менеджер свяжется с\u00a0вами." + (payload.calc ? " Расчёт приложен." : "")
+    );
   } catch (err) {
-    showForm("form-bad");
+    setFormState(
+      form,
+      "failed",
+      'Не\u00a0удалось отправить заявку. Данные сохранены: попробуйте ещё раз или напишите нам в\u00a0<a class="form__desc--link" href="https://t.me/GoulashPrivatBot" target="_blank" rel="noopener noreferrer">Telegram</a>.'
+    );
+  } finally {
+    btn.disabled = false;
+    btn.textContent = "Оставить заявку";
   }
 }
 
@@ -301,14 +304,7 @@ function bind() {
     });
   });
 
-  document.querySelectorAll("[data-method]").forEach((btn) => {
-    btn.addEventListener("click", () => setMethod(btn.dataset.method));
-  });
-
   document.getElementById("lead-form").addEventListener("submit", submitLead);
-  document.getElementById("form-retry").addEventListener("click", () => {
-    showForm("form");
-  });
 
   updateCalc();
   bindFaq();

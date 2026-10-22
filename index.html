@@ -695,45 +695,34 @@ target="_blank" rel="noopener noreferrer" >
       </div>
     </section>
 
-    <section class="g2-section g2-section--soft" id="connect">
-      <span class="g2-gridlines g2-gridlines--edges" aria-hidden="true"></span>
-      <div class="g2-container">
-        <div class="cx cx--form">
-          <div class="g2-section-head g2-section-head--bar">
-            <h2 class="g2-h1">Обсудим подключение к&nbsp;вашей точке</h2>
-            <p class="g2-section-head__sub">Расскажем, как это работает у&nbsp;вас, и&nbsp;ответим на&nbsp;вопросы по&nbsp;цене и&nbsp;запуску. Решение принимать сразу не&nbsp;нужно.</p>
-            <p class="cx__alt">Или сразу в&nbsp;<a href="https://t.me/GoulashPrivatBot" target="_blank" rel="noopener">Telegram</a> · <a href="tel:+74958683608">+7&nbsp;495&nbsp;868-36-08</a></p>
-          </div>
-          <div class="cx__form" id="lead-card">
-            <form id="lead-form" novalidate>
-              <label>Имя <input type="text" name="name" autocomplete="name" required /><span class="err" data-err="name"></span></label>
-              <div class="cx__method">
-                <span class="cx__method-k">Как с&nbsp;вами связаться</span>
-                <div class="seg seg--compact" role="tablist">
-                  <button type="button" class="is-on" data-method="phone">Телефон</button>
-                  <button type="button" data-method="telegram">Telegram</button>
+    <section class="g2-section g2-connect" id="connect">
+      <span class="g2-connect__glow" aria-hidden="true"></span>
+      <div class="g2-container g2-connect__inner">
+        <h2 class="g2-h1 g2-connect__title">Узнать, как <span class="g2-connect__mark"><svg class="g2-logo__mark g2-connect__logo" viewBox="0 0 48 48" fill="none" aria-hidden="true" focusable="false"><path d="M35.8708 0H11.6535C5.21774 0 0 5.24615 0 11.7169V36.0662C0 42.5369 5.21774 47.7831 11.6535 47.7831H35.8708C42.3065 47.7831 47.5243 42.5369 47.5243 36.0662V11.7154C47.5243 5.24462 42.3065 0 35.8708 0Z" fill="#00FFFF"/><path d="M15.8418 15.9297H7.92188V23.8928V31.8558H15.8418V23.8928V15.9297Z" fill="#040406"/><path d="M31.6827 15.9295V7.96484H23.7628H15.8413V15.9295H23.7628H31.6827Z" fill="#040406"/><path d="M15.8413 31.8555V39.8201H23.7628H31.6827V31.8555H23.7628H15.8413Z" fill="#040406"/><path d="M39.6031 23.8945H31.6831V31.8576H39.6031V23.8945Z" fill="#040406"/></svg>&nbsp;</span>Goulash.tech поможет моему ресторану доставки</h2>
+        <div class="g2-form">
+          <div class="wpcf7">
+            <form id="lead-form" class="wpcf7-form init" aria-label="Контактная форма" novalidate>
+              <div class="form">
+                <fieldset class="form__wrapper">
+                  <p><label class="form__item"><span class="wpcf7-form-control-wrap" data-name="name"><input class="wpcf7-form-control wpcf7-text g2-input" aria-required="true" aria-invalid="false" placeholder="Имя" value="" type="text" name="name" autocomplete="name" maxlength="400" /></span></label></p>
+                  <p><label class="form__item"><span class="wpcf7-form-control-wrap" data-name="phone"><input class="wpcf7-form-control wpcf7-tel wpcf7-text g2-input" aria-required="true" aria-invalid="false" placeholder="Телефон" value="" type="tel" name="phone" autocomplete="tel" inputmode="tel" maxlength="400" /></span></label></p>
+                  <p><label class="form__item"><span class="wpcf7-form-control-wrap" data-name="city"><input class="wpcf7-form-control wpcf7-text g2-input" aria-required="true" aria-invalid="false" placeholder="Город" value="" type="text" name="city" autocomplete="address-level2" maxlength="400" /></span></label></p>
+                  <p><label class="form__item"><span class="wpcf7-form-control-wrap" data-name="company"><input class="wpcf7-form-control wpcf7-text g2-input" aria-required="true" aria-invalid="false" placeholder="Название компании" value="" type="text" name="company" autocomplete="organization" maxlength="400" /></span></label></p>
+                  <p><label class="form__item"><span class="wpcf7-form-control-wrap" data-name="points"><input class="wpcf7-form-control wpcf7-number g2-input" aria-required="true" aria-invalid="false" placeholder="Кол-во точек" value="" type="number" name="points" inputmode="numeric" min="1" max="999" /></span></label></p>
+                </fieldset>
+              </div>
+              <fieldset class="form__actions">
+                <p class="form__desc">Нажимая кнопку Отправить заявку, Вы даете согласие на получение сервисных и рекламных сообщений о Программном обеспечении Оператора и продуктах/услугах его Партнеров, <a class="form__desc--link" href="https://goulash.tech/privacy-policy/" target="_blank" rel="noopener noreferrer">согласие на обработку персональных данных</a> и соглашаетесь с политикой обработки персональных данных</p>
+                <div class="form__submit">
+                  <div class="form__checkbox">
+                    <p><span class="wpcf7-form-control-wrap" data-name="privacy"><span class="wpcf7-form-control wpcf7-checkbox" id="home-privacy-checkbox"><span class="wpcf7-list-item first last"><input type="checkbox" name="privacy" value="1" /><span class="wpcf7-list-item-label">Соглашаюсь с условиями обработки персональных данных</span></span></span></span></p>
+                  </div>
+                  <p class="g2-form__note" id="lead-attach" hidden></p>
+                  <p><button type="submit" class="g2-btn g2-btn--light g2-btn--md g2-btn--block g2-form__submit" id="lead-submit">Оставить заявку</button></p>
                 </div>
-              </div>
-              <label><span id="contact-lbl">Номер телефона</span> <input type="text" name="contact" id="contact-input" autocomplete="tel" inputmode="tel" placeholder="+7 900 000-00-00" required /><span class="err" data-err="contact"></span></label>
-              <label><span>Сколько точек <em>необязательно</em></span> <input type="number" name="points" min="1" max="99" inputmode="numeric" /><span class="err" data-err="points"></span></label>
-              <label><span>Что хотите решить <em>необязательно</em></span> <textarea name="note" rows="2" maxlength="300"></textarea></label>
-              <p class="cx__attach" id="lead-attach" hidden></p>
-              <button type="submit" class="g2-btn g2-btn--cyan g2-btn--block g2-btn--lg" id="lead-submit">Обсудить подключение</button>
-              <p class="form-legal">Нажимая кнопку, вы&nbsp;соглашаетесь на&nbsp;обработку персональных данных.</p>
+              </fieldset>
+              <div class="wpcf7-response-output" id="form-out" role="alert" aria-live="polite"></div>
             </form>
-            <div class="cx__state" id="form-loading" hidden><span class="spinner"></span> Отправляем…</div>
-            <div class="cx__state ok" id="form-ok" hidden>
-              <strong>Заявка отправлена.</strong>
-              <p id="form-ok-text">Менеджер свяжется с&nbsp;вами.</p>
-            </div>
-            <div class="cx__state bad" id="form-bad" hidden>
-              <strong>Не&nbsp;удалось отправить заявку.</strong>
-              <p>Данные сохранены. Попробуйте ещё раз или напишите нам в&nbsp;Telegram.</p>
-              <div class="cx__state-actions">
-                <button type="button" class="g2-btn g2-btn--cyan g2-btn--sm" id="form-retry">Отправить ещё раз</button>
-                <a class="g2-btn g2-btn--outline-dark g2-btn--sm" href="https://t.me/GoulashPrivatBot" target="_blank" rel="noopener">Написать в Telegram</a>
-              </div>
-            </div>
           </div>
         </div>
       </div>
