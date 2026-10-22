@@ -1356,3 +1356,4 @@ html.rv-on .rv--fade.is-in { animation-name: rvFade; animation-duration: 1.2s; }
 
 /* «Как начать»: кнопка по центру блока */
 .steps__cta { display: flex; justify-content: center; }
+.sc-actions { justify-content: center; }
