@@ -1063,3 +1063,34 @@ input.is-invalid {
   background-blend-mode: lighten;
 }
 @media (max-width: 768px) { .g2-connect__glow { background-image: url("../assets/img/cta-bg-mobile.png"); } }
+
+/* Первый экран: длинный заголовок не должен залезать под рендер */
+.g2-hero__title { font-size: clamp(34px, 3.7vw, 48px); line-height: 1.1; max-width: 20ch; }
+.g2-hero__title-accent { display: inline; font-size: inherit; line-height: inherit; }
+.g2-hero__lead { max-width: 600px; }
+@media (max-width: 1100px) { .g2-hero__lead { max-width: none; } }
+
+/* Схема в первом экране: заказы из каналов сходятся в Goulash и расходятся дальше */
+.g2-hero__media .circuit { display: block; width: 100%; height: 100%; max-height: 720px; margin: auto; overflow: visible; color: var(--g-od-primary); }
+.circuit .cb-line { stroke: #6b6b6b; stroke-width: 2.4; stroke-linecap: round; stroke-dasharray: 0.1 8; }
+.circuit .cb-pulse { fill: none; stroke: var(--g-cyan); stroke-width: 3.2; stroke-linecap: round; stroke-dasharray: 7 93; stroke-dashoffset: 7; filter: drop-shadow(0 0 5px rgba(0, 255, 255, 0.7)); animation: cbRun 3.4s linear infinite; }
+@keyframes cbRun { from { stroke-dashoffset: 7; } to { stroke-dashoffset: -100; } }
+.circuit .cb-node rect { fill: var(--g-dark-card); stroke: var(--g-border-dark); stroke-width: 1.5; }
+.circuit .cb-node text, .circuit .cb-core text { fill: var(--g-od-secondary); font-family: var(--g-font); font-size: 15px; text-anchor: middle; }
+.circuit .cb-core text { fill: var(--g-od-primary); font-size: 17px; font-weight: 500; }
+.circuit .cb-core__ring { fill: var(--g-dark-card); stroke: rgba(0, 255, 255, 0.28); stroke-width: 1; filter: drop-shadow(0 0 12px rgba(0, 255, 255, 0.1)); }
+.circuit .cb-node { animation: cbIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) both; animation-delay: calc(0.5s + var(--i) * 0.07s); }
+@keyframes cbIn { from { opacity: 0; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .circuit .cb-pulse { animation: none; stroke-dasharray: 7 93; stroke-dashoffset: -45; } .circuit .cb-node { animation: none; } }
+@media (max-width: 1023px) { .g2-hero__media .circuit { height: auto; max-height: 420px; } }
+@media (max-width: 768px) { .g2-hero__media { position: relative; top: auto; right: auto; width: 100%; height: auto; } .g2-hero__media .circuit { max-height: 360px; } }
+/* схема уже картинки: не заходит под заголовок */
+@media (min-width: 1024px) { .g2-hero__media { width: 600px; max-width: 46%; } }
+
+/* иконки схемы: матрица из LED-точек, погашенные точки едва видны; иконки подставляются в <g class="cb-icon"> */
+.circuit .cb-icon .off { fill: #2b2b2b; }
+.circuit .cb-icon .on { filter: drop-shadow(0 0 2.5px currentColor); }
+/* схема стоит напротив текста: по центру высоты блока с заголовком */
+@media (min-width: 1024px) { .g2-hero__media { top: 0; bottom: 0; display: flex; align-items: center; } .g2-hero__media .circuit { height: auto; max-height: none; } }
+/* описание не заходит под схему: ширина по свободному месту слева */
+@media (min-width: 1024px) { .g2-hero__lead { max-width: min(600px, calc(54vw - 80px)); } }
