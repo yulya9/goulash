@@ -1094,3 +1094,15 @@ input.is-invalid {
 @media (min-width: 1024px) { .g2-hero__media { top: 0; bottom: 0; display: flex; align-items: center; } .g2-hero__media .circuit { height: auto; max-height: none; } }
 /* описание не заходит под схему: ширина по свободному месту слева */
 @media (min-width: 1024px) { .g2-hero__lead { max-width: min(600px, calc(54vw - 80px)); } }
+/* Автозаполнение браузера не должно перекрашивать поля формы в светло-голубой */
+.g2-form input.g2-input:-webkit-autofill,
+.g2-form input.g2-input:-webkit-autofill:hover,
+.g2-form input.g2-input:-webkit-autofill:focus,
+.g2-form input.g2-input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px var(--g-dark-card) inset;
+  box-shadow: 0 0 0 1000px var(--g-dark-card) inset;
+  -webkit-text-fill-color: var(--g-od-primary);
+  caret-color: var(--g-od-primary);
+  border: 1px solid var(--g-border-situative);
+  transition: background-color 600000s 0s, color 600000s 0s;
+}
