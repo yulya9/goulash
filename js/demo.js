@@ -54,6 +54,7 @@
     onlyLate: false,
     onlyPre: false,
     open: null,
+    dialog: null,
     stage: null,
     collapsed: false,
     screen: "Главная",
@@ -197,8 +198,9 @@
     renderBoard();
     renderPanels();
     renderTop();
-    if (state.screen !== "Главная" && state.screen !== "Заказы" && typeof renderScreen === "function") renderScreen(state.screen);
+    if (state.screen === "Станция кухни") renderScreen(state.screen);
     if (state.open) renderSheet();
+    else if (state.dialog) renderDialog();
   }
 
   // часы и обновление
@@ -305,9 +307,100 @@
   }
   function closeSheet() {
     state.open = null;
+    state.dialog = null;
     $("gp-drawer").classList.remove("is-open");
     if (lastFocus && document.contains(lastFocus)) lastFocus.focus();
   }
+
+  // окна действий смены
+  const EMP = ["Дима", "Оля", "Ильяс", "Аня"];
+  const dlgState = { taxi: new Set(), staff: new Set(), qty: {} };
+  function openDialog(kind) {
+    state.open = null;
+    state.dialog = kind;
+    lastFocus = root.querySelector(`[data-act="${kind}"]`);
+    $("gp-drawer").classList.add("is-open");
+    renderDialog();
+    const x = $("gp-x");
+    if (x) x.focus();
+  }
+  function head(title, sub) {
+    return `<div class="gp__sheet-h"><div><h3>${title}</h3><p>${sub}</p></div><button type="button" class="gp__x" id="gp-x" aria-label="Закрыть">×</button></div>`;
+  }
+  function renderDialog() {
+    const k = state.dialog;
+    if (!k) return;
+    let html = "";
+    if (k === "taxi") {
+      const ready = orders.filter((o) => o.stage === 3).sort(bySort);
+      dlgState.taxi.forEach((u) => { if (!ready.find((o) => o.uid === u)) dlgState.taxi.delete(u); });
+      html = head("Такси", "Выберите готовые заказы, которые поедут на такси.") +
+        `<div class="gp__rows">${ready.length ? ready.map((o) => `<label><input type="checkbox" data-pick="${o.uid}"${dlgState.taxi.has(o.uid) ? " checked" : ""}><span><b>${esc(o.id)}</b> · ${money(o.sum)}${NB}₽</span><em>к ${o.t}</em></label>`).join("") : '<p class="gp__none">Готовых заказов нет.</p>'}</div>` +
+        `<button type="button" class="gp__next" id="gp-do"${dlgState.taxi.size ? "" : " disabled"}>Вызвать такси${dlgState.taxi.size ? " (" + dlgState.taxi.size + ")" : ""}</button>`;
+    } else if (k === "writeoff") {
+      const items = ["Пепперони 30 см", "Филадельфия", "Бургер классик", "Шаурма XL"];
+      html = head("Списание с витрины", "Сколько позиций списать.") +
+        `<div class="gp__rows">${items.map((d) => `<div class="gp__step"><span>${esc(d)}</span><div><button type="button" data-qty="${esc(d)}" data-d="-1" aria-label="Меньше">−</button><b>${dlgState.qty[d] || 0}</b><button type="button" data-qty="${esc(d)}" data-d="1" aria-label="Больше">+</button></div></div>`).join("")}</div>` +
+        `<button type="button" class="gp__next" id="gp-do"${Object.values(dlgState.qty).some((n) => n > 0) ? "" : " disabled"}>Списать</button>`;
+    } else if (k === "staff") {
+      html = head("Развоз сотрудников", "Кто едет в этом рейсе.") +
+        `<div class="gp__rows">${EMP.map((n) => `<label><input type="checkbox" data-emp="${n}"${dlgState.staff.has(n) ? " checked" : ""}><span><b>${n}</b></span><em>на смене</em></label>`).join("")}</div>` +
+        `<button type="button" class="gp__next" id="gp-do"${dlgState.staff.size ? "" : " disabled"}>Создать маршрут${dlgState.staff.size ? " (" + dlgState.staff.size + ")" : ""}</button>`;
+    } else if (k === "close") {
+      const left = orders.filter((o) => o.stage < 4).length;
+      const onRoad = orders.filter((o) => o.stage === 4).length;
+      html = head("Закрытие смены", left ? "Сначала нужно завершить заказы в работе." : "Всё выдано, смену можно закрывать.") +
+        `<div class="gp__facts2"><div><span>Выручка</span><b>${money(state.rev)}${NB}₽</b></div><div><span>Заказов</span><b>${money(state.total)}</b></div><div><span>В работе</span><b>${left + onRoad}</b></div></div>` +
+        `<button type="button" class="gp__next" id="gp-do">${left + onRoad ? "Завершить заказы и закрыть смену" : "Закрыть смену"}</button>`;
+    }
+    $("gp-sheet").innerHTML = html;
+    $("gp-x").addEventListener("click", closeSheet);
+    const go = $("gp-do");
+    if (go) go.addEventListener("click", runDialog);
+  }
+  function runDialog() {
+    const k = state.dialog;
+    if (k === "taxi") {
+      const n = dlgState.taxi.size;
+      orders.filter((o) => dlgState.taxi.has(o.uid)).forEach((o) => { o.stage = 4; });
+      dlgState.taxi.clear();
+      closeSheet();
+      toast("Такси вызвано: " + n + " " + plural(n, "заказ уехал", "заказа уехали", "заказов уехали") + ".");
+    } else if (k === "writeoff") {
+      const parts = Object.entries(dlgState.qty).filter(([, n]) => n > 0).map(([d, n]) => d + " × " + n);
+      dlgState.qty = {};
+      closeSheet();
+      toast("Списано: " + parts.join(", ") + ".");
+    } else if (k === "staff") {
+      const names = [...dlgState.staff].join(", ");
+      dlgState.staff.clear();
+      closeSheet();
+      toast("Маршрут создан: " + names + ".");
+    } else if (k === "close") {
+      const rest = orders.slice();
+      rest.forEach((o) => deliver(o));
+      closeSheet();
+      toast("Смена закрыта. Выручка за смену: " + money(state.rev) + NB + "₽.");
+      stampUpdate();
+      // новая смена: подкидываем несколько заказов, чтобы окно не пустело
+      for (let i = 0; i < 6; i++) simulate();
+      return;
+    }
+    stampUpdate();
+    renderAll();
+  }
+  $("gp-sheet").addEventListener("change", (e) => {
+    const c = e.target;
+    if (c.dataset.pick) { const u = Number(c.dataset.pick); c.checked ? dlgState.taxi.add(u) : dlgState.taxi.delete(u); renderDialog(); }
+    else if (c.dataset.emp) { c.checked ? dlgState.staff.add(c.dataset.emp) : dlgState.staff.delete(c.dataset.emp); renderDialog(); }
+  });
+  $("gp-sheet").addEventListener("click", (e) => {
+    const b = e.target.closest("[data-qty]");
+    if (!b) return;
+    const d = b.dataset.qty;
+    dlgState.qty[d] = Math.max(0, Math.min(9, (dlgState.qty[d] || 0) + Number(b.dataset.d)));
+    renderDialog();
+  });
 
   // подсказки
   let toastTimer = 0;
@@ -328,11 +421,29 @@
     if (e.target === $("gp-drawer")) closeSheet();
   });
   document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && state.open) closeSheet();
+    if (e.key === "Escape" && (state.open || state.dialog)) closeSheet();
   });
 
   $("gp-search").addEventListener("input", (e) => { state.q = e.target.value; renderBoard(); });
-  $("gp-sort").addEventListener("change", (e) => { state.sort = e.target.value; renderBoard(); });
+  const sortMenu = $("gp-sort-menu");
+  function closeSort() { sortMenu.classList.remove("is-open"); $("gp-sort").setAttribute("aria-expanded", "false"); }
+  $("gp-sort").addEventListener("click", (e) => {
+    e.stopPropagation();
+    const open = !sortMenu.classList.contains("is-open");
+    sortMenu.classList.toggle("is-open", open);
+    $("gp-sort").setAttribute("aria-expanded", String(open));
+  });
+  sortMenu.addEventListener("click", (e) => {
+    const b = e.target.closest("[data-sort]");
+    if (!b) return;
+    state.sort = b.dataset.sort;
+    sortMenu.querySelectorAll("button").forEach((x) => x.classList.toggle("is-on", x === b));
+    $("gp-sort-label").textContent = b.textContent;
+    closeSort();
+    renderBoard();
+  });
+  document.addEventListener("click", closeSort);
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeSort(); });
   $("gp-only-late").addEventListener("change", (e) => { state.onlyLate = e.target.checked; renderBoard(); });
   $("gp-only-pre").addEventListener("change", (e) => { state.onlyPre = e.target.checked; renderBoard(); });
   $("gp-refresh").addEventListener("click", (e) => {
@@ -349,27 +460,174 @@
   function setScreen(name) {
     state.screen = name;
     const main = root.querySelector(".gp__main");
-    const sc = $("gp-screen");
+    const host = $("gp-screen");
     main.classList.toggle("is-view-orders", name === "Заказы");
     const special = name !== "Главная" && name !== "Заказы";
     main.classList.toggle("is-screen", special);
-    sc.hidden = !special;
+    host.hidden = !special;
     if (special) renderScreen(name);
     renderChrome();
   }
   function renderScreen(name) {
-    const sc = $("gp-screen");
+    const host = $("gp-screen");
     if (name === "Станция кухни") {
       const items = orders.filter((o) => o.stage === 2).sort(bySort);
-      sc.innerHTML = `<h3>Станция кухни</h3><p>${items.length ? "Заказы в работе. Нажмите «Готово», когда блюда собраны." : "Все блюда приготовлены."}</p>
+      host.innerHTML = `<h3>Станция кухни</h3><p>${items.length ? "Заказы в работе. Нажмите «Готово», когда блюда собраны." : "Все блюда приготовлены."}</p>
         <div class="gp__tickets">${items.map((o) => `<div class="gp__ticket${o.late ? " is-late" : ""}"><strong>${esc(o.id)}</strong><span>к ${o.t}${o.late ? " · −" + o.late + NB + "мин" : ""}</span><ul>${dishesOf(o).map((d) => `<li>${esc(d)}${stops.has(d) ? " (стоп)" : ""}</li>`).join("")}</ul><button type="button" data-ready="${o.uid}">Готово</button></div>`).join("")}</div>`;
     } else if (name === "Стоп-лист") {
-      sc.innerHTML = `<h3>Стоп-лист</h3><p>Блюдо в стопе пропадает из каналов заказа. Нажмите на строку, чтобы поставить или снять.</p>
+      host.innerHTML = `<h3>Стоп-лист</h3><p>Блюдо в стопе пропадает из каналов заказа. Нажмите на строку, чтобы поставить или снять.</p>
         <div class="gp__stoplist">${DISHES.map((d) => `<button type="button" class="gp__stoprow${stops.has(d) ? " is-stop" : ""}" data-dish="${esc(d)}"><span>${esc(d)}<em>${stops.has(d) ? "в стопе" : "в меню"}</em></span><span>${stops.has(d) ? "Снять" : "В стоп"}</span></button>`).join("")}</div>`;
+    } else if (SCREENS[name]) {
+      host.innerHTML = SCREENS[name]();
     } else {
-      sc.innerHTML = `<div class="gp__soon"><h3>${esc(name)}</h3><p>Этот раздел в демо не открывается. Попробуйте «Станция кухни», «Стоп-лист» или «Заказы».</p><button type="button" data-screen="Главная">На главную</button></div>`;
+      host.innerHTML = `<div class="gp__soon"><h3>${esc(name)}</h3><p>Этот раздел в демо не открывается. Попробуйте «Станция кухни», «Стоп-лист» или «Заказы».</p><button type="button" data-screen="Главная">На главную</button></div>`;
     }
   }
+
+  // ---- остальные разделы меню ----
+  const PRICES = { "Пепперони 30 см": 890, "Филадельфия": 1240, "Wok курица": 670, "Бургер классик": 540, "Шаурма XL": 420, "Цезарь ролл": 510, "Калифорния": 980, "Маргарита": 690 };
+  const sc = {
+    draft: { src: "Телефон", phone: "", qty: {} },
+    tables: Array.from({ length: 12 }, (_, i) => ({ n: i + 1, st: [0, 1, 1, 2, 0, 1, 0, 0, 2, 1, 0, 1][i] })),
+    dict: { tab: "dishes", q: "" },
+    guard: [["Дима", "кухня", true], ["Оля", "курьер", true], ["Ильяс", "курьер", false], ["Аня", "администратор", true], ["Руслан", "повар", true]],
+    exp: [["Продукты", 48200], ["Аренда", 30000], ["Зарплата", 62500], ["Упаковка", 8400], ["Маркетинг", 12000]],
+    hours: [18, 24, 31, 42, 55, 68, 74, 61, 48, 39, 27, 20],
+    hourPick: null,
+    stock: [["Тесто, кг", 24, 20], ["Сыр моцарелла, кг", 6, 10], ["Лосось, кг", 4, 8], ["Рис, кг", 31, 15], ["Курица, кг", 12, 10], ["Коробки 30 см, шт", 140, 100]],
+    buy: [["Сыр моцарелла, кг", 640, 640], ["Лосось, кг", 1320, 1320], ["Курица, кг", 310, 310], ["Рис, кг", 120, 120], ["Тесто, кг", 85, 85]],
+    sets: [["Автообновление заказов", true], ["Подсвечивать опоздания", true], ["Звук при новом заказе", false], ["Показывать предварительные", true]],
+    segs: [["Спят 30 дней", 184, "Ролл в подарок от 1 200 ₽ — на ваш сайт, не в ленту агрегатора."], ["Ходят каждую неделю", 96, "Бонус x2 на самовывоз: им и так дешевле у вас, чем в агрегаторе."], ["Первый заказ с сайта", 41, "Второй заказ со скидкой 10% в приложении, чтобы не ушли на площадку."]],
+    cams: ["Кухня", "Зал", "Склад", "Вход"],
+    cam: 0,
+    lists: [["Открытие смены", ["Проверить температуру холодильников", "Включить пароконвектомат", "Проверить остатки тары"], [true, false, false]], ["Закрытие смены", ["Вымыть линию раздачи", "Сдать кассу", "Выключить оборудование"], [false, false, false]]],
+    guestSent: new Set(),
+  };
+  const card = (inner) => `<div class="gp__card2">${inner}</div>`;
+  const SCREENS = {
+    "Принять заказ"() {
+      const d = sc.draft;
+      const total = Object.entries(d.qty).reduce((s, [k, n]) => s + PRICES[k] * n, 0);
+      return `<h3>Новый заказ</h3><p>Соберите заказ и нажмите «Принять»: он попадёт в «Принятые» на главной.</p>
+        <div class="gp__seg">${SOURCES.slice(0, 3).map((s) => `<button type="button" class="${d.src === s ? "is-on" : ""}" data-sc="src" data-v="${s}">${s}</button>`).join("")}</div>
+        <input class="gp__field" data-sc="phone" type="tel" inputmode="tel" placeholder="Телефон гостя" value="${esc(d.phone)}" aria-label="Телефон гостя">
+        <div class="gp__rows">${Object.keys(PRICES).map((k) => `<div class="gp__step"><span>${esc(k)} <em>${PRICES[k]}${NB}₽</em></span><div><button type="button" data-sc="qty" data-d="-1" data-k="${esc(k)}" aria-label="Меньше">−</button><b>${d.qty[k] || 0}</b><button type="button" data-sc="qty" data-d="1" data-k="${esc(k)}" aria-label="Больше">+</button></div></div>`).join("")}</div>
+        <button type="button" class="gp__next" data-sc="accept">Принять заказ · ${money(total)}${NB}₽</button>`;
+    },
+    "Зал"() {
+      const names = ["Свободен", "Занят", "Просит счёт"];
+      const cnt = [0, 1, 2].map((s) => sc.tables.filter((t) => t.st === s).length);
+      return `<h3>Зал</h3><p>Нажмите на стол, чтобы сменить статус. Свободно: ${cnt[0]}, занято: ${cnt[1]}, ждут счёт: ${cnt[2]}.</p>
+        <div class="gp__tables">${sc.tables.map((t) => `<button type="button" class="gp__tbl s${t.st}" data-sc="tbl" data-n="${t.n}"><b>${t.n}</b><span>${names[t.st]}</span></button>`).join("")}</div>`;
+    },
+    "Справочники"() {
+      const D = { dishes: Object.entries(PRICES).map(([k, v]) => [k, v + NB + "₽"]), zones: [["Центр", "до 30 мин"], ["Юго-запад", "до 40 мин"], ["Ленина", "до 35 мин"], ["Пригород", "до 60 мин"]], staff: sc.guard.map((g) => [g[0], g[1]]) };
+      const q = sc.dict.q.trim().toLowerCase();
+      const rows = D[sc.dict.tab].filter((r) => !q || r[0].toLowerCase().includes(q));
+      return `<h3>Справочники</h3>
+        <div class="gp__seg">${[["dishes", "Блюда"], ["zones", "Зоны доставки"], ["staff", "Сотрудники"]].map(([k, n]) => `<button type="button" class="${sc.dict.tab === k ? "is-on" : ""}" data-sc="dtab" data-v="${k}">${n}</button>`).join("")}</div>
+        <input class="gp__field" data-sc="dq" type="search" placeholder="Поиск" value="${esc(sc.dict.q)}" aria-label="Поиск по справочнику">
+        <div class="gp__rows">${rows.length ? rows.map((r) => `<div class="gp__line"><span>${esc(r[0])}</span><em>${esc(r[1])}</em></div>`).join("") : '<p class="gp__none">Ничего не найдено.</p>'}</div>`;
+    },
+    "Пост охраны"() {
+      return `<h3>Пост охраны</h3><p>Кто сейчас на посту. Нажмите, чтобы отметить приход или уход.</p>
+        <div class="gp__rows">${sc.guard.map((g, i) => `<button type="button" class="gp__line gp__btnrow${g[2] ? " is-ok" : ""}" data-sc="guard" data-i="${i}"><span><b>${g[0]}</b> · ${g[1]}</span><em>${g[2] ? "на посту" : "не пришёл"}</em></button>`).join("")}</div>`;
+    },
+    "Учёт расходов"() {
+      const total = sc.exp.reduce((s, e) => s + e[1], 0);
+      const max = Math.max(...sc.exp.map((e) => e[1]));
+      return `<h3>Учёт расходов</h3><p>Расходов за смену: ${money(total)}${NB}₽.</p>
+        <div class="gp__rows">${sc.exp.map((e) => `<div class="gp__bar2"><span>${e[0]}</span><i style="--w:${(e[1] / max) * 100}%"></i><b>${money(e[1])}${NB}₽</b></div>`).join("")}</div>
+        <div class="gp__inline"><input class="gp__field" data-sc="expname" placeholder="Статья" aria-label="Статья расходов"><input class="gp__field" data-sc="expsum" type="number" inputmode="numeric" placeholder="Сумма, ₽" aria-label="Сумма"><button type="button" class="gp__next" data-sc="expadd">Добавить</button></div>`;
+    },
+    "Учёт выручки"() {
+      const max = Math.max(...sc.hours);
+      const pick = sc.hourPick;
+      return `<h3>Учёт выручки</h3><p>${pick === null ? "Выручка по часам. Нажмите на столбик." : `${11 + pick}:00 — ${money(sc.hours[pick] * 1000)}${NB}₽`} Всего за смену: ${money(state.rev)}${NB}₽.</p>
+        <div class="gp__chart">${sc.hours.map((h, i) => `<button type="button" class="${pick === i ? "is-on" : ""}" data-sc="hour" data-i="${i}" style="--h:${(h / max) * 100}%" aria-label="${11 + i}:00"><span>${11 + i}</span></button>`).join("")}</div>
+        <div class="gp__line"><span>Наличные</span><em>${money(state.pay[0])}${NB}₽</em></div><div class="gp__line"><span>Безнал</span><em>${money(state.pay[1])}${NB}₽</em></div><div class="gp__line"><span>Онлайн</span><em>${money(state.pay[2])}${NB}₽</em></div>`;
+    },
+    "Учёт товаров"() {
+      return `<h3>Учёт товаров</h3><p>Остатки на складе. Низкие остатки подсвечены, нажмите «+», чтобы заказать.</p>
+        <div class="gp__rows">${sc.stock.map((s, i) => `<div class="gp__line${s[1] < s[2] ? " is-low" : ""}"><span>${s[0]}</span><em>${s[1]}${s[1] < s[2] ? " · мало" : ""}</em><button type="button" class="gp__mini" data-sc="stock" data-i="${i}">+10</button></div>`).join("")}</div>`;
+    },
+    "Закупочные цены"() {
+      return `<h3>Закупочные цены</h3><p>Измените цену поставщика, чтобы увидеть, как она отразится на себестоимости.</p>
+        <div class="gp__rows">${sc.buy.map((b, i) => { const d = b[1] - b[2]; return `<div class="gp__line"><span>${b[0]}</span><input class="gp__num" type="number" inputmode="numeric" value="${b[1]}" data-sc="buy" data-i="${i}" aria-label="Цена, ${esc(b[0])}"><em class="${d > 0 ? "up" : d < 0 ? "down" : ""}">${d === 0 ? "без изменений" : (d > 0 ? "+" : "−") + Math.abs(Math.round((d / b[2]) * 100)) + "%"}</em></div>`; }).join("")}</div>`;
+    },
+    "Настройки"() {
+      return `<h3>Настройки</h3><p>Работают сразу.</p>
+        <div class="gp__rows">${sc.sets.map((s, i) => `<label class="gp__line"><span>${s[0]}</span><input type="checkbox" class="gp__sw" data-sc="set" data-i="${i}"${s[1] ? " checked" : ""}></label>`).join("")}</div>`;
+    },
+    "Гости"() {
+      return `<h3>Гости</h3><p>Сегменты. Предложение уходит на ваш сайт и в приложение, а не в ленту агрегатора.</p>
+        <div class="gp__rows">${sc.segs.map((g, i) => `<div class="gp__seg2"><div><b>${g[0]}</b><em>${g[1]} гостей</em><p>${g[2]}</p></div><button type="button" class="gp__mini2${sc.guestSent.has(i) ? " is-ok" : ""}" data-sc="seg" data-i="${i}">${sc.guestSent.has(i) ? "Отправлено" : "Отправить"}</button></div>`).join("")}</div>`;
+    },
+    "Видео"() {
+      return `<h3>Видео</h3><p>Камеры точки. Выберите камеру.</p>
+        <div class="gp__cam gp__cam--big"><span class="gp__live">● LIVE</span><b>${sc.cams[sc.cam]}</b></div>
+        <div class="gp__seg">${sc.cams.map((c, i) => `<button type="button" class="${sc.cam === i ? "is-on" : ""}" data-sc="cam" data-i="${i}">${c}</button>`).join("")}</div>`;
+    },
+    "Чек-листы"() {
+      return `<h3>Чек-листы</h3>${sc.lists.map((l, li) => { const done = l[2].filter(Boolean).length; return `<div class="gp__rows"><div class="gp__line"><b>${l[0]}</b><em>${done} из ${l[1].length}</em></div><div class="gp__meter2"><i style="width:${(done / l[1].length) * 100}%"></i></div>${l[1].map((t, i) => `<label class="gp__line"><span>${t}</span><input type="checkbox" class="gp__chk" data-sc="chk" data-l="${li}" data-i="${i}"${l[2][i] ? " checked" : ""}></label>`).join("")}</div>`; }).join("")}`;
+    },
+  };
+  SCREENS["Принять заказ NEW"] = SCREENS["Принять заказ"];
+
+  function scAct(el, kind) {
+    const a = el.dataset.sc, i = Number(el.dataset.i);
+    const re = () => renderScreen(state.screen);
+    if (a === "src") { sc.draft.src = el.dataset.v; re(); }
+    else if (a === "qty") { const k = el.dataset.k; sc.draft.qty[k] = Math.max(0, Math.min(9, (sc.draft.qty[k] || 0) + Number(el.dataset.d))); re(); }
+    else if (a === "accept") {
+      const total = Object.entries(sc.draft.qty).reduce((s, [k, n]) => s + PRICES[k] * n, 0);
+      if (sc.draft.phone.replace(/\D/g, "").length < 10) { toast("Введите телефон гостя полностью."); return; }
+      if (!total) { toast("Добавьте хотя бы одно блюдо."); return; }
+      state.seq += 1;
+      const o = mk(String(state.seq % 10000).padStart(4, "0"), hhmm(state.clock), total, 0, 1, 0, { src: sc.draft.src, phone: sc.draft.phone });
+      orders.push(o);
+      sc.draft = { src: "Телефон", phone: "", qty: {} };
+      toast("Заказ " + o.id + " принят, он в колонке «Принятые».");
+      stampUpdate();
+      setScreen("Главная");
+      renderAll();
+    }
+    else if (a === "tbl") { const t = sc.tables.find((x) => x.n === Number(el.dataset.n)); t.st = (t.st + 1) % 3; re(); }
+    else if (a === "dtab") { sc.dict.tab = el.dataset.v; re(); }
+    else if (a === "guard") { sc.guard[i][2] = !sc.guard[i][2]; re(); }
+    else if (a === "expadd") {
+      const name = root.querySelector('[data-sc="expname"]').value.trim();
+      const sum = Number(root.querySelector('[data-sc="expsum"]').value);
+      if (!name || !(sum > 0)) { toast("Укажите статью и сумму."); return; }
+      sc.exp.push([name, sum]); re(); toast("Расход добавлен: " + name + ".");
+    }
+    else if (a === "hour") { sc.hourPick = i; re(); }
+    else if (a === "stock") { sc.stock[i][1] += 10; re(); toast("Заказано +10: " + sc.stock[i][0] + "."); }
+    else if (a === "seg") { sc.guestSent.add(i); re(); toast("Предложение отправлено: " + sc.segs[i][1] + " гостей."); }
+    else if (a === "cam") { sc.cam = i; re(); }
+  }
+  $("gp-screen").addEventListener("click", (e) => {
+    const el = e.target.closest("[data-sc]");
+    if (!el || el.tagName === "INPUT") return;
+    scAct(el);
+  });
+  $("gp-screen").addEventListener("input", (e) => {
+    const el = e.target;
+    if (el.dataset.sc === "phone") sc.draft.phone = el.value;
+    else if (el.dataset.sc === "dq") { sc.dict.q = el.value; const pos = el.selectionStart; renderScreen(state.screen); const n = root.querySelector('[data-sc="dq"]'); if (n) { n.focus(); n.setSelectionRange(pos, pos); } }
+  });
+  $("gp-screen").addEventListener("change", (e) => {
+    const el = e.target;
+    const i = Number(el.dataset.i);
+    if (el.dataset.sc === "buy") { sc.buy[i][1] = Math.max(1, Number(el.value) || sc.buy[i][2]); renderScreen(state.screen); }
+    else if (el.dataset.sc === "set") {
+      sc.sets[i][1] = el.checked;
+      if (i === 0) autoSim = el.checked;
+      if (i === 1) root.classList.toggle("no-late", !el.checked);
+      toast(sc.sets[i][0] + ": " + (el.checked ? "включено" : "выключено") + ".");
+    }
+    else if (el.dataset.sc === "chk") { sc.lists[Number(el.dataset.l)][2][i] = el.checked; renderScreen(state.screen); }
+  });
 
   const INFO = {
     late: "Опоздания: заказы, которые выходят позже обещанного гостю времени.",
@@ -472,15 +730,8 @@
         toast("Форс-мажор выключен: время вернулось к обычному.");
       }
       renderAll();
-    } else if (act === "taxi") {
-      toast("Такси вызвано для самого раннего заказа в доставке.");
-    } else if (act === "writeoff") {
-      toast("Позиция списана с витрины, остаток обновлён.");
-    } else if (act === "staff") {
-      toast("Развоз сотрудников: заказы добавлены в отдельный маршрут.");
-    } else if (act === "close") {
-      const n = orders.filter((o) => o.stage < 4).length;
-      toast("Смену нельзя закрыть: в работе " + n + " " + plural(n, "заказ", "заказа", "заказов") + ".");
+    } else {
+      openDialog(act);
     }
   });
 
@@ -500,6 +751,7 @@
   stampUpdate();
   renderAll();
   let visibleNow = true;
+  let autoSim = true;
   if ("IntersectionObserver" in window) {
     new IntersectionObserver((en) => { visibleNow = en[0].isIntersecting; }, { threshold: 0.15 }).observe(root);
   }
@@ -508,7 +760,7 @@
   }, 1000);
   if (!reduceMotion) {
     setInterval(() => {
-      if (document.hidden || !visibleNow || state.open) return;
+      if (!autoSim || document.hidden || !visibleNow || state.open || state.dialog) return;
       if (document.activeElement && document.activeElement.id === "gp-search") return;
       simulate();
     }, 3600);
