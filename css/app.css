@@ -1061,3 +1061,5 @@ input.is-invalid {
 .circuit .cb-icon .on { filter: drop-shadow(0 0 2.5px currentColor); }
 /* схема стоит напротив текста: по центру высоты блока с заголовком */
 @media (min-width: 1024px) { .g2-hero__media { top: 0; bottom: 0; display: flex; align-items: center; } .g2-hero__media .circuit { height: auto; max-height: none; } }
+/* описание не заходит под схему: ширина по свободному месту слева */
+@media (min-width: 1024px) { .g2-hero__lead { max-width: min(600px, calc(54vw - 80px)); } }
