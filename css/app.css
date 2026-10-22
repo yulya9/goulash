@@ -1032,3 +1032,19 @@ input.is-invalid {
 
 .calcx { padding-inline: 42px; }
 @media (max-width: 767px) { .calcx { padding-inline: 0; } }
+
+/* Отзывы: пять карточек в ряд, как на goulash.tech */
+.rev-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; }
+.rev-card { gap: 0; padding: 24px; height: 100%; background: var(--g-dark-card); }
+.rev-metric { margin: 0 0 24px; font-size: clamp(24px, 2.3vw, 32px); line-height: 105%; letter-spacing: -0.02em; color: var(--g-od-primary); min-height: 2.1em; }
+.rev-quote { margin: 0; flex: 1; font-size: var(--g-t4-size); line-height: 1.4; color: var(--g-od-secondary); }
+.rev-author { margin: 24px 0 16px; font-size: var(--g-t5-size); line-height: 1.4; color: var(--g-od-tertiary); }
+.rev-author b { color: var(--g-od-primary); font-weight: 500; }
+.rev-link { display: inline-flex; align-items: center; gap: 4px; padding-top: 16px; border-top: 1px solid var(--g-line-on-dark); font-size: var(--g-t4-size); color: var(--g-od-primary); text-decoration: none; transition: color var(--g-dur) var(--g-ease); }
+.rev-link .g2-icon { width: 1em; height: 1em; transition: transform var(--g-dur) var(--g-ease); }
+.rev-link:hover { color: var(--g-cyan); }
+.rev-link:hover .g2-icon { transform: translateX(3px); }
+.rev-more { margin-top: 32px; }
+.g2-accordion__link { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+@media (max-width: 1100px) { .rev-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 800px) { .rev-grid { grid-template-columns: minmax(0, 1fr); } .rev-metric { min-height: 0; } }
