@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Goulash.tech — система автоматизации для ресторанов доставки</title>
+  <meta name="description" content="Больше заказов в своём канале, быстрее доставка, меньше потерь. SaaS для ресторанов доставки." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/tokens.css" />
+  <link rel="stylesheet" href="css/ui-kit.css" />
+  <link rel="stylesheet" href="css/header.css" />
+  <link rel="stylesheet" href="css/home.css" />
+  <link rel="stylesheet" href="css/app.css" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M35.87 0H11.65C5.22 0 0 5.25 0 11.72v24.35C0 42.54 5.22 47.78 11.65 47.78h24.22c6.44 0 11.65-5.25 11.65-11.72V11.72C47.52 5.24 42.3 0 35.87 0z' fill='%2300FFFF'/%3E%3C/svg%3E" />
+</head>
+<body class="g2">
+  <a class="g2-skip" href="#main">К содержимому</a>
+
+  <header class="g2-header" data-g2-header>
+    <div class="g2-container g2-header__inner">
+      <a class="g2-logo g2-header__logo g2-header__logo--full" href="#main" aria-label="Goulash.tech — на главную">
+        <svg class="g2-logo__mark" viewBox="0 0 48 48" fill="none" aria-hidden="true" focusable="false">
+          <path d="M35.8708 0H11.6535C5.21774 0 0 5.24615 0 11.7169V36.0662C0 42.5369 5.21774 47.7831 11.6535 47.7831H35.8708C42.3065 47.7831 47.5243 42.5369 47.5243 36.0662V11.7154C47.5243 5.24462 42.3065 0 35.8708 0Z" fill="#00FFFF"/>
+          <path d="M15.8418 15.9297H7.92188V23.8928V31.8558H15.8418V23.8928V15.9297Z" fill="#040406"/>
+          <path d="M31.6827 15.9295V7.96484H23.7628H15.8413V15.9295H23.7628H31.6827Z" fill="#040406"/>
+          <path d="M15.8413 31.8555V39.8201H23.7628H31.6827V31.8555H23.7628H15.8413Z" fill="#040406"/>
+          <path d="M39.6031 23.8945H31.6831V31.8576H39.6031V23.8945Z" fill="#040406"/>
+        </svg>
+        <span class="g2-logo__text">Goulash.tech</span>
+      </a>
+      <a class="g2-logo g2-logo--stack g2-header__logo g2-header__logo--compact" href="#main" aria-label="Goulash.tech — на главную">
+        <svg class="g2-logo__mark" viewBox="0 0 48 48" fill="none" aria-hidden="true" focusable="false">
+          <path d="M35.8708 0H11.6535C5.21774 0 0 5.24615 0 11.7169V36.0662C0 42.5369 5.21774 47.7831 11.6535 47.7831H35.8708C42.3065 47.7831 47.5243 42.5369 47.5243 36.0662V11.7154C47.5243 5.24462 42.3065 0 35.8708 0Z" fill="#00FFFF"/>
+          <path d="M15.8418 15.9297H7.92188V23.8928V31.8558H15.8418V23.8928V15.9297Z" fill="#040406"/>
+          <path d="M31.6827 15.9295V7.96484H23.7628H15.8413V15.9295H23.7628H31.6827Z" fill="#040406"/>
+          <path d="M15.8413 31.8555V39.8201H23.7628H31.6827V31.8555H23.7628H15.8413Z" fill="#040406"/>
+          <path d="M39.6031 23.8945H31.6831V31.8576H39.6031V23.8945Z" fill="#040406"/>
+        </svg>
+        <span class="g2-logo__text">Goulash<br>.tech</span>
+      </a>
+      <nav class="g2-header__nav" aria-label="Основная навигация">
+        <a class="g2-navlink" href="#sources">Рост</a>
+        <a class="g2-navlink" href="#demo">Как работает</a>
+        <a class="g2-navlink" href="#cases">Кейсы и отзывы</a>
+        <a class="g2-navlink" href="#faq">Вопросы</a>
+      </nav>
+      <div class="g2-header__actions">
+        <a class="g2-btn g2-btn--light g2-btn--sm g2-header__cta" href="#connect">Подключить</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="g2-hero" id="hero">
+      <span class="g2-gridlines" aria-hidden="true"></span>
+      <div class="g2-container g2-hero__inner">
+        <div class="g2-hero__content">
+          <p class="g2-hero__eyebrow">
+            <span>Система автоматизации</span>
+            <span>для ресторанов доставки</span>
+          </p>
+          <h1 class="g2-h0 g2-hero__title">
+            <span class="g2-hero__title-accent">+3&nbsp;млн&nbsp;₽</span>
+            дополнительной выручки в&nbsp;год на&nbsp;точку<span class="g2-hero__sup">*</span>
+          </h1>
+          <p class="g2-hero__lead">
+            <span>Больше заказов, быстрее доставка,</span>
+            <span>меньше потерь и&nbsp;выше возвращаемость гостей</span>
+          </p>
+          <div class="g2-hero__actions">
+            <a class="g2-btn g2-btn--light g2-btn--sm" href="#connect">
+              Обсудить за 15&nbsp;минут
+              <svg class="g2-icon g2-btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg>
+            </a>
+          </div>
+        </div>
+        <div class="g2-hero__media">
+          <picture>
+            <img src="assets/img/hero.png" alt="Маршрутизация Goulash.tech — светофор с пиццей и роллами" loading="eager" decoding="async" width="1388" height="1735" />
+          </picture>
+        </div>
+      </div>
+      <div class="g2-logostrip">
+        <span class="g2-gridlines" aria-hidden="true"></span>
+        <div class="g2-container">
+          <ul class="g2-logostrip__list">
+            <li class="g2-logostrip__item" style="--g2-i:0"><img class="g2-logostrip__img" src="assets/img/up-sushi.svg" alt="UP SUSHI" loading="lazy" decoding="async" /></li>
+            <li class="g2-logostrip__item" style="--g2-i:1"><img class="g2-logostrip__img" src="assets/img/sushkof.svg" alt="Сушкоф и пицца" loading="lazy" decoding="async" /></li>
+            <li class="g2-logostrip__item" style="--g2-i:2"><img class="g2-logostrip__img" src="assets/img/food-garden.svg" alt="FOODGARDEN" loading="lazy" decoding="async" /></li>
+            <li class="g2-logostrip__item" style="--g2-i:3"><img class="g2-logostrip__img" src="assets/img/zhishi.svg" alt="Жиши суши" loading="lazy" decoding="async" /></li>
+            <li class="g2-logostrip__item" style="--g2-i:4"><img class="g2-logostrip__img" src="assets/img/sushi-sell.svg" alt="Сушиселл" loading="lazy" decoding="async" /></li>
+            <li class="g2-logostrip__item" style="--g2-i:5"><img class="g2-logostrip__img" src="assets/img/ninjapizza.svg" alt="Ninja Pizza" loading="lazy" decoding="async" /></li>
+            <li class="g2-logostrip__item" style="--g2-i:6"><img class="g2-logostrip__img" src="assets/img/fed-king.svg" alt="Сытый Король" loading="lazy" decoding="async" /></li>
+            <li class="g2-logostrip__item" style="--g2-i:7"><img class="g2-logostrip__img" src="assets/img/non-locals.svg" alt="Неместные" loading="lazy" decoding="async" /></li>
+            <li class="g2-logostrip__item" style="--g2-i:8"><img class="g2-logostrip__img" src="assets/img/rolik.svg" alt="Rolik" loading="lazy" decoding="async" /></li>
+            <li class="g2-logostrip__item" style="--g2-i:9"><img class="g2-logostrip__img" src="assets/img/yapdomik.svg" alt="Японский домик" loading="lazy" decoding="async" /></li>
+            <li class="g2-logostrip__item" style="--g2-i:10"><img class="g2-logostrip__img" src="assets/img/magicburger.svg" alt="Magic burger" loading="lazy" decoding="async" /></li>
+            <li class="g2-logostrip__item" style="--g2-i:11"><img class="g2-logostrip__img" src="assets/img/sushiman.svg" alt="Сушиман" loading="lazy" decoding="async" /></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="g2-section" id="sources">
+      <span class="g2-gridlines" aria-hidden="true"></span>
+      <div class="g2-container">
+        <div class="g2-sources-head">
+          <div class="g2-section-head g2-section-head--bar">
+            <h2 class="g2-h1">Источники<br>роста выручки</h2>
+          </div>
+          <div class="g2-sources__note">
+            <p>Каждая функция Goulash существует только по&nbsp;одной причине — приблизить рестораны доставки к&nbsp;росту выручки.</p>
+            <p>Отраслевая экспертиза в&nbsp;основе решения.</p>
+          </div>
+        </div>
+        <div class="g2-bento">
+          <article class="g2-bento__plain">
+            <div class="g2-bento__headline">
+              <p class="g2-bento__value" data-count="3" data-prefix="+" data-suffix=" млн ₽">+0 млн ₽</p>
+              <p class="g2-bento__unit">дополнительной выручки в&nbsp;год на&nbsp;точку</p>
+            </div>
+          </article>
+          <article class="g2-card g2-bento__item">
+            <p class="g2-card__label">Больше заказов в&nbsp;своём канале</p>
+            <div class="g2-bento__headline">
+              <p class="g2-bento__value" data-count="30" data-prefix="+" data-suffix="%">+0%</p>
+              <p class="g2-bento__unit">заказов</p>
+            </div>
+            <hr class="g2-card__divider" />
+            <ul class="g2-card__list">
+              <li><span>Конверсионное приложение</span></li>
+              <li><span>RFM-анализ и&nbsp;персонализация</span></li>
+              <li><span>Тепловая карта: кто, откуда и&nbsp;как часто</span></li>
+              <li><span>Снижение зависимости от&nbsp;агрегаторов</span></li>
+            </ul>
+          </article>
+          <article class="g2-card g2-bento__item">
+            <p class="g2-card__label">Кухня без срывов и&nbsp;скрытых расходов</p>
+            <div class="g2-bento__headline">
+              <p class="g2-bento__value g2-bento__value--pixel">Без</p>
+              <p class="g2-bento__unit">срывов на&nbsp;кухне</p>
+            </div>
+            <hr class="g2-card__divider" />
+            <ul class="g2-card__list">
+              <li><span>Автораспределение заказов</span></li>
+              <li><span>Полностью заменяем «ручные костыли»</span></li>
+              <li><span>Без «комплиментарных подарков»</span></li>
+            </ul>
+          </article>
+          <article class="g2-card g2-bento__item">
+            <p class="g2-card__label">Скорость доставки выше конкурента</p>
+            <div class="g2-bento__headline">
+              <p class="g2-bento__value" data-count="12" data-prefix="−" data-suffix=" мин">−0 мин</p>
+              <p class="g2-bento__unit">на&nbsp;заказ в&nbsp;час-пик</p>
+            </div>
+            <hr class="g2-card__divider" />
+            <ul class="g2-card__list">
+              <li><span>Маршрутизация с&nbsp;учётом местонахождения курьера и&nbsp;типа доставки (пеший/вело/авто)</span></li>
+              <li><span>Подтверждение и&nbsp;распределение заказов без участия человека</span></li>
+              <li><span>Умная логистика</span></li>
+            </ul>
+          </article>
+          <article class="g2-card g2-bento__item">
+            <p class="g2-card__label">Точность доставки → повторный гость</p>
+            <div class="g2-bento__headline">
+              <p class="g2-bento__value" data-count="13" data-prefix="+" data-suffix="%">+0%</p>
+              <p class="g2-bento__unit">повторных заказов</p>
+            </div>
+            <hr class="g2-card__divider" />
+            <ul class="g2-card__list">
+              <li><span>Предсказуемость на&nbsp;<b>+20% ETA</b> → <b>+45%</b> удовлетворённости → <b>+13%</b> повторных заказов</span></li>
+              <li><span>Точное прогнозирование рассчитывается автоматически, с&nbsp;учётом загрузки кухни и&nbsp;маршрута курьера одновременно</span></li>
+            </ul>
+          </article>
+          <article class="g2-card g2-bento__item">
+            <p class="g2-card__label">Чёткая видимость на&nbsp;данных</p>
+            <p class="g2-bento__headline">
+              <span class="g2-bento__value" data-count="2" data-suffix="%">0%</span>
+              <span class="g2-bento__unit">потерь возвращаем</span>
+            </p>
+            <hr class="g2-card__divider" />
+            <ul class="g2-card__list">
+              <li><span>Показатели управления</span></li>
+              <li><span>Контроль кухни, списаний, смен, маршрутов и&nbsp;операционных отклонений ликвидируют 2% утечек в&nbsp;расходах</span></li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="g2-section g2-section--soft" id="demo">
+      <span class="g2-gridlines g2-gridlines--edges" aria-hidden="true"></span>
+      <div class="g2-container">
+        <div class="g2-section-head g2-section-head--bar">
+          <h2 class="g2-h1">Пятница, 19:40. Заказы, кухня и&nbsp;курьеры в&nbsp;одном окне</h2>
+          <p class="g2-section-head__sub">Переключите фильтр или включите пик — слот и&nbsp;стоп-лист меняются сами. Так администратор видит смену.</p>
+        </div>
+        <div class="demo-app">
+          <div class="demo-toolbar">
+            <div class="tabs" role="tablist">
+              <button type="button" class="tab is-on" data-tab="orders">Заказы</button>
+              <button type="button" class="tab" data-tab="kitchen">Кухня</button>
+              <button type="button" class="tab" data-tab="couriers">Курьеры</button>
+              <button type="button" class="tab" data-tab="guests">Гости</button>
+            </div>
+            <label class="switch">
+              <input type="checkbox" id="peak-toggle" />
+              <span>Пик: кухня не&nbsp;справляется</span>
+            </label>
+          </div>
+          <div class="demo-alert" id="peak-alert" hidden>
+            Система сама сдвинула слот на&nbsp;+15&nbsp;мин и&nbsp;убрала «Филадельфию» в&nbsp;стоп. Оператор не&nbsp;нажимал.
+          </div>
+          <div class="demo-screen is-on" data-screen="orders">
+            <div class="filters">
+              <button type="button" class="chip is-on" data-filter="all">Все</button>
+              <button type="button" class="chip" data-filter="yandex">Яндекс</button>
+              <button type="button" class="chip" data-filter="site">Свой сайт</button>
+              <button type="button" class="chip" data-filter="phone">Телефон</button>
+            </div>
+            <div class="kpis">
+              <div><b id="kpi-count">6</b><span>в работе</span></div>
+              <div><b id="kpi-eta">45 мин</b><span>слот доставки</span></div>
+              <div><b id="kpi-own">2</b><span>свой канал</span></div>
+            </div>
+            <ul class="order-list" id="order-list"></ul>
+          </div>
+          <div class="demo-screen" data-screen="kitchen" hidden>
+            <p class="screen-lead">В&nbsp;пике блюдо уходит в&nbsp;стоп само.</p>
+            <ul class="kitchen-list" id="kitchen-list"></ul>
+          </div>
+          <div class="demo-screen" data-screen="couriers" hidden>
+            <p class="screen-lead">Слот вырос — маршрут перестраивается.</p>
+            <ul class="courier-list" id="courier-list"></ul>
+          </div>
+          <div class="demo-screen" data-screen="guests" hidden>
+            <p class="screen-lead">Сегмент получает акцию на&nbsp;ваш сайт, не&nbsp;в&nbsp;ленту агрегатора.</p>
+            <div class="guest-grid">
+              <div class="seg seg--col">
+                <button type="button" class="is-on" data-segment="sleep">Спят 30 дней</button>
+                <button type="button" data-segment="regular">Ходят каждую неделю</button>
+                <button type="button" data-segment="new">Первый заказ с&nbsp;сайта</button>
+              </div>
+              <div class="guest-card" id="guest-card"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="g2-section" id="audience">
+      <span class="g2-gridlines g2-gridlines--edges" aria-hidden="true"></span>
+      <div class="g2-container">
+        <div class="g2-section-head g2-section-head--bar">
+          <h2 class="g2-h1">Кому подходит Goulash.tech</h2>
+          <p class="g2-section-head__sub">От&nbsp;одной точки до&nbsp;сети — если кухня с&nbsp;циклом до&nbsp;30&nbsp;минут и&nbsp;есть доставка.</p>
+        </div>
+        <div class="app-audience">
+          <article class="app-audience__card">
+            <p class="app-audience__pain">Заказы есть, но&nbsp;маржа уходит в&nbsp;комиссии, операторы и&nbsp;ручную обработку.</p>
+            <h3 class="g2-h3">Упёрлись в&nbsp;рост и&nbsp;агрегаторы</h3>
+            <p class="app-audience__who">Владелец 1–5 точек, пицца / роллы / wok</p>
+          </article>
+          <article class="app-audience__card">
+            <p class="app-audience__pain">Своя курьерская служба, несколько потоков, 200+ заказов в&nbsp;день — связка уже не&nbsp;справляется.</p>
+            <h3 class="g2-h3">Система ломается на&nbsp;масштабе</h3>
+            <p class="app-audience__who">Растущая сеть 6–30 точек</p>
+          </article>
+          <article class="app-audience__card">
+            <p class="app-audience__pain">Нужно открывать точки и&nbsp;держать стандарты без хаоса в&nbsp;процессах.</p>
+            <h3 class="g2-h3">Нужен управляемый масштаб</h3>
+            <p class="app-audience__who">Сеть и&nbsp;франшиза</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="g2-section" id="market">
+      <span class="g2-gridlines g2-gridlines--edges" aria-hidden="true"></span>
+      <div class="g2-container">
+        <div class="g2-result-head">
+          <div class="g2-section-head g2-section-head--bar" style="margin-bottom:0">
+            <h2 class="g2-h1">Результат, который опережает рынок</h2>
+          </div>
+          <p class="g2-result__note">+29% рост выручки клиентов год к&nbsp;году. На&nbsp;7,1% выше рыночного показателя.</p>
+        </div>
+        <div class="app-market">
+          <div class="app-market__item">
+            <b>+21%</b>
+            <span>Средний рост выручки по&nbsp;рынку (РБК)</span>
+          </div>
+          <div class="app-market__item">
+            <b class="is-cyan">+7,1%</b>
+            <span>Выше рынка с&nbsp;Goulash.tech</span>
+          </div>
+          <div class="app-market__item">
+            <b class="is-cyan">+29%</b>
+            <span>Рост выручки клиентов Goulash год к&nbsp;году</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="g2-section g2-section--dark g2-section--flush" id="numbers">
+      <span class="g2-gridlines" aria-hidden="true"></span>
+      <div class="g2-band" id="stats">
+        <div class="g2-container">
+          <div class="g2-stats">
+            <div class="g2-stats__title">
+              <div class="g2-section-head g2-section-head--bar" style="margin-bottom:0">
+                <h2 class="g2-h1">Гуляш<br><span class="g2-stats__pixel">в цифрах</span></h2>
+              </div>
+            </div>
+            <div class="g2-stat">
+              <p class="g2-stat__value" data-count="900" data-suffix="+">0+</p>
+              <p class="g2-stat__label">точек подключено к&nbsp;системе</p>
+            </div>
+            <div class="g2-stat">
+              <p class="g2-stat__value" data-count="1.3" data-decimals="1" data-suffix=" млн+">0 млн+</p>
+              <p class="g2-stat__label">заказов через систему в&nbsp;месяц</p>
+            </div>
+            <div class="g2-stat">
+              <p class="g2-stat__value" data-count="150" data-suffix="+">0+</p>
+              <p class="g2-stat__label">городов с&nbsp;автоматизированной доставкой</p>
+            </div>
+            <div class="g2-stat">
+              <p class="g2-stat__value" data-count="7" data-prefix="от " data-suffix=" дней">от 0 дней</p>
+              <p class="g2-stat__label">минимальная настройка</p>
+            </div>
+            <div class="g2-stat">
+              <p class="g2-stat__value" data-count="4.8" data-decimals="1">0,0</p>
+              <p class="g2-stat__label">средняя оценка пользователей приложения</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="g2-section g2-section--dark" id="kitchens">
+      <span class="g2-gridlines" aria-hidden="true"></span>
+      <div class="g2-container">
+        <div class="g2-kitchens">
+          <h2 class="g2-h1 g2-kitchens__title">Для кого система — а&nbsp;для кого нет</h2>
+          <p class="app-kitchens__lead">Работаем с&nbsp;кухнями, где заказ собирают до&nbsp;30&nbsp;минут: пицца, роллы, бургеры. Стейкхаус или гриль с&nbsp;долгим приготовлением — не&nbsp;наш случай: маршруты и&nbsp;слоты под&nbsp;это не&nbsp;заточены.</p>
+          <ul class="g2-kitchens__list">
+            <li class="g2-kitchen">
+              <span class="g2-kitchen__icon app-kitchen-mark" aria-hidden="true">П</span>
+              <span class="g2-kitchen__label"><span>Пицца</span><span>Паста</span></span>
+            </li>
+            <li class="g2-kitchen">
+              <span class="g2-kitchen__icon app-kitchen-mark" aria-hidden="true">Р</span>
+              <span class="g2-kitchen__label"><span>Роллы</span><span>WOK</span></span>
+            </li>
+            <li class="g2-kitchen">
+              <span class="g2-kitchen__icon app-kitchen-mark" aria-hidden="true">Б</span>
+              <span class="g2-kitchen__label"><span>Бургеры</span><span>Шаурма</span></span>
+            </li>
+            <li class="g2-kitchen">
+              <span class="g2-kitchen__icon app-kitchen-mark" aria-hidden="true">С</span>
+              <span class="g2-kitchen__label"><span>Супы</span><span>Салаты</span></span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="g2-section g2-section--dark" id="cases">
+      <span class="g2-gridlines" aria-hidden="true"></span>
+      <div class="g2-container">
+        <div class="app-quotes-head">
+          <div class="g2-section-head g2-section-head--bar" style="margin-bottom:0">
+            <h2 class="g2-h1">Что говорят клиенты</h2>
+          </div>
+          <div class="app-quotes-nav">
+            <button type="button" class="g2-iconbtn" data-quotes-dir="-1" aria-label="Предыдущая цитата">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+            </button>
+            <button type="button" class="g2-iconbtn" data-quotes-dir="1" aria-label="Следующая цитата">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="app-quotes" id="quotes-track" tabindex="0" aria-label="Отзывы клиентов, листайте горизонтально">
+        <figure class="app-quote">
+          <p class="app-quote__metric">+40% заказов</p>
+          <blockquote>«Собственное приложение за&nbsp;год увеличило количество заказов через него на&nbsp;40%»</blockquote>
+          <figcaption>Владимир Расторгуев, СушиСелл</figcaption>
+        </figure>
+        <figure class="app-quote">
+          <p class="app-quote__metric">×3 выручка</p>
+          <blockquote>«Оборот компании за&nbsp;год вырос в&nbsp;3&nbsp;раза благодаря маршрутизации. Сократили время доставки»</blockquote>
+          <figcaption>Дмитрий Инякин, Неместные</figcaption>
+        </figure>
+        <figure class="app-quote">
+          <p class="app-quote__metric">−17% расходов</p>
+          <blockquote>«Я&nbsp;тушила пожары каждый день, но&nbsp;не&nbsp;понимала, где теряю деньги»</blockquote>
+          <figcaption>Регина Васина, Сайори</figcaption>
+        </figure>
+        <figure class="app-quote">
+          <p class="app-quote__metric">Логистика</p>
+          <blockquote>«Автораспределение курьеров убрало звонки диспетчера. Расходы на&nbsp;логистику снизились в&nbsp;первый месяц»</blockquote>
+          <figcaption>Виктория Беляйкина, Суши Шеф</figcaption>
+        </figure>
+        <figure class="app-quote">
+          <p class="app-quote__metric">Стратегия</p>
+          <blockquote>«При выборе платформы смотрели, как она влияет на&nbsp;стратегию. Нужна система, которая позволяет расти»</blockquote>
+          <figcaption>Владимир Расторгуев, СушиСелл</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="g2-section g2-connect" id="cta">
+      <div class="g2-connect__glow" aria-hidden="true"></div>
+      <div class="g2-container g2-connect__inner app-connect-simple">
+        <h2 class="g2-h1 g2-connect__title">Больше заказов, быстрее доставка, выше возвращаемость гостей</h2>
+        <div>
+          <p class="g2-t2" style="margin-bottom:24px;color:var(--g-od-secondary)">Подключение от&nbsp;7&nbsp;дней. Агрегаторы остаются в&nbsp;контуре — повторных ведём к&nbsp;вам.</p>
+          <a class="g2-btn g2-btn--cyan g2-btn--lg" href="#connect">
+            Обсудить за 15&nbsp;минут
+            <svg class="g2-icon g2-btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="g2-section g2-section--soft g2-section--clip" id="faq">
+      <span class="g2-gridlines g2-gridlines--edges" aria-hidden="true"></span>
+      <div class="g2-container g2-faq">
+        <div class="g2-section-head g2-section-head--bar" style="margin-bottom:0">
+          <h2 class="g2-h1">Вопросы<br>и ответы</h2>
+        </div>
+        <div>
+          <p class="g2-t2 g2-faq__caption">Отвечаем на самые популярные вопросы</p>
+          <div class="g2-accordion" data-g2-accordion>
+            <div class="g2-accordion__item is-open">
+              <button class="g2-accordion__head" type="button" aria-expanded="true" aria-controls="g2-faq-0">
+                <span>Надо ли уходить с&nbsp;агрегаторов?</span>
+                <span class="g2-accordion__sign" aria-hidden="true"></span>
+              </button>
+              <div class="g2-accordion__body" id="g2-faq-0">
+                <div><p class="g2-accordion__text">Нет. Новые гости могут приходить оттуда. Заказы попадают в&nbsp;общий контур, повторные можно вести на&nbsp;свой сайт — уже без комиссии площадки.</p></div>
+              </div>
+            </div>
+            <div class="g2-accordion__item">
+              <button class="g2-accordion__head" type="button" aria-expanded="false" aria-controls="g2-faq-1">
+                <span>Сколько стоит подключение?</span>
+                <span class="g2-accordion__sign" aria-hidden="true"></span>
+              </button>
+              <div class="g2-accordion__body" id="g2-faq-1">
+                <div><p class="g2-accordion__text">Тариф зависит от&nbsp;числа точек и&nbsp;набора модулей. На&nbsp;звонке посчитаем под вашу схему — фиксированной «цены с&nbsp;сайта» нет, чтобы не&nbsp;обещать чужой конфигурации.</p></div>
+              </div>
+            </div>
+            <div class="g2-accordion__item">
+              <button class="g2-accordion__head" type="button" aria-expanded="false" aria-controls="g2-faq-2">
+                <span>Сколько времени занимает подключение?</span>
+                <span class="g2-accordion__sign" aria-hidden="true"></span>
+              </button>
+              <div class="g2-accordion__body" id="g2-faq-2">
+                <div><p class="g2-accordion__text">Минимальная настройка — от&nbsp;7&nbsp;дней. Полный переход сети в&nbsp;среднем около 21&nbsp;дня, зависит от&nbsp;кассы и&nbsp;числа точек.</p></div>
+              </div>
+            </div>
+            <div class="g2-accordion__item">
+              <button class="g2-accordion__head" type="button" aria-expanded="false" aria-controls="g2-faq-3">
+                <span>Есть ли интеграция с&nbsp;агрегаторами?</span>
+                <span class="g2-accordion__sign" aria-hidden="true"></span>
+              </button>
+              <div class="g2-accordion__body" id="g2-faq-3">
+                <div><p class="g2-accordion__text">Да. Заказы из&nbsp;агрегаторов видит кухня, они в&nbsp;стоп-листах и&nbsp;аналитике, курьеры — в&nbsp;одном контуре.</p></div>
+              </div>
+            </div>
+            <div class="g2-accordion__item">
+              <button class="g2-accordion__head" type="button" aria-expanded="false" aria-controls="g2-faq-4">
+                <span>Нужно ли гостю скачивать приложение?</span>
+                <span class="g2-accordion__sign" aria-hidden="true"></span>
+              </button>
+              <div class="g2-accordion__body" id="g2-faq-4">
+                <div><p class="g2-accordion__text">Нет. Заказ можно оформить на&nbsp;сайте, у&nbsp;оператора или через агрегатор. Приложение даёт пуш и&nbsp;бонусы.</p></div>
+              </div>
+            </div>
+            <div class="g2-accordion__item">
+              <button class="g2-accordion__head" type="button" aria-expanded="false" aria-controls="g2-faq-5">
+                <span>Как работает поддержка?</span>
+                <span class="g2-accordion__sign" aria-hidden="true"></span>
+              </button>
+              <div class="g2-accordion__body" id="g2-faq-5">
+                <div><p class="g2-accordion__text">За&nbsp;клиентом закреплён менеджер. Режим — по&nbsp;тарифу, вплоть до&nbsp;24/7.</p></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="g2-section g2-section--dark" id="calc">
+      <span class="g2-gridlines" aria-hidden="true"></span>
+      <div class="g2-container">
+        <div class="app-calc-top">
+          <div class="g2-section-head g2-section-head--bar" style="margin-bottom:0">
+            <h2 class="g2-h1">Сколько уходит агрегаторам на&nbsp;ваших цифрах</h2>
+            <p class="g2-section-head__sub">Подставьте заказы и&nbsp;чек. Это модель для разговора, не&nbsp;обещание экономии.</p>
+          </div>
+          <div class="seg seg--compact" role="tablist">
+            <button type="button" class="is-on" data-hero-channel="aggregator">Агрегатор</button>
+            <button type="button" data-hero-channel="own">Свой канал</button>
+          </div>
+        </div>
+        <div class="calc-block">
+          <form id="calc-form" class="calc-form">
+            <label>Заказов в&nbsp;день <input type="number" id="calc-orders" min="10" max="400" value="80" /></label>
+            <label>Средний чек, ₽ <input type="number" id="calc-check" min="200" max="3000" step="10" value="850" /></label>
+            <label class="calc-form__range">Доля агрегатора <span id="calc-share-val">70%</span>
+              <input type="range" id="calc-share" min="20" max="95" value="70" />
+            </label>
+          </form>
+          <div class="calc-out">
+            <div>
+              <div class="stat-k">Комиссия / мес.</div>
+              <div class="stat-v warn is-tick" id="calc-fee" data-money>428 400 ₽</div>
+            </div>
+            <div>
+              <div class="stat-k" id="calc-keep-label">Остаётся точке</div>
+              <div class="stat-v cyan is-tick" id="calc-save" data-money>1 611 600 ₽</div>
+            </div>
+          </div>
+          <p class="stat-note" id="hero-note">Считаем комиссию площадки как 30% от&nbsp;оборота в&nbsp;агрегаторе. В&nbsp;своём канале комиссия площадки =&nbsp;0&nbsp;₽.</p>
+          <span class="visually-hidden" id="hero-mode-label">агрегатор</span>
+          <div class="visually-hidden">
+            <span id="hero-fee">0</span>
+            <span id="hero-keep">0</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="g2-section g2-section--soft" id="connect">
+      <span class="g2-gridlines g2-gridlines--edges" aria-hidden="true"></span>
+      <div class="g2-container">
+        <div class="app-lead">
+          <div class="g2-section-head g2-section-head--bar">
+            <h2 class="g2-h1">Обсудим подключение к&nbsp;вашей точке</h2>
+            <p class="g2-section-head__sub">Заявка уходит на&nbsp;info@goulash.tech. Перезвоним в&nbsp;рабочий день. Срочно: <a href="tel:+74958683608">+7&nbsp;495&nbsp;868-36-08</a>.</p>
+          </div>
+          <div class="lead-panel" id="lead">
+            <form id="lead-form" novalidate>
+              <label>Имя <input type="text" name="name" autocomplete="name" required /><span class="err" data-err="name"></span></label>
+              <label>Телефон <input type="tel" name="phone" autocomplete="tel" placeholder="+7 900 000-00-00" required /><span class="err" data-err="phone"></span></label>
+              <label>Город <input type="text" name="city" required /><span class="err" data-err="city"></span></label>
+              <div class="row">
+                <label>Точек <input type="number" name="points" min="1" max="30" required /><span class="err" data-err="points"></span></label>
+                <label>Заказов / день <input type="number" name="orders" min="1" max="500" required /><span class="err" data-err="orders"></span></label>
+              </div>
+              <button type="submit" class="g2-btn g2-btn--cyan g2-btn--block g2-btn--lg">Оставить заявку</button>
+              <p class="form-legal">Нажимая кнопку, вы&nbsp;соглашаетесь на&nbsp;обработку персональных данных и&nbsp;откроете письмо в&nbsp;почтовом клиенте.</p>
+            </form>
+            <div class="form-state" id="form-loading" hidden><span class="spinner"></span> Готовим письмо…</div>
+            <div class="form-state ok" id="form-ok" hidden>
+              <strong>Откройте письмо и&nbsp;нажмите «Отправить».</strong>
+              <p>Если почта не&nbsp;открылась — напишите на&nbsp;<a href="mailto:info@goulash.tech">info@goulash.tech</a> или позвоните <a href="tel:+74958683608">+7&nbsp;495&nbsp;868-36-08</a>.</p>
+            </div>
+            <div class="form-state bad" id="form-bad" hidden>
+              <strong>Не&nbsp;получилось открыть почту.</strong>
+              <p><a href="tel:+74958683608">+7 495 868-36-08</a> · <a href="mailto:info@goulash.tech">info@goulash.tech</a></p>
+              <button type="button" class="g2-btn g2-btn--outline-dark g2-btn--sm" id="form-retry">Ещё раз</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="g2-section g2-section--dark app-footer">
+    <div class="g2-container app-footer__grid">
+      <div>
+        <strong>Goulash.tech</strong>
+        <p>ООО «Мне бы в&nbsp;космос». Екатеринбург, Куйбышева,&nbsp;41</p>
+        <p>Работаем по&nbsp;всей России · 150+ городов</p>
+      </div>
+      <div class="app-footer__links">
+        <a href="tel:+74958683608">+7 495 868-36-08</a>
+        <a href="mailto:info@goulash.tech">info@goulash.tech</a>
+        <a href="https://goulash.tech/" target="_blank" rel="noopener">Официальный сайт</a>
+      </div>
+      <p class="app-footer__tiny">* — средний показатель роста на&nbsp;точку. SaaS-платформа автоматизации ресторанной доставки. ИНН 6678119318.</p>
+    </div>
+  </footer>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

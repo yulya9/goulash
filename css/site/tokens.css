@@ -1,0 +1,369 @@
+/* ==========================================================================
+   Goulash.tech — Design tokens (v2)
+   Единственный источник правды по цвету / типографике / сетке.
+   ========================================================================== */
+
+/* --- Шрифты (v2-страницы не подключают legacy main.css) -------------------- */
+
+@font-face {
+	font-family: "Onest";
+	src: url("../../assets/fonts/Onest-Light.woff") format("woff");
+	font-weight: 300;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Onest";
+	src: url("../../assets/fonts/Onest-Regular.woff") format("woff");
+	font-weight: 400;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Onest";
+	src: url("../../assets/fonts/Onest-Medium.woff") format("woff");
+	font-weight: 500;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Onest";
+	src: url("../../assets/fonts/Onest-Bold.woff") format("woff");
+	font-weight: 700;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Onest";
+	src: url("../../assets/fonts/Onest-ExtraBold.woff") format("woff");
+	font-weight: 800;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Pixeloid Sans";
+	src: url("../../assets/fonts/v2/PixeloidSans.ttf") format("truetype");
+	font-weight: 400;
+	font-style: normal;
+	font-display: swap;
+}
+
+:root {
+	/* --- brand ------------------------------------------------------------ */
+	--g-cyan: #00ffff;
+	--g-cyan-dark: #00d6d6;
+	--g-green: #b1ec52;
+	--g-error: #ff2f2f;
+
+	/* --- surface / dark --------------------------------------------------- */
+	--g-dark-primary: #222222;
+	--g-dark-secondary: #26272c;
+	--g-dark-tertiary: #0a2224;
+	--g-dark-muted: #424242;
+	--g-dark-card: #1b1b1b;
+	--g-dark-primary-70: rgba(34, 34, 34, 0.7);
+
+	/* --- surface / light -------------------------------------------------- */
+	--g-light-primary: #ffffff;
+	--g-light-secondary: #fafafa;
+	--g-light-tertiary: #f8f8f8;
+	--g-light-subtle: #ececec;
+	--g-light-muted: #cdcdcd;
+
+	/* --- text / on dark --------------------------------------------------- */
+	--g-od-primary: #ffffff;
+	--g-od-secondary: #b6bfc9;
+	--g-od-tertiary: #a4a4a4;
+	--g-od-disabled: #505050;
+
+	/* --- text / on light -------------------------------------------------- */
+	--g-ol-primary: #040406;
+	--g-ol-secondary: #424242;
+	--g-ol-tertiary: #797979;
+	--g-ol-muted: #b3b3b3;
+
+	/* --- border ----------------------------------------------------------- */
+	--g-border-dark: #424242;
+	--g-border-light: #ececec;
+	--g-border-on-light: #ececec;
+	--g-border-divider: #797979;
+	--g-border-button: #ffffff;
+	--g-border-situative: #b3b3b3;
+
+	/* декоративная сетка макета (тонкие линии по краям контейнера и между полосами) */
+	--g-line-on-dark: #424242;
+	--g-line-on-light: #ECECEC;
+
+	/* --- radius ----------------------------------------------------------- */
+	--g-r-xs: 4px;
+	--g-r-sm: 8px;
+	--g-r-md: 12px;
+	--g-r-lg: 16px;
+	--g-r-xl: 24px;
+	--g-r-2xl: 32px;
+	--g-r-pill: 100px;
+	--g-r-btn: 8px; /* Figma: Button / Radius 8 */
+
+	/* --- layout ----------------------------------------------------------- */
+	--g-container: 1400px;
+	--g-gutter: 40px;
+	--g-section-py: 120px;
+	--g-header-h: 88px;
+
+	/* --- typography ------------------------------------------------------- */
+	--g-font: "Onest", "Helvetica Neue", Arial, sans-serif;
+	--g-font-pixel: "Pixeloid Sans", "Onest", sans-serif;
+
+	/* заголовки */
+	--g-h0-size: 64px;
+	--g-h0-lh: 100%;
+	--g-h1-size: 48px;
+	--g-h1-lh: 110%;
+	--g-h2-size: 40px;
+	--g-h2-lh: 115%;
+	--g-h3-size: 32px;
+	--g-h3-lh: 100%;
+	--g-h4-size: 28px;
+	--g-h4-lh: 125%;
+	--g-sh1-size: 20px;
+	--g-sh1-lh: 110%;
+
+	/* текст */
+	--g-t1-size: 32px;
+	--g-t1-lh: 110%;
+	--g-t2-size: 20px;
+	--g-t2-lh: 135%;
+	--g-t3-size: 18px;
+	--g-t3-lh: 125%;
+	--g-t4-size: 16px;
+	--g-t4-lh: 125%;
+	--g-t5-size: 14px;
+	--g-t5-lh: 125%;
+	--g-t6-size: 12px;
+	--g-t6-lh: 125%;
+
+	/* кнопки */
+	--g-btn-link-size: 14px;
+	--g-btn-link-lh: 130%;
+	--g-btn-sm-size: 14px;
+	--g-btn-md-size: 16px;
+	--g-btn-lg-size: 18px;
+
+	/* --- motion ----------------------------------------------------------- */
+	--g-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+	--g-dur: 0.2s;
+}
+
+/* Планшет */
+@media (max-width: 1279px) {
+	:root {
+		--g-gutter: 32px;
+		--g-section-py: 88px;
+		--g-container: 1024px;
+
+		--g-h0-size: 52px;
+		--g-h1-size: 40px;
+		--g-h2-size: 34px;
+		--g-h3-size: 28px;
+		--g-h4-size: 24px;
+		--g-t1-size: 28px;
+	}
+}
+
+/* Мобильный — значения из макета (typography / mobile) */
+@media (max-width: 767px) {
+	:root {
+		--g-gutter: 16px;
+		--g-section-py: 48px;
+		/* Figma «Мобилка»: высота шапки 56 */
+		--g-header-h: 56px;
+
+		--g-h0-size: 40px;
+		--g-h0-lh: 100%;
+		--g-h1-size: 28px;
+		--g-h1-lh: 125%;
+		--g-h2-size: 28px;
+		--g-h2-lh: 115%;
+		--g-h3-size: 20px;
+		--g-h3-lh: 120%;
+		--g-h4-size: 20px;
+		--g-sh1-size: 18px;
+
+		--g-t1-size: 24px;
+		--g-t1-lh: 110%;
+		--g-t2-size: 18px;
+		--g-t2-lh: 135%;
+		--g-t3-size: 16px;
+		--g-t4-size: 14px;
+		--g-t5-size: 12px;
+		--g-t5-lh: 130%;
+		--g-t6-size: 12px;
+	}
+}
+
+/* ==========================================================================
+   Локальный reset — действует только внутри v2-страниц (.g2)
+   ========================================================================== */
+
+.g2 *,
+.g2 *::before,
+.g2 *::after {
+	box-sizing: border-box;
+}
+
+.g2 {
+	font-family: var(--g-font);
+	font-size: var(--g-t4-size);
+	line-height: var(--g-t4-lh);
+	font-weight: 400;
+	color: var(--g-ol-primary);
+	background: var(--g-light-primary);
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+/* ВАЖНО: reset обёрнут в :where() — он даёт нулевую специфичность.
+   Без этого `.g2 button` (0,1,1) перебивал классы компонентов (0,1,0):
+   у .g2-btn пропадали отступы, а `.g2 a { color: inherit }` красил
+   текст белой кнопки в белый. */
+
+:where(
+		.g2 h1,
+		.g2 h2,
+		.g2 h3,
+		.g2 h4,
+		.g2 h5,
+		.g2 h6,
+		.g2 p,
+		.g2 figure,
+		.g2 blockquote,
+		.g2 ul,
+		.g2 ol,
+		.g2 dl
+	) {
+	margin: 0;
+	padding: 0;
+}
+
+:where(.g2 ul, .g2 ol) {
+	list-style: none;
+}
+
+:where(.g2 img, .g2 svg, .g2 picture, .g2 video) {
+	display: block;
+	max-width: 100%;
+}
+
+:where(.g2 img) {
+	height: auto;
+}
+
+:where(.g2 a) {
+	color: inherit;
+	text-decoration: none;
+}
+
+:where(.g2 button, .g2 input, .g2 textarea, .g2 select) {
+	font: inherit;
+	color: inherit;
+}
+
+:where(.g2 button) {
+	background: none;
+	border: 0;
+	padding: 0;
+	cursor: pointer;
+}
+
+.g2 :focus-visible:not(.g2-input):not(.g2-textarea):not(.wpcf7-text):not(.wpcf7-tel):not(.wpcf7-number):not(.wpcf7-email) {
+	outline: 2px solid var(--g-cyan);
+	outline-offset: 3px;
+	border-radius: var(--g-r-xs);
+}
+
+/* ==========================================================================
+   Типографические утилиты (соответствуют макету typography)
+   ========================================================================== */
+
+.g2-h0 {
+	font-size: var(--g-h0-size);
+	line-height: var(--g-h0-lh);
+	font-weight: 400;
+}
+.g2-h1 {
+	font-size: var(--g-h1-size);
+	line-height: var(--g-h1-lh);
+	font-weight: 400;
+}
+.g2-h2 {
+	font-size: var(--g-h2-size);
+	line-height: var(--g-h2-lh);
+	font-weight: 400;
+	letter-spacing: -0.01em;
+}
+.g2-h3 {
+	font-size: var(--g-h3-size);
+	line-height: var(--g-h3-lh);
+	font-weight: 400;
+}
+.g2-h4 {
+	font-size: var(--g-h4-size);
+	line-height: var(--g-h4-lh);
+	font-weight: 400;
+}
+.g2-sh1 {
+	font-size: var(--g-sh1-size);
+	line-height: var(--g-sh1-lh);
+	font-weight: 400;
+}
+
+.g2-t1 {
+	font-size: var(--g-t1-size);
+	line-height: var(--g-t1-lh);
+	font-weight: 700;
+}
+.g2-t2 {
+	font-size: var(--g-t2-size);
+	line-height: var(--g-t2-lh);
+}
+.g2-t3 {
+	font-size: var(--g-t3-size);
+	line-height: var(--g-t3-lh);
+}
+.g2-t4 {
+	font-size: var(--g-t4-size);
+	line-height: var(--g-t4-lh);
+}
+.g2-t5 {
+	font-size: var(--g-t5-size);
+	line-height: var(--g-t5-lh);
+}
+.g2-t6 {
+	font-size: var(--g-t6-size);
+	line-height: var(--g-t6-lh);
+}
+
+/* цветовые утилиты */
+.g2-c-cyan {
+	color: var(--g-cyan);
+}
+.g2-c-green {
+	color: var(--g-green);
+}
+.g2-c-od-2 {
+	color: var(--g-od-secondary);
+}
+.g2-c-od-3 {
+	color: var(--g-od-tertiary);
+}
+.g2-c-ol-2 {
+	color: var(--g-ol-secondary);
+}
+.g2-c-ol-3 {
+	color: var(--g-ol-tertiary);
+}
