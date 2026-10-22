@@ -1053,3 +1053,5 @@ input.is-invalid {
 @media (prefers-reduced-motion: reduce) { .circuit .cb-pulse { animation: none; stroke-dasharray: 7 93; stroke-dashoffset: -45; } .circuit .cb-node { animation: none; } }
 @media (max-width: 1023px) { .g2-hero__media .circuit { height: auto; max-height: 420px; } }
 @media (max-width: 768px) { .g2-hero__media { position: relative; top: auto; right: auto; width: 100%; height: auto; } .g2-hero__media .circuit { max-height: 360px; } }
+/* схема уже картинки: не заходит под заголовок */
+@media (min-width: 1024px) { .g2-hero__media { width: 600px; max-width: 46%; } }
