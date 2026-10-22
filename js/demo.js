@@ -738,11 +738,12 @@
   // окно как экран ПК: размер фиксирован, на узких экранах масштабируется целиком
   const stage = $("gp-stage");
   function fit() {
-    const w = stage.clientWidth;
-    const k = Math.min(1, w / 1200);
+    const avail = stage.parentElement.clientWidth;
+    const k = Math.min(1, avail / 1200);
     root.style.transform = `scale(${k})`;
-    root.style.left = Math.max(0, (w - 1200 * k) / 2) + "px";
+    stage.style.width = 1200 * k + "px";
     stage.style.height = 760 * k + "px";
+    stage.style.marginInline = "auto";
   }
   fit();
   window.addEventListener("resize", fit);
