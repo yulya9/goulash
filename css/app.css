@@ -1254,3 +1254,7 @@ input.is-invalid {
 
 /* Тёмная кнопка: при наведении стрелка только сдвигается, цвет не меняется */
 .g2-btn--dark:hover .g2-btn__icon { color: inherit; }
+
+/* Отзывы: фото клиента в круге, без фото — инициалы */
+.g2-case__avatar { object-fit: cover; object-position: 40% 22%; }
+.g2-case__avatar--mono { display: grid; place-items: center; border: 1px solid var(--g-border-dark); background: rgba(255, 255, 255, 0.06); color: var(--g-od-secondary); font-size: var(--g-t5-size); line-height: 1; }
