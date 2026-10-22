@@ -1360,3 +1360,11 @@ html.rv-on .rv--fade.is-in { animation-name: rvFade; animation-duration: 1.2s; }
 
 /* «Откуда берётся рост»: воздух над заголовком больше, чем между заголовком и карточками (закон близости) */
 @media (min-width: 769px) { #sources.g2-section { padding-top: 112px; } }
+
+/* Партнёры: бегущая лента на всех экранах вместо сетки */
+#partners.g2-section { padding-block: 0; }
+#partners .g2-partners-mobile { display: block; padding-block: 56px; }
+#partners .g2-partners-desktop { display: none; }
+#partners .g2-partners__logo { max-height: 32px; filter: grayscale(100%); opacity: 0.55; }
+#partners .g2-marquee { -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
+@media (max-width: 767px) { #partners .g2-partners-mobile { padding-block: 40px; } }
