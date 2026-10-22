@@ -1350,3 +1350,5 @@ html.rv-on .rv--fade.is-in { animation-name: rvFade; animation-duration: 1.2s; }
 
 /* Метка кейса: обычный регистр, нейтральный цвет */
 .sc__tag { text-transform: none !important; letter-spacing: normal !important; color: var(--g-od-tertiary) !important; font-size: var(--g-t4-size) !important; font-weight: 400 !important; }
+
+.sc__tag strong { font-weight: 500; color: var(--g-od-primary); }
