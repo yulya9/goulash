@@ -1357,3 +1357,6 @@ html.rv-on .rv--fade.is-in { animation-name: rvFade; animation-duration: 1.2s; }
 /* «Как начать»: кнопка по центру блока */
 .steps__cta { display: flex; justify-content: center; }
 .sc-actions { justify-content: center; }
+
+/* «Откуда берётся рост»: воздух над заголовком больше, чем между заголовком и карточками (закон близости) */
+@media (min-width: 769px) { #sources.g2-section { padding-top: 112px; } }
