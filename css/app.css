@@ -1059,3 +1059,6 @@ input.is-invalid {
 .g2-form input.g2-input { background: var(--g-dark-card); color: var(--g-od-primary); border: 1px solid var(--g-border-situative); border-radius: 12px; padding: 14px 20px; min-height: 52px; font-size: var(--g-t4-size); line-height: var(--g-t4-lh); }
 .g2-form input.g2-input:focus, .g2-form input.g2-input:focus-visible { border-color: var(--g-border-on-light); background: var(--g-dark-card); outline: none; }
 .g2-form input.g2-input.wpcf7-not-valid { border-color: var(--g-error); }
+/* Фон формы: свечение слева, как на оригинале */
+.g2-connect__glow { background-image: url("../assets/img/cta-bg.png"); }
+@media (max-width: 768px) { .g2-connect__glow { background-image: url("../assets/img/cta-bg-mobile.png"); } }
