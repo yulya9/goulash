@@ -49,9 +49,6 @@ function animateMoney(el, from, to, key, duration = 520) {
   requestAnimationFrame(frame);
 }
 
-// Условия из публичного договора goulash.tech (раздел «Тарифы» и «Внедрение»).
-const TARIFF = { rate: 0.01, minMonth: 40000, setupFrom: 31500 };
-
 state.shift = 10;
 state.method = "phone";
 state.calc = null;
@@ -100,35 +97,15 @@ function computeCalc(c) {
   const agg = turnover * c.share;
   const fee = agg * c.comm;
   const saved = agg * c.shift * c.comm;
-  const license = Math.max(turnover * TARIFF.rate, TARIFF.minMonth);
-  const net = saved - license - c.extra;
-  const perOrderSaved = c.check * c.days * c.share * c.comm * c.shift;
-  const perOrderLicense = c.check * c.days * TARIFF.rate;
-  const breakeven =
-    perOrderSaved > perOrderLicense ? Math.ceil((TARIFF.minMonth + c.extra) / perOrderSaved) : null;
-  return { turnover, fee, saved, license, net, breakeven };
+  const net = saved;
+  return { turnover, fee, saved, net };
 }
 
-function verdictFor(r, c) {
-  const cost = r.license + c.extra;
-  if (r.net >= cost * 0.25) {
-    return {
-      key: "ok",
-      title: "Экономия покрывает лицензию с запасом",
-      why: `Возврат ${state.shift}% заказов из агрегаторов покрывает лицензию с запасом.`,
-    };
-  }
-  if (r.saved >= cost * 0.85) {
-    return {
-      key: "edge",
-      title: "На границе: экономия почти равна затратам",
-      why: "Экономия примерно равна затратам, запаса нет. Всё решает, сколько гостей реально придёт в свой канал.",
-    };
-  }
+function verdictFor(r) {
   return {
-    key: "no",
-    title: "При выбранном сценарии экономия не покрывает стоимость лицензии",
-    why: "Минимальная лицензия 40 000 ₽ в месяц выше возвращаемой комиссии. Для такого объёма Гуляш пока дороже эффекта.",
+    key: "ok",
+    title: `За год это около ${rub(r.saved * 12)} комиссии, которая остаётся у вас`,
+    why: `Возврат ${state.shift}% заказов из агрегаторов экономит комиссию.`,
   };
 }
 
@@ -153,13 +130,12 @@ function updateCalc() {
   const r = computeCalc(c);
   state.calc = { c, r };
 
-  const v = verdictFor(r, c);
+  const v = verdictFor(r);
   res.dataset.verdict = v.key;
   setText("calc-verdict", v.title);
 
   const netEl = document.getElementById("calc-net");
-  const sign = r.net < 0 ? "−" : "+";
-  netEl.textContent = `${sign}${rub(Math.abs(r.net))}`;
+  netEl.textContent = `+${rub(r.net)}`;
   flash(netEl);
 
   const lossEl = document.getElementById("hero-loss");
@@ -180,9 +156,8 @@ function refreshAttach() {
     return;
   }
   const { c, r } = state.calc;
-  const sign = r.net < 0 ? "−" : "+";
   el.hidden = false;
-  el.textContent = `К заявке приложим ваш расчёт: ${c.orders} заказов в день, чек ${rub(c.check)}, переход ${state.shift}%, итог ${sign}${rub(Math.abs(r.net))} в месяц.`;
+  el.textContent = `К заявке приложим ваш расчёт: ${c.orders} заказов в день, чек ${rub(c.check)}, переход ${state.shift}%, вернётся комиссии около ${rub(r.net)} в месяц.`;
 }
 
 function digits(phone) {
