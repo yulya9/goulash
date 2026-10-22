@@ -747,6 +747,55 @@
   fit();
   window.addEventListener("resize", fit);
 
+
+  // курсор «Click»: стрелка и капсула следуют за мышью, только над окном демо
+  (function initCursor() {
+    if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+    const wrap = document.createElement("div");
+    wrap.className = "gp-cur";
+    wrap.setAttribute("aria-hidden", "true");
+    wrap.innerHTML = '<div class="gp-cur__arrow"><svg viewBox="0 0 18 22" fill="none"><path d="M2 1.5v15.2l4.2-3.9 3 6.9 2.6-1.2-3-6.7 5.7-.3z" fill="#173D3B" stroke="#fff" stroke-width="1.1" stroke-linejoin="round"/></svg></div><div class="gp-cur__cap"><i>Click</i></div>';
+    document.body.appendChild(wrap);
+    const arrow = wrap.querySelector(".gp-cur__arrow");
+    const cap = wrap.querySelector(".gp-cur__cap");
+    root.classList.add("has-cursor");
+    const target = { x: 0, y: 0 };
+    const a = { x: 0, y: 0 };
+    const c = { x: 0, y: 0 };
+    let shown = false, raf = 0;
+    const kA = reduceMotion ? 1 : 0.45;
+    const kC = reduceMotion ? 1 : 0.2;
+    function frame() {
+      a.x += (target.x - a.x) * kA; a.y += (target.y - a.y) * kA;
+      c.x += (target.x - c.x) * kC; c.y += (target.y - c.y) * kC;
+      arrow.style.transform = `translate(${a.x}px, ${a.y}px)`;
+      cap.style.transform = `translate(${c.x + 14}px, ${c.y + 18}px)`;
+      const still = Math.abs(target.x - c.x) < 0.1 && Math.abs(target.y - c.y) < 0.1;
+      raf = still ? 0 : requestAnimationFrame(frame);
+    }
+    function move(e) {
+      target.x = e.clientX; target.y = e.clientY;
+      const text = e.target.closest && e.target.closest('input[type="search"], input[type="text"], input[type="tel"], input[type="number"], textarea');
+      if (!shown) { a.x = c.x = target.x; a.y = c.y = target.y; }
+      wrap.classList.toggle("is-on", !text);
+      shown = true;
+      if (!raf) raf = requestAnimationFrame(frame);
+    }
+    function hide() { shown = false; wrap.classList.remove("is-on"); }
+    stage.addEventListener("pointermove", move);
+    stage.addEventListener("pointerenter", move);
+    stage.addEventListener("pointerleave", hide);
+    stage.addEventListener("pointerdown", () => {
+      if (reduceMotion) return;
+      cap.classList.remove("is-press");
+      void cap.offsetWidth;
+      cap.classList.add("is-press");
+    });
+    cap.addEventListener("animationend", () => cap.classList.remove("is-press"), true);
+    window.addEventListener("blur", hide);
+    document.addEventListener("scroll", () => { if (shown) { wrap.classList.remove("is-on"); shown = false; } }, { passive: true });
+  })();
+
   // старт и цикл
   stampUpdate();
   renderAll();
