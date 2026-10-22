@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="css/header.css" />
   <link rel="stylesheet" href="css/home.css" />
   <link rel="stylesheet" href="css/app.css" />
+  <link rel="stylesheet" href="css/demo.css?v=3" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M35.87 0H11.65C5.22 0 0 5.25 0 11.72v24.35C0 42.54 5.22 47.78 11.65 47.78h24.22c6.44 0 11.65-5.25 11.65-11.72V11.72C47.52 5.24 42.3 0 35.87 0z' fill='%2300FFFF'/%3E%3C/svg%3E" />
 </head>
 <body class="g2">
@@ -194,59 +195,114 @@
       <span class="g2-gridlines g2-gridlines--edges" aria-hidden="true"></span>
       <div class="g2-container">
         <div class="g2-section-head g2-section-head--bar">
-          <h2 class="g2-h1">Пятница, 19:40. Заказы, кухня и&nbsp;курьеры в&nbsp;одном окне</h2>
-          <p class="g2-section-head__sub">Переключите фильтр или включите пик — слот и&nbsp;стоп-лист меняются сами. Так администратор видит смену.</p>
+          <h2 class="g2-h1">Так выглядит смена в&nbsp;Goulash</h2>
+          <p class="g2-section-head__sub">Окно живое: заказы приходят и&nbsp;двигаются сами. Откройте заказ, включите фильтр или нажмите «Форс-мажор».</p>
         </div>
-        <div class="demo-app">
-          <div class="demo-toolbar">
-            <div class="tabs" role="tablist">
-              <button type="button" class="tab is-on" data-tab="orders">Заказы</button>
-              <button type="button" class="tab" data-tab="kitchen">Кухня</button>
-              <button type="button" class="tab" data-tab="couriers">Курьеры</button>
-              <button type="button" class="tab" data-tab="guests">Гости</button>
+
+        <div class="gp" id="gp" aria-label="Демо интерфейса Goulash">
+          <aside class="gp__side">
+            <div class="gp__brand">
+              <svg viewBox="0 0 48 48" fill="none" aria-hidden="true"><path d="M35.8708 0H11.6535C5.21774 0 0 5.24615 0 11.7169V36.0662C0 42.5369 5.21774 47.7831 11.6535 47.7831H35.8708C42.3065 47.7831 47.5243 42.5369 47.5243 36.0662V11.7154C47.5243 5.24462 42.3065 0 35.8708 0Z" fill="#00FFFF"/><path d="M15.8418 15.9297H7.92188V31.8558H15.8418V15.9297Z" fill="#040406"/><path d="M31.6827 15.9295V7.96484H15.8413V15.9295H31.6827Z" fill="#040406"/><path d="M15.8413 31.8555V39.8201H31.6827V31.8555H15.8413Z" fill="#040406"/><path d="M39.6031 23.8945H31.6831V31.8576H39.6031V23.8945Z" fill="#040406"/></svg>
+              Goulash.tech
             </div>
-            <label class="switch">
-              <input type="checkbox" id="peak-toggle" />
-              <span>Пик: кухня не&nbsp;справляется</span>
-            </label>
-          </div>
-          <div class="demo-alert" id="peak-alert" hidden>
-            Система сама сдвинула слот на&nbsp;+15&nbsp;мин и&nbsp;убрала «Филадельфию» в&nbsp;стоп. Оператор не&nbsp;нажимал.
-          </div>
-          <div class="demo-screen is-on" data-screen="orders">
-            <div class="filters">
-              <button type="button" class="chip is-on" data-filter="all">Все</button>
-              <button type="button" class="chip" data-filter="yandex">Яндекс</button>
-              <button type="button" class="chip" data-filter="site">Свой сайт</button>
-              <button type="button" class="chip" data-filter="phone">Телефон</button>
-            </div>
-            <div class="kpis">
-              <div><b id="kpi-count">6</b><span>в работе</span></div>
-              <div><b id="kpi-eta">45 мин</b><span>слот доставки</span></div>
-              <div><b id="kpi-own">2</b><span>свой канал</span></div>
-            </div>
-            <ul class="order-list" id="order-list"></ul>
-          </div>
-          <div class="demo-screen" data-screen="kitchen" hidden>
-            <p class="screen-lead">В&nbsp;пике блюдо уходит в&nbsp;стоп само.</p>
-            <ul class="kitchen-list" id="kitchen-list"></ul>
-          </div>
-          <div class="demo-screen" data-screen="couriers" hidden>
-            <p class="screen-lead">Слот вырос — маршрут перестраивается.</p>
-            <ul class="courier-list" id="courier-list"></ul>
-          </div>
-          <div class="demo-screen" data-screen="guests" hidden>
-            <p class="screen-lead">Сегмент получает акцию на&nbsp;ваш сайт, не&nbsp;в&nbsp;ленту агрегатора.</p>
-            <div class="guest-grid">
-              <div class="seg seg--col">
-                <button type="button" class="is-on" data-segment="sleep">Спят 30 дней</button>
-                <button type="button" data-segment="regular">Ходят каждую неделю</button>
-                <button type="button" data-segment="new">Первый заказ с&nbsp;сайта</button>
+            <div class="gp__ip">212.49.110.58</div>
+            <ul class="gp__menu"><li class="is-on"><button type="button" tabindex="-1"><i></i>Главная</button></li><li><button type="button" tabindex="-1"><i></i>Станция кухни</button></li><li><button type="button" tabindex="-1"><i></i>Принять заказ</button></li><li><button type="button" tabindex="-1"><i></i>Принять заказ NEW</button></li><li><button type="button" tabindex="-1"><i></i>Зал</button></li><li><button type="button" tabindex="-1"><i></i>Справочники</button></li><li><button type="button" tabindex="-1"><i></i>Заказы</button></li><li><button type="button" tabindex="-1"><i></i>Пост охраны</button></li><li><button type="button" tabindex="-1"><i></i>Учёт расходов</button></li><li><button type="button" tabindex="-1"><i></i>Учёт выручки</button></li><li><button type="button" tabindex="-1"><i></i>Стоп-лист</button></li><li><button type="button" tabindex="-1"><i></i>Учёт товаров</button></li><li><button type="button" tabindex="-1"><i></i>Закупочные цены</button></li><li><button type="button" tabindex="-1"><i></i>Настройки</button></li><li><button type="button" tabindex="-1"><i></i>Гости</button></li><li><button type="button" tabindex="-1"><i></i>Видео</button></li><li><button type="button" tabindex="-1"><i></i>Чек-листы</button></li></ul>
+          </aside>
+
+          <div class="gp__main">
+            <div class="gp__top">
+              <div class="gp__bar">
+                <button type="button" class="gp__units" id="gp-units" aria-haspopup="listbox" aria-expanded="false">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11l8-7 8 7v9H4z"/></svg>
+                  <span id="gp-unit-name">Все подразделения</span> ▾
+                  <div class="gp__unit-menu" id="gp-unit-menu" role="listbox"></div>
+                </button>
+                <div class="gp__promise"><small>Обещаем гостю</small><strong><span id="gp-promise">35</span><em>мин</em></strong></div>
+                <div class="gp__promise"><small>Расчётное время</small><strong><span id="gp-calc">34</span><em>мин</em></strong></div>
+                <div class="gp__nps"><span>★ NPS</span> <b>▲ 4,74</b></div>
+                <div><b id="gp-cash">115&nbsp;038 ₽</b></div>
               </div>
-              <div class="guest-card" id="guest-card"></div>
+              <div class="gp__user"><div>Администратор<span>с&nbsp;11:17</span></div></div>
+            </div>
+
+            <div class="gp__actions" role="group" aria-label="Действия смены">
+              <button type="button" class="gp__pill" data-act="taxi"><i></i>Такси</button>
+              <button type="button" class="gp__pill" data-act="force" id="gp-force" aria-pressed="false"><i></i>Форс-мажор</button>
+              <button type="button" class="gp__pill" data-act="writeoff"><i></i>Списание с&nbsp;витрины</button>
+              <button type="button" class="gp__pill" data-act="staff"><i></i>Развоз сотрудников</button>
+              <button type="button" class="gp__pill" data-act="close"><i></i>Закрытие смены</button>
+            </div>
+
+            <div class="gp__panels">
+              <div class="gp__stats">
+                <div class="gp__stat">
+                  <h4>Напитки</h4>
+                  <div class="gp__stat-label">Опоздания</div>
+                  <div class="gp__nums"><div><b id="gp-d-late">0</b><span>max</span></div><div class="is-dim"><b>0</b><span>среднее</span></div></div>
+                  <div class="gp__bars"><div class="gp__row"><i></i><div class="gp__cells" data-cells="drinks"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div></div></div>
+                  <div class="gp__facts"><div>Среднее факт. время приготовления <b>14</b></div><div>Лучшее: Широкая гречка <b>12</b></div></div>
+                </div>
+                <div class="gp__stat">
+                  <h4>Кухня</h4>
+                  <div class="gp__stat-label">Опоздания</div>
+                  <div class="gp__nums"><div id="gp-k-box"><b id="gp-k-late">0</b><span>max</span></div><div class="is-dim"><b>0</b><span>среднее</span></div></div>
+                  <div class="gp__bars"><div class="gp__row"><i></i><div class="gp__cells" data-cells="kitchen"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div></div></div>
+                  <div class="gp__facts"><div>Среднее факт. время приготовления <b id="gp-k-avg">12</b></div><div>Лучшее: Шербакова <b>8</b></div></div>
+                </div>
+                <div class="gp__stat">
+                  <h4>Доставка</h4>
+                  <div class="gp__stat-label">Среднее опоздание</div>
+                  <div class="gp__nums"><div><b id="gp-c-all">1</b><span>Все заказы</span></div><div><b>1</b><span>Ближайшие</span></div><div id="gp-c-box"><b id="gp-c-max">2</b><span>max</span></div></div>
+                  <div class="gp__bars">
+                    <div class="gp__row"><i></i><div class="gp__cells" data-cells="walk"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div></div>
+                    <div class="gp__row"><i></i><div class="gp__cells" data-cells="bike"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div></div>
+                    <div class="gp__row"><i></i><div class="gp__cells" data-cells="car"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div></div>
+                  </div>
+                  <div class="gp__facts"><div>Среднее факт. время доставки <b id="gp-c-avg">35</b></div><div>Лучшее: Шербакова <b>33</b></div></div>
+                </div>
+              </div>
+
+              <div class="gp__rev">
+                <div class="gp__plan"><span>Выручка в&nbsp;кассе</span></div>
+                <div class="gp__rev-sum"><span id="gp-rev">1&nbsp;123&nbsp;000 ₽</span><small>▲ 2%</small></div>
+                <div class="gp__plan"><span>План: 2&nbsp;000&nbsp;000 ₽</span><em id="gp-plan">56%</em></div>
+                <div class="gp__meter"><span id="gp-m1" style="background:#e8b33f;width:22%"></span><span id="gp-m2" style="background:#5aa0b8;width:44%"></span><span id="gp-m3" style="background:#7cb342;width:34%"></span></div>
+                <div class="gp__pay">
+                  <div><span><i style="background:#e8b33f"></i>Наличные</span><span>22%</span><b id="gp-p1">247&nbsp;060</b></div>
+                  <div><span><i style="background:#5aa0b8"></i>Безнал</span><span>44%</span><b id="gp-p2">494&nbsp;120</b></div>
+                  <div><span><i style="background:#7cb342"></i>Онлайн</span><span>34%</span><b id="gp-p3">381&nbsp;820</b></div>
+                </div>
+                <div class="gp__total"><span>Всего заказов</span><b id="gp-total">2&nbsp;909</b></div>
+              </div>
+            </div>
+
+            <div class="gp__orders">
+              <div class="gp__orders-head">
+                <span>Текущие заказы — <span id="gp-count">0</span> заказов</span>
+                <span class="gp__badge" id="gp-late-badge">Опаздывает 0</span>
+              </div>
+              <div class="gp__tools">
+                <input class="gp__search" id="gp-search" type="search" inputmode="search" placeholder="Номер заказа или телефон" autocomplete="off" aria-label="Поиск заказа" />
+                <select class="gp__select" id="gp-sort" aria-label="Сортировка">
+                  <option value="new">Сначала новые</option>
+                  <option value="old">Сначала старые</option>
+                </select>
+                <label class="gp__tog"><input type="checkbox" id="gp-only-late" /><span></span>Только опаздывающие</label>
+                <label class="gp__tog"><input type="checkbox" id="gp-only-pre" /><span></span>Только предварительные</label>
+                <div class="gp__upd">Обновлено в&nbsp;<time id="gp-upd">13:57:44</time>
+                  <button type="button" id="gp-refresh" aria-label="Обновить"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12a8 8 0 1 1-2.3-5.7M20 4v4h-4"/></svg></button>
+                </div>
+              </div>
+              <div class="gp__kanban" id="gp-kanban"></div>
             </div>
           </div>
+
+          <div class="gp__drawer" id="gp-drawer" role="dialog" aria-modal="true" aria-label="Карточка заказа">
+            <div class="gp__sheet" id="gp-sheet"></div>
+          </div>
+          <div class="gp__toast" id="gp-toast" role="status" aria-live="polite"></div>
         </div>
+        <p class="gp-note">Демо-данные: заказы, суммы и&nbsp;время выдуманы для&nbsp;примера.</p>
       </div>
     </section>
 
@@ -609,5 +665,6 @@
   </footer>
 
   <script src="js/app.js"></script>
+  <script src="js/demo.js?v=3"></script>
 </body>
 </html>

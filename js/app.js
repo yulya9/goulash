@@ -1,51 +1,8 @@
-const ORDERS = [
-  { id: 1042, channel: "yandex", dish: "Пепперони 30 см", status: "Кухня", eta: "12 мин", sum: "890 ₽" },
-  { id: 1043, channel: "site", dish: "Филадельфия", status: "Курьер", eta: "24 мин", sum: "1 240 ₽" },
-  { id: 1044, channel: "phone", dish: "Wok курица", status: "Новый", eta: "8 мин", sum: "670 ₽" },
-  { id: 1045, channel: "yandex", dish: "Бургер классик", status: "Кухня", eta: "15 мин", sum: "540 ₽" },
-  { id: 1046, channel: "site", dish: "Шаурма XL", status: "Готов", eta: "31 мин", sum: "420 ₽" },
-  { id: 1047, channel: "yandex", dish: "Цезарь ролл", status: "Новый", eta: "6 мин", sum: "510 ₽" },
-];
-
-const CHANNEL_LABEL = { yandex: "Яндекс", site: "Сайт", phone: "Телефон" };
-
-const KITCHEN = [
-  { dish: "Пепперони 30 см", tickets: 4, minutes: 7 },
-  { dish: "Филадельфия", tickets: 3, minutes: 11, stopOnPeak: true },
-  { dish: "Wok курица", tickets: 2, minutes: 5 },
-  { dish: "Бургер классик", tickets: 5, minutes: 4 },
-];
-
-const COURIERS = [
-  { name: "Дима", load: "2 заказа", area: "Центр" },
-  { name: "Оля", load: "1 заказ", area: "Юго-запад" },
-  { name: "Ильяс", load: "свободен", area: "Ленина" },
-];
-
-const GUESTS = {
-  sleep: {
-    title: "Спят 30 дней",
-    n: "184 гостя",
-    text: "Пуш «Ролл в подарок от 1 200 ₽» — на ваш сайт, не в ленту агрегатора.",
-  },
-  regular: {
-    title: "Ходят каждую неделю",
-    n: "96 гостей",
-    text: "Бонус x2 на самовывоз. Им и так дешевле у вас, чем в Яндексе.",
-  },
-  new: {
-    title: "Первый заказ с сайта",
-    n: "41 гость",
-    text: "Второй заказ со скидкой 10% в приложении, чтобы не ушли на площадку.",
-  },
-};
-
 const state = {
-  filter: "all",
-  peak: false,
-  tab: "orders",
-  segment: "sleep",
-  channel: "aggregator",
+  shift: 10,
+  method: "phone",
+  calc: null,
+  calcTouched: false,
   calcFee: 0,
   calcSave: 0,
   calcLic: 0,
@@ -90,98 +47,6 @@ function animateMoney(el, from, to, key, duration = 520) {
     }
   }
   requestAnimationFrame(frame);
-}
-
-function visibleOrders() {
-  return ORDERS.filter((o) => {
-    if (state.peak && o.dish === "Филадельфия") return false;
-    if (state.filter === "all") return true;
-    return o.channel === state.filter;
-  });
-}
-
-function renderOrders() {
-  const list = document.getElementById("order-list");
-  const rows = visibleOrders();
-  list.innerHTML = rows
-    .map(
-      (o) => `<li>
-        <span class="ch ${o.channel}">${CHANNEL_LABEL[o.channel]}</span>
-        <span>${o.dish}</span>
-        <span class="status">${o.status}</span>
-        <span>${state.peak ? "слот 60 мин" : o.eta}</span>
-      </li>`
-    )
-    .join("");
-  document.getElementById("kpi-count").textContent = String(rows.length);
-  document.getElementById("kpi-eta").textContent = state.peak ? "60 мин" : "45 мин";
-  document.getElementById("kpi-own").textContent = String(
-    rows.filter((o) => o.channel === "site" || o.channel === "phone").length
-  );
-}
-
-function renderKitchen() {
-  document.getElementById("kitchen-list").innerHTML = KITCHEN.map((k) => {
-    const stopped = state.peak && k.stopOnPeak;
-    return `<li class="${stopped ? "stopped" : ""}">
-      <span class="ch">${stopped ? "Стоп" : "В работе"}</span>
-      <span>${k.dish}</span>
-      <span class="status">${k.tickets} тикета</span>
-      <span>${stopped ? "снято с меню" : k.minutes + " мин"}</span>
-    </li>`;
-  }).join("");
-}
-
-function renderCouriers() {
-  document.getElementById("courier-list").innerHTML = COURIERS.map((c) => {
-    const load = state.peak && c.name === "Ильяс" ? "забрали слот +15" : c.load;
-    return `<li>
-      <span class="ch">Курьер</span>
-      <span>${c.name}</span>
-      <span class="status">${c.area}</span>
-      <span>${load}</span>
-    </li>`;
-  }).join("");
-}
-
-function renderGuests() {
-  const g = GUESTS[state.segment];
-  document.getElementById("guest-card").innerHTML = `
-    <div class="stat-k">${g.title}</div>
-    <b>${g.n}</b>
-    <p class="screen-lead" style="margin:0">${g.text}</p>
-  `;
-}
-
-function renderPeak() {
-  const alert = document.getElementById("peak-alert");
-  alert.hidden = !state.peak;
-}
-
-function renderDemo() {
-  renderPeak();
-  renderOrders();
-  renderKitchen();
-  renderCouriers();
-  renderGuests();
-}
-
-function showTab(tab) {
-  state.tab = tab;
-  document.querySelectorAll(".tab").forEach((btn) => {
-    const on = btn.dataset.tab === tab;
-    btn.classList.toggle("is-on", on);
-    btn.setAttribute("aria-selected", String(on));
-  });
-  document.querySelectorAll(".demo-screen").forEach((screen) => {
-    const on = screen.dataset.screen === tab;
-    screen.classList.toggle("is-on", on);
-    screen.hidden = !on;
-  });
-  if (tab === "orders") renderOrders();
-  if (tab === "kitchen") renderKitchen();
-  if (tab === "couriers") renderCouriers();
-  if (tab === "guests") renderGuests();
 }
 
 // Условия из публичного договора goulash.tech (раздел «Тарифы» и «Внедрение»).
@@ -417,35 +282,6 @@ async function submitLead(event) {
 }
 
 function bind() {
-  document.querySelectorAll(".tab").forEach((btn) => {
-    btn.addEventListener("click", () => showTab(btn.dataset.tab));
-  });
-
-  document.querySelectorAll("[data-filter]").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      state.filter = btn.dataset.filter;
-      document.querySelectorAll("[data-filter]").forEach((b) => {
-        b.classList.toggle("is-on", b === btn);
-      });
-      renderOrders();
-    });
-  });
-
-  document.getElementById("peak-toggle").addEventListener("change", (e) => {
-    state.peak = e.target.checked;
-    renderDemo();
-  });
-
-  document.querySelectorAll("[data-segment]").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      state.segment = btn.dataset.segment;
-      document.querySelectorAll("[data-segment]").forEach((b) => {
-        b.classList.toggle("is-on", b === btn);
-      });
-      renderGuests();
-    });
-  });
-
   ["calc-orders", "calc-check", "calc-comm", "calc-share"].forEach((id) => {
     document.getElementById(id).addEventListener("input", () => {
       state.calcTouched = true;
@@ -475,7 +311,6 @@ function bind() {
   });
 
   updateCalc();
-  renderDemo();
   bindFaq();
   bindQuotes();
   bindHeaderStuck();
