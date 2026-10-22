@@ -1147,3 +1147,22 @@ input.is-invalid {
 .g2-form .g2-form__submit.is-loading::before { content: ""; display: inline-block; width: 16px; height: 16px; margin-right: 10px; vertical-align: -3px; border: 2px solid rgba(4, 4, 6, 0.25); border-top-color: var(--g-ol-primary); border-radius: 50%; animation: leadSpin 0.7s linear infinite; }
 @keyframes leadSpin { to { transform: rotate(360deg); } }
 @media (prefers-reduced-motion: reduce) { .g2-form .wpcf7-not-valid-tip { animation: none; } .g2-form .g2-form__submit.is-loading::before { animation-duration: 1.6s; } }
+
+/* Как начать работу: четыре шага, между плитками пунктир с бегущим импульсом */
+.steps { list-style: none; margin: 0; padding: 0; position: relative; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; counter-reset: step; }
+.steps::before { content: ""; position: absolute; left: 12%; right: 12%; top: 64px; height: 4px; background-image: radial-gradient(circle, var(--g-ol-muted) 1.3px, transparent 1.7px); background-size: 9px 4px; background-repeat: repeat-x; pointer-events: none; }
+.steps::after { content: ""; position: absolute; left: 12%; top: 62px; width: 64px; height: 8px; border-radius: 4px; background: linear-gradient(90deg, transparent, var(--g-cyan-dark), transparent); animation: stepRun 4.2s linear infinite; pointer-events: none; }
+@keyframes stepRun { 0% { transform: translateX(0); opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { transform: translateX(calc(var(--steps-w, 76vw))); opacity: 0; } }
+.step { position: relative; z-index: 1; gap: 0; padding: 28px; }
+.step__top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 40px; }
+.step__tile { width: 72px; height: 72px; display: grid; place-items: center; border-radius: 18px; background: var(--g-dark-card); border: 1px solid var(--g-border-dark); box-shadow: 0 1px 2px rgba(4, 4, 6, 0.12), 0 6px 14px rgba(4, 4, 6, 0.1); }
+.step__ic { width: 58px; height: 58px; display: block; }
+.step__ic .off { fill: #2b2b2b; }
+.step__ic .on { filter: drop-shadow(0 0 2px currentColor); }
+.step__n { font-size: var(--g-t3-size); line-height: var(--g-t3-lh); color: var(--g-ol-muted); font-variant-numeric: tabular-nums; }
+.step__title { margin: 0 0 8px; font-size: var(--g-t2-size); line-height: var(--g-t2-lh); font-weight: 500; color: var(--g-ol-primary); }
+.step__text { margin: 0; font-size: var(--g-t4-size); line-height: var(--g-t4-lh); color: var(--g-ol-tertiary); }
+.steps__cta { margin-top: 40px; }
+@media (max-width: 1023px) { .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); } .steps::before, .steps::after { display: none; } }
+@media (max-width: 600px) { .steps { grid-template-columns: minmax(0, 1fr); } .step__top { margin-bottom: 24px; } .steps__cta .g2-btn { width: 100%; } }
+@media (prefers-reduced-motion: reduce) { .steps::after { animation: none; display: none; } }
