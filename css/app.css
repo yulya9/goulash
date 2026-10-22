@@ -1147,3 +1147,84 @@ input.is-invalid {
 .g2-form .g2-form__submit.is-loading::before { content: ""; display: inline-block; width: 16px; height: 16px; margin-right: 10px; vertical-align: -3px; border: 2px solid rgba(4, 4, 6, 0.25); border-top-color: var(--g-ol-primary); border-radius: 50%; animation: leadSpin 0.7s linear infinite; }
 @keyframes leadSpin { to { transform: rotate(360deg); } }
 @media (prefers-reduced-motion: reduce) { .g2-form .wpcf7-not-valid-tip { animation: none; } .g2-form .g2-form__submit.is-loading::before { animation-duration: 1.6s; } }
+
+/* Как начать работу: четыре шага, между плитками пунктир с бегущим импульсом */
+.steps { list-style: none; margin: 0; padding: 0 12px; position: relative; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 56px; counter-reset: step; }
+.step { position: relative; z-index: 1; gap: 0; padding: 28px; }
+.step__top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 40px; }
+.step__tile { width: 72px; height: 72px; display: grid; place-items: center; border-radius: 18px; background: var(--g-dark-card); border: 1px solid var(--g-border-dark); box-shadow: 0 1px 2px rgba(4, 4, 6, 0.12), 0 6px 14px rgba(4, 4, 6, 0.1); }
+.step__ic { width: 58px; height: 58px; display: block; }
+.step__ic .off { fill: #2b2b2b; }
+.step__ic .on { filter: drop-shadow(0 0 2px currentColor); }
+.step__n { font-size: var(--g-t3-size); line-height: var(--g-t3-lh); color: var(--g-ol-muted); font-variant-numeric: tabular-nums; }
+.step__title { margin: 0 0 8px; font-size: var(--g-t2-size); line-height: var(--g-t2-lh); font-weight: 500; color: var(--g-ol-primary); }
+.step__text { margin: 0; font-size: var(--g-t4-size); line-height: var(--g-t4-lh); color: var(--g-ol-tertiary); }
+.steps__cta { margin-top: 40px; padding: 0 12px; }
+@media (max-width: 1023px) { .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; } .step::before, .step::after { display: none !important; } }
+@media (max-width: 600px) { .steps { grid-template-columns: minmax(0, 1fr); } .step__top { margin-bottom: 24px; } .steps__cta .g2-btn { width: 100%; } }
+@media (prefers-reduced-motion: reduce) { .step:not(:last-child)::after { animation: none; } }
+
+/* Связь между шагами: пунктирная линия со стрелкой в промежутке между карточками */
+.step:not(:last-child)::before { content: ""; position: absolute; top: 63px; left: calc(100% + 8px); width: 36px; height: 4px; background-image: radial-gradient(circle, var(--g-ol-tertiary) 1.4px, transparent 1.8px); background-size: 9px 4px; background-repeat: repeat-x; }
+.step:not(:last-child)::after { content: ""; position: absolute; top: 59px; left: calc(100% + 40px); width: 10px; height: 10px; border-top: 2.2px solid var(--g-ol-secondary); border-right: 2.2px solid var(--g-ol-secondary); transform: rotate(45deg); animation: stepNudge 1.8s ease-in-out infinite; animation-delay: calc(var(--i) * 0.35s); }
+@keyframes stepNudge { 0%, 100% { margin-left: 0; } 50% { margin-left: 4px; } }
+
+/* Как начать: раскрывающиеся панели (вариант «шторки») */
+.sg { list-style: none; margin: 0; padding: 0 12px; display: flex; gap: 12px; height: 420px; }
+.sg__panel { position: relative; flex: 1 1 0; min-width: 0; border-radius: 20px; overflow: hidden; background: var(--g-dark-card); border: 1px solid var(--g-border-dark); transition: flex-grow 0.55s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.3s; }
+.sg__panel.is-open { flex-grow: 4.2; border-color: #5a5a5a; }
+.sg__panel::before { content: ""; position: absolute; inset: 0; background-image: radial-gradient(circle, rgba(255, 255, 255, 0.07) 1.2px, transparent 1.6px); background-size: 10px 10px; pointer-events: none; }
+.sg__panel::after { content: ""; position: absolute; inset: auto 0 0 0; height: 70%; background: radial-gradient(70% 90% at 30% 100%, rgba(0, 255, 255, 0.16), transparent 70%); opacity: 0; transition: opacity 0.5s; pointer-events: none; }
+.sg__panel.is-open::after { opacity: 1; }
+.sg__btn { position: relative; z-index: 1; display: flex; flex-direction: column; justify-content: space-between; width: 100%; height: 100%; padding: 24px; text-align: left; color: var(--g-od-primary); background: none; border: 0; cursor: pointer; font-family: inherit; }
+.sg__btn:focus-visible { outline: 2px solid var(--g-light-primary); outline-offset: -4px; border-radius: 20px; }
+.sg__top { display: flex; flex-direction: column; align-items: flex-start; gap: 16px; }
+.sg__panel.is-open .sg__top { flex-direction: row; justify-content: space-between; align-items: flex-start; width: 100%; }
+.sg__tile { width: 48px; height: 48px; flex: none; display: grid; place-items: center; border-radius: 14px; background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.14); color: var(--g-od-primary); }
+.sg__panel.is-open .sg__tile { color: var(--g-cyan); border-color: rgba(0, 255, 255, 0.4); }
+.sg__tile svg { width: 24px; height: 24px; }
+.sg__n { font-size: var(--g-t3-size); line-height: var(--g-t3-lh); color: var(--g-od-tertiary); font-variant-numeric: tabular-nums; }
+.sg__vt { position: absolute; left: 24px; bottom: 24px; writing-mode: vertical-rl; transform: rotate(180deg); font-size: var(--g-t2-size); line-height: 1; color: var(--g-od-secondary); white-space: nowrap; transition: opacity 0.25s; }
+.sg__panel.is-open .sg__vt { opacity: 0; }
+.sg__open { display: grid; gap: 8px; max-width: 34ch; opacity: 0; transform: translateY(8px); transition: opacity 0.3s, transform 0.4s; pointer-events: none; }
+.sg__panel.is-open .sg__open { opacity: 1; transform: none; transition-delay: 0.22s; pointer-events: auto; }
+.sg__title { font-size: var(--g-h3-size); line-height: var(--g-h3-lh); color: var(--g-od-primary); }
+.sg__text { font-size: var(--g-t4-size); line-height: 1.45; color: var(--g-od-secondary); }
+@media (max-width: 767px) {
+  .sg { flex-direction: column; height: auto; gap: 8px; }
+  .sg__panel { flex: none; transition: none; }
+  .sg__btn { padding: 16px 20px; gap: 12px; }
+  .sg__top { flex-direction: row; justify-content: space-between; align-items: center; width: 100%; }
+  .sg__vt { position: static; writing-mode: horizontal-tb; transform: none; order: 2; opacity: 1; font-size: var(--g-t3-size); margin-top: -34px; margin-left: 68px; margin-bottom: 4px; }
+  .sg__panel.is-open .sg__vt { opacity: 1; }
+  .sg__open { max-height: 0; overflow: hidden; opacity: 0; transform: none; }
+  .sg__panel.is-open .sg__open { max-height: 160px; opacity: 1; }
+  .sg__title { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { .sg__panel, .sg__panel::after, .sg__open, .sg__vt { transition: none; } }
+
+/* Панели шагов: место под фото, иконки без контура со стеклянным размытием, без цифр */
+.sg__img { position: absolute; inset: 0; background-color: #1b1b1b; background-image: var(--img), linear-gradient(160deg, #26343a 0%, #1b1b1b 70%); background-size: cover, cover; background-position: center, center; filter: grayscale(0.7) brightness(0.55); transform: scale(1.08); transition: filter 0.6s, transform 0.8s cubic-bezier(0.22, 1, 0.36, 1); }
+.sg__panel.is-open .sg__img { filter: none; transform: scale(1); }
+.sg__panel:nth-child(2) .sg__img { background-image: var(--img), linear-gradient(160deg, #3a3326 0%, #1b1b1b 70%); }
+.sg__panel:nth-child(3) .sg__img { background-image: var(--img), linear-gradient(160deg, #2a3a2d 0%, #1b1b1b 70%); }
+.sg__panel:nth-child(4) .sg__img { background-image: var(--img), linear-gradient(160deg, #26343f 0%, #1b1b1b 70%); }
+.sg__panel::before { background-image: linear-gradient(180deg, rgba(10, 10, 12, 0.15) 0%, rgba(10, 10, 12, 0.72) 100%); background-size: auto; z-index: 0; }
+.sg__panel::after { z-index: 0; }
+.sg__tile { border: 0; background: rgba(255, 255, 255, 0.14); -webkit-backdrop-filter: blur(14px) saturate(140%); backdrop-filter: blur(14px) saturate(140%); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18); }
+.sg__panel.is-open .sg__tile { border: 0; color: var(--g-cyan); background: rgba(0, 255, 255, 0.12); }
+.sg__top { align-items: flex-start; }
+@media (prefers-reduced-motion: reduce) { .sg__img { transition: none; } }
+
+/* Панели шагов: на всех брендовый фон с пиксельными точками и зеленовато-бирюзовым свечением (как у формы); фото проявляется в раскрытой поверх него */
+.sg .sg__panel { background-color: #222222; background-image: url("../assets/img/cta-bg.png"); background-repeat: no-repeat; background-size: auto 150%; background-position: left bottom; background-blend-mode: lighten; }
+.sg .sg__panel::before, .sg .sg__panel::after { content: none; }
+.sg .sg__panel:nth-child(n) .sg__img { background-image: var(--img); opacity: 0; filter: none; transform: scale(1.06); transition: opacity 0.6s, transform 0.9s cubic-bezier(0.22, 1, 0.36, 1); z-index: 0; }
+.sg .sg__panel.is-open:nth-child(n) .sg__img { opacity: 1; transform: scale(1); }
+.sg .sg__img::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(10, 10, 12, 0.05) 25%, rgba(10, 10, 12, 0.78) 100%); }
+.sg .sg__btn { z-index: 2; }
+.sg .sg__panel:nth-child(n) .sg__img { background-color: transparent; }
+/* закрытые панели приглушены тёмной вуалью, при наведении чуть светлеют, раскрытая без вуали */
+.sg .sg__panel::before { content: ""; position: absolute; inset: 0; z-index: 1; background: rgba(10, 10, 12, 0.58); opacity: 1; pointer-events: none; transition: opacity 0.5s; }
+.sg .sg__panel:not(.is-open):hover::before { opacity: 0.8; }
+.sg .sg__panel.is-open::before { opacity: 0; }

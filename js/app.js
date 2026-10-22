@@ -469,6 +469,7 @@ function bind() {
   safe(() => bindFaq());
   safe(() => bindQuotes());
   safe(() => bindCasesSlider());
+  safe(() => bindStepsGallery());
   safe(() => bindHeaderStuck());
   safe(() => bindCountUps());
   safe(() => bindReveals());
@@ -518,6 +519,32 @@ function bindCasesSlider() {
     track.classList.remove("is-dragging");
   });
   track.addEventListener("click", (e) => { if (moved) { e.preventDefault(); moved = false; } }, true);
+}
+
+function bindStepsGallery() {
+  const g = document.querySelector("[data-sg]");
+  if (!g) return;
+  const panels = [...g.querySelectorAll(".sg__panel")];
+  const hover = window.matchMedia("(hover: hover) and (min-width: 768px)");
+  function open(p) {
+    panels.forEach((x) => {
+      const on = x === p;
+      x.classList.toggle("is-open", on);
+      x.querySelector(".sg__btn").setAttribute("aria-expanded", String(on));
+    });
+  }
+  panels.forEach((p, i) => {
+    const b = p.querySelector(".sg__btn");
+    p.addEventListener("pointerenter", () => { if (hover.matches) open(p); });
+    b.addEventListener("click", () => open(p));
+    b.addEventListener("focus", () => open(p));
+    b.addEventListener("keydown", (e) => {
+      const d = e.key === "ArrowRight" || e.key === "ArrowDown" ? 1 : e.key === "ArrowLeft" || e.key === "ArrowUp" ? -1 : 0;
+      if (!d) return;
+      e.preventDefault();
+      panels[(i + d + panels.length) % panels.length].querySelector(".sg__btn").focus();
+    });
+  });
 }
 
 function bindReveals() {
