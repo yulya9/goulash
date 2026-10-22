@@ -341,7 +341,7 @@ function openLeadModal(kind, reason) {
   m.dataset.kind = kind;
   document.getElementById("lead-modal-title").textContent = ok ? "Заявка отправлена" : "Не" + NB + "удалось отправить заявку";
   document.getElementById("lead-modal-text").innerHTML = ok
-    ? "Менеджер свяжется с" + NB + "вами по" + NB + "указанному номеру. Остальное обсудим на" + NB + "звонке."
+    ? "Спасибо за" + NB + "интерес к" + NB + "Goulash. Мы" + NB + "свяжемся с" + NB + "вами, чтобы обсудить подключение."
     : FAIL_TEXT[reason] || FAIL_TEXT.other;
   document.getElementById("lead-modal-ok").textContent = ok ? "Понятно" : "Попробовать ещё раз";
   leadModalFocus = document.activeElement;
