@@ -250,6 +250,59 @@
       </div>
     </section>
 
+    <section class="g2-section g2-section--dark" id="calc">
+      <span class="g2-gridlines" aria-hidden="true"></span>
+      <div class="g2-container">
+        <div class="g2-section-head g2-section-head--bar">
+          <h2 class="g2-h1">Сколько вы&nbsp;можете сохранить на&nbsp;заказах</h2>
+          <p class="g2-section-head__sub">Введите свои заказы, чек, долю и&nbsp;комиссию агрегаторов и&nbsp;выберите сценарий: мы&nbsp;посчитаем, сколько останется после лицензии.</p>
+        </div>
+
+        <div class="calcx">
+          <div class="calcx__main">
+            <form id="calc-form" class="calcx__fields" novalidate>
+              <label class="g2-field calcx__field">
+                <span class="calcx__label">Заказов в&nbsp;день</span>
+                <input class="g2-input" type="number" id="calc-orders" inputmode="numeric" min="1" max="1000" value="80" />
+                <span class="err" data-cerr="calc-orders"></span>
+              </label>
+              <label class="g2-field calcx__field">
+                <span class="calcx__label">Средний чек, ₽</span>
+                <input class="g2-input" type="number" id="calc-check" inputmode="numeric" min="100" max="10000" value="850" step="10" />
+                <span class="err" data-cerr="calc-check"></span>
+              </label>
+              <label class="g2-field calcx__field">
+                <span class="calcx__label">Доля заказов через агрегаторы, %</span>
+                <input class="g2-input" type="number" id="calc-share" inputmode="numeric" min="1" max="100" value="70" />
+                <span class="err" data-cerr="calc-share"></span>
+              </label>
+              <label class="g2-field calcx__field">
+                <span class="calcx__label">Комиссия агрегатора, %</span>
+                <input class="g2-input" type="number" id="calc-comm" inputmode="numeric" min="1" max="60" value="30" />
+                <span class="err" data-cerr="calc-comm"></span>
+              </label>
+            </form>
+            <div class="cx__scen">
+              <span class="cx__scen-k">Какая часть заказов из&nbsp;агрегаторов уйдёт в&nbsp;свой канал</span>
+              <div class="cx__opts" role="group" aria-label="Сценарий перехода">
+                <button type="button" class="g2-btn g2-btn--md g2-btn--outline-dark" data-shift="5" aria-pressed="false"><span>5%</span><small>осторожно</small></button>
+                <button type="button" class="g2-btn g2-btn--md g2-btn--outline-dark is-on" data-shift="10" aria-pressed="true"><span>10%</span><small>базово</small></button>
+                <button type="button" class="g2-btn g2-btn--md g2-btn--outline-dark" data-shift="20" aria-pressed="false"><span>20%</span><small>оптимистично</small></button>
+              </div>
+            </div>
+          </div>
+
+          <div class="g2-card calcx__card" id="calc-res" data-verdict="ok" aria-live="polite">
+            <p class="g2-card__label">Предварительная выгода в&nbsp;месяц, после лицензии</p>
+            <p class="g2-card__value calcx__value" id="calc-net">0 ₽</p>
+            <p class="g2-card__caption calcx__caption" id="calc-verdict"></p>
+            <hr class="g2-card__divider" />
+            <a class="g2-btn g2-btn--cyan g2-btn--lg g2-btn--block" href="#connect" id="calc-cta">Обсудить мой расчёт</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section class="g2-section" id="audience">
       <span class="g2-gridlines g2-gridlines--edges" aria-hidden="true"></span>
       <div class="g2-container">
@@ -494,76 +547,44 @@
       </div>
     </section>
 
-    <section class="g2-section g2-section--dark" id="calc">
-      <span class="g2-gridlines" aria-hidden="true"></span>
-      <div class="g2-container">
-        <div class="app-calc-top">
-          <div class="g2-section-head g2-section-head--bar" style="margin-bottom:0">
-            <h2 class="g2-h1">Сколько уходит агрегаторам на&nbsp;ваших цифрах</h2>
-            <p class="g2-section-head__sub">Подставьте заказы и&nbsp;чек. Это модель для разговора, не&nbsp;обещание экономии.</p>
-          </div>
-          <div class="seg seg--compact" role="tablist">
-            <button type="button" class="is-on" data-hero-channel="aggregator">Агрегатор</button>
-            <button type="button" data-hero-channel="own">Свой канал</button>
-          </div>
-        </div>
-        <div class="calc-block">
-          <form id="calc-form" class="calc-form">
-            <label>Заказов в&nbsp;день <input type="number" id="calc-orders" min="10" max="400" value="80" /></label>
-            <label>Средний чек, ₽ <input type="number" id="calc-check" min="200" max="3000" step="10" value="850" /></label>
-            <label class="calc-form__range">Доля агрегатора <span id="calc-share-val">70%</span>
-              <input type="range" id="calc-share" min="20" max="95" value="70" />
-            </label>
-          </form>
-          <div class="calc-out">
-            <div>
-              <div class="stat-k">Комиссия / мес.</div>
-              <div class="stat-v warn is-tick" id="calc-fee" data-money>428 400 ₽</div>
-            </div>
-            <div>
-              <div class="stat-k" id="calc-keep-label">Остаётся точке</div>
-              <div class="stat-v cyan is-tick" id="calc-save" data-money>1 611 600 ₽</div>
-            </div>
-          </div>
-          <p class="stat-note" id="hero-note">Считаем комиссию площадки как 30% от&nbsp;оборота в&nbsp;агрегаторе. В&nbsp;своём канале комиссия площадки =&nbsp;0&nbsp;₽.</p>
-          <span class="visually-hidden" id="hero-mode-label">агрегатор</span>
-          <div class="visually-hidden">
-            <span id="hero-fee">0</span>
-            <span id="hero-keep">0</span>
-          </div>
-        </div>
-      </div>
-    </section>
-
     <section class="g2-section g2-section--soft" id="connect">
       <span class="g2-gridlines g2-gridlines--edges" aria-hidden="true"></span>
       <div class="g2-container">
-        <div class="app-lead">
+        <div class="cx cx--form">
           <div class="g2-section-head g2-section-head--bar">
             <h2 class="g2-h1">Обсудим подключение к&nbsp;вашей точке</h2>
-            <p class="g2-section-head__sub">Заявка уходит на&nbsp;info@goulash.tech. Перезвоним в&nbsp;рабочий день. Срочно: <a href="tel:+74958683608">+7&nbsp;495&nbsp;868-36-08</a>.</p>
+            <p class="g2-section-head__sub">Расскажем, как это работает у&nbsp;вас, и&nbsp;ответим на&nbsp;вопросы по&nbsp;цене и&nbsp;запуску. Решение принимать сразу не&nbsp;нужно.</p>
+            <p class="cx__alt">Или сразу в&nbsp;<a href="https://t.me/GoulashPrivatBot" target="_blank" rel="noopener">Telegram</a> · <a href="tel:+74958683608">+7&nbsp;495&nbsp;868-36-08</a></p>
           </div>
-          <div class="lead-panel" id="lead">
+          <div class="cx__form" id="lead-card">
             <form id="lead-form" novalidate>
               <label>Имя <input type="text" name="name" autocomplete="name" required /><span class="err" data-err="name"></span></label>
-              <label>Телефон <input type="tel" name="phone" autocomplete="tel" placeholder="+7 900 000-00-00" required /><span class="err" data-err="phone"></span></label>
-              <label>Город <input type="text" name="city" required /><span class="err" data-err="city"></span></label>
-              <div class="row">
-                <label>Точек <input type="number" name="points" min="1" max="30" required /><span class="err" data-err="points"></span></label>
-                <label>Заказов / день <input type="number" name="orders" min="1" max="500" required /><span class="err" data-err="orders"></span></label>
+              <div class="cx__method">
+                <span class="cx__method-k">Как с&nbsp;вами связаться</span>
+                <div class="seg seg--compact" role="tablist">
+                  <button type="button" class="is-on" data-method="phone">Телефон</button>
+                  <button type="button" data-method="telegram">Telegram</button>
+                </div>
               </div>
-              <button type="submit" class="g2-btn g2-btn--cyan g2-btn--block g2-btn--lg">Оставить заявку</button>
-              <p class="form-legal">Нажимая кнопку, вы&nbsp;соглашаетесь на&nbsp;обработку персональных данных и&nbsp;откроете письмо в&nbsp;почтовом клиенте.</p>
+              <label><span id="contact-lbl">Номер телефона</span> <input type="text" name="contact" id="contact-input" autocomplete="tel" inputmode="tel" placeholder="+7 900 000-00-00" required /><span class="err" data-err="contact"></span></label>
+              <label><span>Сколько точек <em>необязательно</em></span> <input type="number" name="points" min="1" max="99" inputmode="numeric" /><span class="err" data-err="points"></span></label>
+              <label><span>Что хотите решить <em>необязательно</em></span> <textarea name="note" rows="2" maxlength="300"></textarea></label>
+              <p class="cx__attach" id="lead-attach" hidden></p>
+              <button type="submit" class="g2-btn g2-btn--cyan g2-btn--block g2-btn--lg" id="lead-submit">Обсудить подключение</button>
+              <p class="form-legal">Нажимая кнопку, вы&nbsp;соглашаетесь на&nbsp;обработку персональных данных.</p>
             </form>
-            <div class="form-state" id="form-loading" hidden><span class="spinner"></span> Готовим письмо…</div>
-            <div class="form-state ok" id="form-ok" hidden>
-              <strong>Откройте письмо и&nbsp;нажмите «Отправить».</strong>
-              <p>Если почта не&nbsp;открылась — напишите на&nbsp;<a href="mailto:info@goulash.tech">info@goulash.tech</a> или позвоните <a href="tel:+74958683608">+7&nbsp;495&nbsp;868-36-08</a>.</p>
+            <div class="cx__state" id="form-loading" hidden><span class="spinner"></span> Отправляем…</div>
+            <div class="cx__state ok" id="form-ok" hidden>
+              <strong>Заявка отправлена.</strong>
+              <p id="form-ok-text">Менеджер свяжется с&nbsp;вами.</p>
             </div>
-            <div class="form-state bad" id="form-bad" hidden>
-              <strong>Не&nbsp;получилось открыть почту.</strong>
-              <p><a href="tel:+74958683608">+7 495 868-36-08</a> · <a href="mailto:info@goulash.tech">info@goulash.tech</a></p>
-              <button type="button" class="g2-btn g2-btn--outline-dark g2-btn--sm" id="form-retry">Ещё раз</button>
+            <div class="cx__state bad" id="form-bad" hidden>
+              <strong>Не&nbsp;удалось отправить заявку.</strong>
+              <p>Данные сохранены. Попробуйте ещё раз или напишите нам в&nbsp;Telegram.</p>
+              <div class="cx__state-actions">
+                <button type="button" class="g2-btn g2-btn--cyan g2-btn--sm" id="form-retry">Отправить ещё раз</button>
+                <a class="g2-btn g2-btn--outline-dark g2-btn--sm" href="https://t.me/GoulashPrivatBot" target="_blank" rel="noopener">Написать в Telegram</a>
+              </div>
             </div>
           </div>
         </div>

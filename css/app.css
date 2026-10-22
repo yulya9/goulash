@@ -244,7 +244,6 @@ input {
 
 .app-quote__metric {
   margin: 0 0 14px;
-  font-family: var(--g-font-pixel);
   font-size: 12px;
   letter-spacing: 0.04em;
   color: var(--g-cyan);
@@ -262,7 +261,6 @@ input {
 .app-quote figcaption {
   color: var(--g-od-secondary);
   font-size: 13px;
-  font-family: var(--g-font-pixel);
 }
 
 .app-kitchen-mark {
@@ -368,10 +366,10 @@ input {
 }
 
 .calc-form__range span {
+  font-size: 16px;
+  font-weight: 500;
   justify-self: end;
   color: var(--g-cyan);
-  font-family: var(--g-font-pixel);
-  font-size: 12px;
 }
 
 .calc-out {
@@ -608,7 +606,6 @@ input {
 }
 
 .ch {
-  font-family: var(--g-font-pixel);
   font-size: 10px;
   color: #0a6e6e;
 }
@@ -952,3 +949,86 @@ input.is-invalid {
     animation: none !important;
   }
 }
+
+
+/* Калькулятор и форма. Три текстовых стиля: крупное число, основной 16px, второстепенный 14px.
+   Расстояния по сетке 8: внутри группы 8, между группами 24, между блоками 40. */
+.cx {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: 56px;
+  align-items: start;
+  margin-top: 40px;
+}
+.cx-link { color: var(--g-cyan); text-decoration: underline; text-underline-offset: 3px; }
+.cx #lead-form label { display: grid; gap: 8px; font-size: 14px; line-height: 1.4; color: var(--g-od-tertiary); }
+.cx #lead-form input, .cx #lead-form textarea { font-size: 16px; }
+.cx #lead-form label em { font-style: normal; color: inherit; }
+.cx #lead-form label em::before { content: "("; }
+.cx #lead-form label em::after { content: ")"; }
+/* сценарии */
+.cx__scen { display: grid; gap: 8px; margin-top: 32px; }
+.cx__scen-k, .cx__method-k { font-size: 14px; line-height: 1.4; color: var(--g-od-tertiary); }
+/* форма */
+.cx--form { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); margin-top: 0; }
+.cx__form { padding: 32px; border-radius: 16px; border: 1px solid var(--g-line-on-dark); background: #151517; scroll-margin-top: 88px; }
+.cx__form #lead-form { gap: 24px; }
+.cx__form #lead-form label { gap: 8px; }
+.cx__form input[type="text"], .cx__form input[type="tel"], .cx__form input[type="number"] { background: #0c0c0e; border-color: var(--g-line-on-dark); color: #fff; }
+.cx__form textarea { background: #0c0c0e; border: 1px solid var(--g-line-on-dark); color: #fff; border-radius: var(--g-r-sm); padding: 14px 16px; width: 100%; resize: vertical; font-family: inherit; }
+.cx__form input:focus, .cx__form textarea:focus { outline: none; border-color: var(--g-cyan); }
+.cx__form input.is-invalid { border-color: var(--g-error); }
+.cx__method { display: grid; gap: 8px; }
+.cx__form .seg--compact { width: 100%; }
+.cx__attach, .cx__form .form-legal { margin: 0; font-size: 14px; line-height: 1.4; color: var(--g-od-tertiary); }
+.cx__attach { padding: 12px 16px; border-radius: var(--g-r-sm); border: 1px solid var(--g-line-on-dark); }
+.cx__form .form-legal { margin-top: -8px; }
+.cx__alt { margin: 24px 0 0; font-size: 14px; line-height: 1.4; color: var(--g-ol-tertiary); }
+.cx__alt a { color: #0a6e6e; }
+.cx__state { padding: 24px; border-radius: var(--g-r-sm); background: #0c0c0e; border: 1px solid var(--g-line-on-dark); color: #fff; font-size: 16px; }
+.cx__state p { margin: 8px 0 0; color: var(--g-od-tertiary); font-size: 14px; line-height: 1.4; }
+.cx__state.ok { border-color: rgba(177, 236, 82, 0.5); }
+.cx__state.bad { border-color: rgba(255, 47, 47, 0.5); }
+.cx__state-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+@media (max-width: 1000px) {
+  .cx, .cx--form { grid-template-columns: minmax(0, 1fr); gap: 40px; }
+}
+@media (max-width: 600px) {
+  .cx__res, .cx__form { padding: 24px; }
+}
+#lead-form[hidden] { display: none; }
+/* Выбор сценария: кнопки дизайн-системы, выбранная светлая (как g2-btn--light) */
+.cx__opts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.cx__opts .g2-btn { flex-direction: column; gap: 2px; padding: 12px 8px; min-height: 0; }
+.cx__opts .g2-btn small { font-size: 14px; font-weight: 400; color: var(--g-od-tertiary); transition: color var(--g-dur) var(--g-ease); }
+.cx__opts .g2-btn.is-on { background: var(--g-light-primary); border-color: var(--g-light-primary); color: var(--g-ol-primary); }
+.cx__opts .g2-btn.is-on small { color: var(--g-ol-tertiary); }
+.cx__opts .g2-btn.is-on:hover { background: var(--g-light-subtle); border-color: var(--g-light-subtle); }
+/* Калькулятор: поля как в форме сайта (g2-input), результат белой карточкой дизайн-системы */
+.calcx { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 48px; align-items: start; }
+.calcx__fields { display: grid; grid-template-columns: minmax(0, 1fr); gap: 24px; }
+.calcx__field { display: grid; gap: 8px; }
+.calcx__label { font-size: var(--g-t5-size); line-height: var(--g-t5-lh); color: var(--g-od-tertiary); }
+.calcx__field .g2-input { -moz-appearance: textfield; }
+.calcx__field .g2-input::-webkit-outer-spin-button, .calcx__field .g2-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.calcx__field .g2-input.is-invalid { border-color: var(--g-error); }
+.calcx__field .err { min-height: 0; font-size: var(--g-t5-size); }
+.calcx__field .err:empty { display: none; }
+.calcx .cx__scen { margin-top: 32px; }
+.calcx__card { background: var(--g-light-primary); color: var(--g-ol-primary); }
+.calcx__card .g2-card__label { color: var(--g-ol-tertiary); margin-bottom: 8px; }
+.calcx__value { font-size: var(--g-h0-size); line-height: var(--g-h0-lh); letter-spacing: normal; margin: 0; font-variant-numeric: tabular-nums; }
+.calcx__card[data-verdict="no"] .calcx__value { color: var(--g-error); }
+.calcx__caption { margin: 8px 0 0; color: var(--g-ol-primary); }
+.calcx__card .g2-card__divider { background: var(--g-border-light); margin: 32px 0 24px; }
+@media (max-width: 1000px) {
+  .calcx { grid-template-columns: minmax(0, 1fr); gap: 32px; }
+}
+/* Карточка результата остаётся на экране, пока человек вводит поля */
+.calcx__card { position: sticky; top: 96px; align-self: start; }
+@media (max-width: 1000px) {
+  .calcx__card { position: static; }
+}
+
+.calcx { padding-inline: 42px; }
+@media (max-width: 767px) { .calcx { padding-inline: 0; } }

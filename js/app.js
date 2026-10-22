@@ -46,8 +46,9 @@ const state = {
   tab: "orders",
   segment: "sleep",
   channel: "aggregator",
-  calcFee: 428400,
-  calcKeep: 1611600,
+  calcFee: 0,
+  calcSave: 0,
+  calcLic: 0,
 };
 
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -89,16 +90,6 @@ function animateMoney(el, from, to, key, duration = 520) {
     }
   }
   requestAnimationFrame(frame);
-}
-
-function setHeroChannel(channel) {
-  state.channel = channel;
-  document.querySelectorAll("[data-hero-channel]").forEach((btn) => {
-    btn.classList.toggle("is-on", btn.dataset.heroChannel === channel);
-  });
-  const mode = document.getElementById("hero-mode-label");
-  if (mode) mode.textContent = channel === "aggregator" ? "агрегатор" : "свой канал";
-  updateCalc();
 }
 
 function visibleOrders() {
@@ -193,38 +184,140 @@ function showTab(tab) {
   if (tab === "guests") renderGuests();
 }
 
+// Условия из публичного договора goulash.tech (раздел «Тарифы» и «Внедрение»).
+const TARIFF = { rate: 0.01, minMonth: 40000, setupFrom: 31500 };
+
+state.shift = 10;
+state.method = "phone";
+state.calc = null;
+state.calcTouched = false;
+
+function rub(n) {
+  return money(n).replace(/ /g, " ");
+}
+
+const CALC_LIMITS = {
+  "calc-orders": { min: 1, max: 1000, msg: "От 1 до 1 000 заказов" },
+  "calc-check": { min: 100, max: 10000, msg: "Чек от 100 до 10 000 ₽" },
+  "calc-share": { min: 1, max: 100, msg: "От 1 до 100%" },
+  "calc-comm": { min: 1, max: 60, msg: "Комиссия от 1 до 60%" },
+};
+
+// Возвращает числа или null, если хоть одно поле пустое или вне допустимых границ.
+function readCalc() {
+  const vals = {};
+  let ok = true;
+  Object.entries(CALC_LIMITS).forEach(([id, lim]) => {
+    const input = document.getElementById(id);
+    const raw = input.value.trim();
+    const v = Number(raw);
+    const bad = raw === "" || !Number.isFinite(v) || v < lim.min || v > lim.max;
+    input.classList.toggle("is-invalid", bad);
+    const err = document.querySelector(`[data-cerr="${id}"]`);
+    if (err) err.textContent = bad ? lim.msg : "";
+    if (bad) ok = false;
+    vals[id] = v;
+  });
+  if (!ok) return null;
+  return {
+    orders: vals["calc-orders"],
+    check: vals["calc-check"],
+    days: 30,
+    comm: vals["calc-comm"] / 100,
+    extra: 0,
+    share: vals["calc-share"] / 100,
+    shift: state.shift / 100,
+  };
+}
+
+function computeCalc(c) {
+  const turnover = c.orders * c.check * c.days;
+  const agg = turnover * c.share;
+  const fee = agg * c.comm;
+  const saved = agg * c.shift * c.comm;
+  const license = Math.max(turnover * TARIFF.rate, TARIFF.minMonth);
+  const net = saved - license - c.extra;
+  const perOrderSaved = c.check * c.days * c.share * c.comm * c.shift;
+  const perOrderLicense = c.check * c.days * TARIFF.rate;
+  const breakeven =
+    perOrderSaved > perOrderLicense ? Math.ceil((TARIFF.minMonth + c.extra) / perOrderSaved) : null;
+  return { turnover, fee, saved, license, net, breakeven };
+}
+
+function verdictFor(r, c) {
+  const cost = r.license + c.extra;
+  if (r.net >= cost * 0.25) {
+    return {
+      key: "ok",
+      title: "Экономия покрывает лицензию с запасом",
+      why: `Возврат ${state.shift}% заказов из агрегаторов покрывает лицензию с запасом.`,
+    };
+  }
+  if (r.saved >= cost * 0.85) {
+    return {
+      key: "edge",
+      title: "На границе: экономия почти равна затратам",
+      why: "Экономия примерно равна затратам, запаса нет. Всё решает, сколько гостей реально придёт в свой канал.",
+    };
+  }
+  return {
+    key: "no",
+    title: "При выбранном сценарии экономия не покрывает стоимость лицензии",
+    why: "Минимальная лицензия 40 000 ₽ в месяц выше возвращаемой комиссии. Для такого объёма Гуляш пока дороже эффекта.",
+  };
+}
+
+function setText(id, text) {
+  const el = document.getElementById(id);
+  if (el) el.textContent = text;
+}
+
 function updateCalc() {
-  const orders = Number(document.getElementById("calc-orders").value) || 0;
-  const check = Number(document.getElementById("calc-check").value) || 0;
-  const share = Number(document.getElementById("calc-share").value) || 0;
-  document.getElementById("calc-share-val").textContent = `${share}%`;
+  const c = readCalc();
+  const res = document.getElementById("calc-res");
 
-  const monthTotal = orders * check * 30;
-  const monthAgg = monthTotal * (share / 100);
-  const fee = state.channel === "aggregator" ? monthAgg * 0.3 : 0;
-  const keep = monthTotal - fee;
-
-  const keepLabel = document.getElementById("calc-keep-label");
-  if (keepLabel) {
-    keepLabel.textContent =
-      state.channel === "aggregator" ? "Остаётся точке" : "Остаётся точке (свой канал)";
+  if (!c) {
+    res.dataset.verdict = "none";
+    setText("calc-net", "—");
+    setText("calc-verdict", "Проверьте значения в полях слева");
+    state.calc = null;
+    refreshAttach();
+    return;
   }
 
-  const note = document.getElementById("hero-note");
-  if (note) {
-    note.textContent =
-      state.channel === "aggregator"
-        ? "Считаем комиссию площадки как 30% от оборота в агрегаторе. Модель для разговора, не обещание экономии."
-        : "В своём канале комиссия площадки = 0 ₽. Гость и повторный заказ остаются у точки. Модель для разговора.";
+  const r = computeCalc(c);
+  state.calc = { c, r };
+
+  const v = verdictFor(r, c);
+  res.dataset.verdict = v.key;
+  setText("calc-verdict", v.title);
+
+  const netEl = document.getElementById("calc-net");
+  const sign = r.net < 0 ? "−" : "+";
+  netEl.textContent = `${sign}${rub(Math.abs(r.net))}`;
+  flash(netEl);
+
+  const lossEl = document.getElementById("hero-loss");
+  if (lossEl) {
+    lossEl.textContent = "≈ " + rub(r.fee);
+    document.getElementById("hero-loss-orders").textContent = String(c.orders);
+    document.getElementById("hero-loss-check").textContent = rub(c.check);
   }
+  refreshAttach();
+}
 
-  animateMoney(document.getElementById("calc-fee"), state.calcFee, fee, "calcFee", 380);
-  animateMoney(document.getElementById("calc-save"), state.calcKeep, keep, "calcKeep", 380);
-
-  const hiddenFee = document.getElementById("hero-fee");
-  const hiddenKeep = document.getElementById("hero-keep");
-  if (hiddenFee) hiddenFee.textContent = money(fee);
-  if (hiddenKeep) hiddenKeep.textContent = money(keep);
+// Расчёт попадает в заявку, только если человек им пользовался.
+function refreshAttach() {
+  const el = document.getElementById("lead-attach");
+  if (!el) return;
+  if (!state.calcTouched || !state.calc) {
+    el.hidden = true;
+    return;
+  }
+  const { c, r } = state.calc;
+  const sign = r.net < 0 ? "−" : "+";
+  el.hidden = false;
+  el.textContent = `К заявке приложим ваш расчёт: ${c.orders} заказов в день, чек ${rub(c.check)}, переход ${state.shift}%, итог ${sign}${rub(Math.abs(r.net))} в месяц.`;
 }
 
 function digits(phone) {
@@ -234,12 +327,16 @@ function digits(phone) {
 function validateLead(form) {
   const data = Object.fromEntries(new FormData(form));
   const errors = {};
-  if (!String(data.name).trim()) errors.name = "Как к вам обращаться";
-  const d = digits(data.phone);
-  if (d.length < 10) errors.phone = "Нужен номер, на который перезвонить";
-  if (!String(data.city).trim()) errors.city = "Город точки";
-  if (!data.points || Number(data.points) < 1) errors.points = "Хотя бы одна точка";
-  if (!data.orders || Number(data.orders) < 1) errors.orders = "Сколько заказов в обычный день";
+  if (!String(data.name).trim()) errors.name = "Как к вам обращаться";
+  const contact = String(data.contact).trim();
+  if (state.method === "phone") {
+    if (digits(contact).length < 10) errors.contact = "Введите номер полностью, например +7 900 000-00-00";
+  } else if (!/^@?[A-Za-z0-9_]{5,32}$/.test(contact.replace(/^https?:\/\/t\.me\//, ""))) {
+    errors.contact = "Укажите ник в Telegram, например @name";
+  }
+  if (data.points && (Number(data.points) < 1 || Number(data.points) > 99)) {
+    errors.points = "От 1 до 99";
+  }
   return { data, errors };
 }
 
@@ -260,31 +357,59 @@ function showForm(which) {
   });
 }
 
+function setMethod(method) {
+  state.method = method;
+  document.querySelectorAll("[data-method]").forEach((b) => {
+    b.classList.toggle("is-on", b.dataset.method === method);
+  });
+  const input = document.getElementById("contact-input");
+  const label = document.getElementById("contact-lbl");
+  if (method === "phone") {
+    label.textContent = "Номер телефона";
+    input.placeholder = "+7 900 000-00-00";
+    input.setAttribute("inputmode", "tel");
+    input.setAttribute("autocomplete", "tel");
+  } else {
+    label.textContent = "Ник в Telegram";
+    input.placeholder = "@name";
+    input.setAttribute("inputmode", "text");
+    input.setAttribute("autocomplete", "off");
+  }
+  input.value = "";
+  paintErrors(document.getElementById("lead-form"), {});
+}
+
+// Тестовое задание: настоящей отправки нет. Здесь подставляется сервис приёма заявок;
+// пока он имитируется. Состояние ошибки можно посмотреть по адресу ?form=error.
+async function sendLead(payload) {
+  await new Promise((r) => setTimeout(r, 900));
+  if (new URLSearchParams(location.search).get("form") === "error") throw new Error("demo");
+  return { ok: true, payload };
+}
+
 async function submitLead(event) {
   event.preventDefault();
   const form = event.currentTarget;
   const { data, errors } = validateLead(form);
   paintErrors(form, errors);
-  if (Object.keys(errors).length) return;
+  const firstBad = form.querySelector(".is-invalid");
+  if (Object.keys(errors).length) {
+    if (firstBad) firstBad.focus();
+    return;
+  }
 
+  const payload = { ...data, method: state.method, calc: state.calcTouched ? state.calc : null };
+  state.pendingLead = payload;
   showForm("form-loading");
-  await new Promise((r) => setTimeout(r, 500));
-
-  const subject = encodeURIComponent("Заявка на подключение Goulash.tech");
-  const body = encodeURIComponent(
-    [
-      `Имя: ${String(data.name).trim()}`,
-      `Телефон: ${String(data.phone).trim()}`,
-      `Город: ${String(data.city).trim()}`,
-      `Точек: ${data.points}`,
-      `Заказов в день: ${data.orders}`,
-      "",
-      "Отправлено с лендинга.",
-    ].join("\n")
-  );
-
   try {
-    window.location.href = `mailto:info@goulash.tech?subject=${subject}&body=${body}`;
+    await sendLead(payload);
+    document.getElementById("form-ok-text").textContent =
+      state.method === "telegram"
+        ? "Менеджер напишет вам в Telegram."
+        : "Менеджер позвонит вам по указанному номеру.";
+    if (payload.calc) {
+      document.getElementById("form-ok-text").textContent += " Расчёт приложен.";
+    }
     showForm("form-ok");
   } catch (err) {
     showForm("form-bad");
@@ -292,10 +417,6 @@ async function submitLead(event) {
 }
 
 function bind() {
-  document.querySelectorAll("[data-hero-channel]").forEach((btn) => {
-    btn.addEventListener("click", () => setHeroChannel(btn.dataset.heroChannel));
-  });
-
   document.querySelectorAll(".tab").forEach((btn) => {
     btn.addEventListener("click", () => showTab(btn.dataset.tab));
   });
@@ -325,8 +446,27 @@ function bind() {
     });
   });
 
-  ["calc-orders", "calc-check", "calc-share"].forEach((id) => {
-    document.getElementById(id).addEventListener("input", updateCalc);
+  ["calc-orders", "calc-check", "calc-comm", "calc-share"].forEach((id) => {
+    document.getElementById(id).addEventListener("input", () => {
+      state.calcTouched = true;
+      updateCalc();
+    });
+  });
+
+  document.querySelectorAll("[data-shift]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      state.shift = Number(btn.dataset.shift);
+      state.calcTouched = true;
+      document.querySelectorAll("[data-shift]").forEach((b) => {
+        b.classList.toggle("is-on", b === btn);
+        b.setAttribute("aria-pressed", String(b === btn));
+      });
+      updateCalc();
+    });
+  });
+
+  document.querySelectorAll("[data-method]").forEach((btn) => {
+    btn.addEventListener("click", () => setMethod(btn.dataset.method));
   });
 
   document.getElementById("lead-form").addEventListener("submit", submitLead);
@@ -334,10 +474,7 @@ function bind() {
     showForm("form");
   });
 
-  state.calcFee = parseMoney(document.getElementById("calc-fee").textContent);
-  state.calcKeep = parseMoney(document.getElementById("calc-save").textContent);
-
-  setHeroChannel("aggregator");
+  updateCalc();
   renderDemo();
   bindFaq();
   bindQuotes();
