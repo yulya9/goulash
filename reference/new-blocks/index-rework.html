@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Goulash для доставки: верните гостей себе</title>
+  <meta name="description" content="Goulash собирает заказы из агрегаторов и вашего сайта в одно окно и возвращает гостей через бонусы. Посчитайте, сколько вы отдаёте агрегаторам." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/tokens.css" />
+  <link rel="stylesheet" href="css/ui-kit.css" />
+  <link rel="stylesheet" href="css/header.css" />
+  <link rel="stylesheet" href="css/landing.css?v=4" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M35.87 0H11.65C5.22 0 0 5.25 0 11.72v24.35C0 42.54 5.22 47.78 11.65 47.78h24.22c6.44 0 11.65-5.25 11.65-11.72V11.72C47.52 5.24 42.3 0 35.87 0z' fill='%2300FFFF'/%3E%3C/svg%3E" />
+</head>
+<body class="g2" data-hero="render">
+  <a class="g2-skip" href="#main">К содержимому</a>
+
+  <header class="g2-header" data-g2-header>
+    <div class="g2-container g2-header__inner">
+      <a class="g2-logo g2-header__logo g2-header__logo--full" href="#hero" aria-label="Goulash.tech — наверх">
+        <svg class="g2-logo__mark" viewBox="0 0 48 48" fill="none" aria-hidden="true" focusable="false">
+          <path d="M35.8708 0H11.6535C5.21774 0 0 5.24615 0 11.7169V36.0662C0 42.5369 5.21774 47.7831 11.6535 47.7831H35.8708C42.3065 47.7831 47.5243 42.5369 47.5243 36.0662V11.7154C47.5243 5.24462 42.3065 0 35.8708 0Z" fill="#00FFFF"/>
+          <path d="M15.8418 15.9297H7.92188V23.8928V31.8558H15.8418V23.8928V15.9297Z" fill="#040406"/>
+          <path d="M31.6827 15.9295V7.96484H23.7628H15.8413V15.9295H23.7628H31.6827Z" fill="#040406"/>
+          <path d="M15.8413 31.8555V39.8201H23.7628H31.6827V31.8555H23.7628H15.8413Z" fill="#040406"/>
+          <path d="M39.6031 23.8945H31.6831V31.8576H39.6031V23.8945Z" fill="#040406"/>
+        </svg>
+        <span class="g2-logo__text">Goulash.tech</span>
+      </a>
+      <a class="g2-logo g2-logo--stack g2-header__logo g2-header__logo--compact" href="#hero" aria-label="Goulash.tech — наверх">
+        <svg class="g2-logo__mark" viewBox="0 0 48 48" fill="none" aria-hidden="true" focusable="false">
+          <path d="M35.8708 0H11.6535C5.21774 0 0 5.24615 0 11.7169V36.0662C0 42.5369 5.21774 47.7831 11.6535 47.7831H35.8708C42.3065 47.7831 47.5243 42.5369 47.5243 36.0662V11.7154C47.5243 5.24462 42.3065 0 35.8708 0Z" fill="#00FFFF"/>
+          <path d="M15.8418 15.9297H7.92188V23.8928V31.8558H15.8418V23.8928V15.9297Z" fill="#040406"/>
+          <path d="M31.6827 15.9295V7.96484H23.7628H15.8413V15.9295H23.7628H31.6827Z" fill="#040406"/>
+          <path d="M15.8413 31.8555V39.8201H23.7628H31.6827V31.8555H23.7628H15.8413Z" fill="#040406"/>
+          <path d="M39.6031 23.8945H31.6831V31.8576H39.6031V23.8945Z" fill="#040406"/>
+        </svg>
+        <span class="g2-logo__text">Goulash<br>.tech</span>
+      </a>
+      <nav class="g2-header__nav" aria-label="Основная навигация">
+        <a class="g2-navlink" href="#calc">Посчитать</a>
+        <a class="g2-navlink" href="#how">Как работает</a>
+        <a class="g2-navlink" href="#demo">Демо</a>
+        <a class="g2-navlink" href="#faq">Вопросы</a>
+      </nav>
+      <div class="g2-header__actions">
+        <a class="g2-btn g2-btn--light g2-btn--sm g2-header__cta" href="#apply"><span class="l-long">Получить&nbsp;</span>расчёт</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <!-- 1. Первый экран -->
+    <section class="g2-section g2-section--dark l-hero" id="hero">
+      <span class="g2-gridlines" aria-hidden="true"></span>
+      <div class="g2-container l-hero__inner">
+        <div>
+          <span class="l-hero__eyebrow">Для доставки на 1–5 точек</span>
+          <h1 class="g2-h1 l-hero__title"><span class="dim">Агрегаторы забирают до трети заказа.</span> Верните гостей себе.</h1>
+          <p class="l-hero__lead">Goulash собирает заказы из агрегаторов и вашего сайта в одно окно и возвращает гостей через бонусы. Агрегаторы остаются.</p>
+          <div class="l-hero__actions">
+            <a class="g2-btn g2-btn--light g2-btn--lg" href="#calc">Посчитать, сколько я отдаю</a>
+            <a class="g2-btn g2-btn--quiet g2-btn--lg" href="#demo">Посмотреть, как выглядит</a>
+          </div>
+          <div class="l-hero__facts">
+            <div>При <b id="heroOrders">60</b> заказах в день агрегаторам уходит <span class="big" id="heroLoss">0 ₽</span> в месяц</div>
+            <div><b>900+</b> точек подключено · <b>150+</b> городов · по данным компании</div>
+          </div>
+        </div>
+        <div class="l-hero__media">
+          <img src="assets/img/hero.png" alt="Светофор с пиксельной пиццей и роллами на LED-табло" width="1388" height="1735" decoding="async" />
+          <div class="l-meter l-hero__led" role="group" aria-label="Ваш расчёт, меняется вместе с калькулятором ниже">
+            <div class="l-meter__panel"><canvas id="led2" aria-hidden="true"></canvas></div>
+            <div class="l-meter__cap">Комиссия агрегатора в вашем расчёте</div>
+            <div class="l-meter__row"><span>Вы отдаёте агрегаторам</span><b id="heroLossLed">0 ₽</b></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. Калькулятор -->
+    <section class="g2-section g2-section--dark" id="calc" style="border-top:1px solid var(--g-line-on-dark)">
+      <span class="g2-gridlines" aria-hidden="true"></span>
+      <div class="g2-container">
+        <div class="g2-section-head g2-section-head--bar">
+          <h2 class="g2-h1">Сколько вы <span class="px">отдаёте</span> агрегаторам</h2>
+          <p class="l-lead">Подвигайте ползунки. Цифры в чеке, в блоке цены и в демо ниже поменяются сами.</p>
+        </div>
+        <div class="l-calc">
+          <div class="l-sliders">
+            <div class="l-fld"><label for="rOrders">Заказов в день <b id="vOrders">60</b></label><input id="rOrders" type="range" min="10" max="200" step="5" value="60"></div>
+            <div class="l-fld"><label for="rCheck">Средний чек <b id="vCheck">1 150 ₽</b></label><input id="rCheck" type="range" min="600" max="2500" step="50" value="1150"></div>
+            <div class="l-fld"><label for="rShare">Доля заказов через агрегаторы <b id="vShare">55 %</b></label><input id="rShare" type="range" min="10" max="90" step="5" value="55"></div>
+            <div class="l-fld"><label for="rComm">Комиссия агрегатора <b id="vComm">28 %</b></label><input id="rComm" type="range" min="15" max="35" step="1" value="28"></div>
+            <div class="l-fld"><span class="l-lbl" id="lRet">Сколько гостей вы вернёте в свой канал</span>
+              <div class="l-seg" role="group" aria-labelledby="lRet" id="ret">
+                <button type="button" data-r="10" aria-pressed="true">10 %</button><button type="button" data-r="20" aria-pressed="false">20 %</button><button type="button" data-r="30" aria-pressed="false">30 %</button>
+              </div>
+            </div>
+          </div>
+          <div class="l-calc__right">
+            <div class="l-receipt" aria-label="Чек одного заказа через агрегатор">
+              <h3><span>Чек заказа через агрегатор</span><span>№ 4821</span></h3>
+              <div class="l-rl"><span>Сумма заказа</span><b id="rcSum">1 150 ₽</b></div>
+              <div class="l-rl minus"><span>Комиссия агрегатора, <span id="rcPct">28 %</span></span><b id="rcCom">−322 ₽</b></div>
+              <div class="l-rl total"><span>Вам остаётся</span><b id="rcNet">828 ₽</b></div>
+              <p class="l-receipt__note">Комиссия считается с каждого заказа, а гость остаётся у агрегатора.</p>
+            </div>
+            <div class="l-res">
+              <small>Вы отдаёте агрегаторам ≈</small>
+              <div class="l-res__big"><span id="resMonth">0 ₽</span> <i>в месяц</i></div>
+              <div class="l-res__row">
+                <div><small>В год</small><b id="resYear">0 ₽</b></div>
+                <div><small>Вернув <span id="resRet">10 %</span> гостей, сохраните</small><b class="acc" id="resSave">0 ₽</b></div>
+              </div>
+              <p class="l-res__note">Оценка без стоимости подписки. Формула: заказов в день × 30 × доля агрегаторов × чек × комиссия.</p>
+              <a class="g2-btn g2-btn--light g2-btn--lg" href="#apply">Получить расчёт на моих цифрах</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. Как это работает -->
+    <section class="g2-section" id="how">
+      <span class="g2-gridlines" aria-hidden="true"></span>
+      <div class="g2-container">
+        <div class="g2-section-head g2-section-head--bar">
+          <h2 class="g2-h1">Три шага к <span class="px">своему</span> каналу</h2>
+          <p class="l-lead">Агрегаторы остаются. Вы не отказываетесь от них, вы возвращаете себе часть гостей.</p>
+        </div>
+        <div class="l-how">
+          <div class="l-steps auto" id="steps">
+            <button type="button" class="l-stp" data-s="1" aria-expanded="true"><h3>1. Заказы в одном окне</h3><p>Яндекс Еда, Купер, телефон и ваш сайт приходят в один экран. Кухня и курьеры видят одно и то же.</p></button>
+            <button type="button" class="l-stp" data-s="2" aria-expanded="false"><h3>2. Свой сайт и приложение</h3><p>Гость заказывает у вас без комиссии агрегатора. Приложение даёт бонусы и историю заказов.</p></button>
+            <button type="button" class="l-stp" data-s="3" aria-expanded="false"><h3>3. Бонусы возвращают гостей</h3><p>Гость, пришедший через агрегатор, получает приглашение в ваше приложение. База гостей остаётся у вас.</p></button>
+          </div>
+          <div class="l-diagram">
+            <svg id="dia" viewBox="0 0 560 360" data-step="1" role="img" aria-label="Схема: каналы заказов идут в одно окно Goulash, откуда гости возвращаются в свою базу">
+              <path class="dl l1" d="M150 70 C 210 70, 210 150, 250 160"/>
+              <path class="dl l1" d="M150 160 L 250 170"/>
+              <path class="dl l1" d="M150 250 C 210 250, 210 190, 250 180"/>
+              <path class="dl l2" d="M410 70 C 350 70, 350 150, 310 160"/>
+              <path class="dl l3" d="M280 215 L 280 285"/>
+              <path class="dl l3" d="M350 310 C 440 310, 470 230, 470 130"/>
+              <g class="dn n1"><rect x="20" y="48" width="130" height="44" rx="8"/><text x="85" y="75" text-anchor="middle">Яндекс Еда</text></g>
+              <g class="dn n1"><rect x="20" y="138" width="130" height="44" rx="8"/><text x="85" y="165" text-anchor="middle">Купер</text></g>
+              <g class="dn n1"><rect x="20" y="228" width="130" height="44" rx="8"/><text x="85" y="255" text-anchor="middle">Телефон</text></g>
+              <g class="dn n2"><rect x="410" y="48" width="130" height="44" rx="8"/><text x="475" y="75" text-anchor="middle">Сайт и приложение</text></g>
+              <g class="dc"><rect x="250" y="130" width="60" height="85" rx="10"/><text x="280" y="164" text-anchor="middle">Goulash</text><line x1="262" y1="178" x2="298" y2="178"/><line x1="262" y1="188" x2="290" y2="188"/><line x1="262" y1="198" x2="298" y2="198"/></g>
+              <g class="dn n3"><rect x="220" y="285" width="130" height="44" rx="8"/><text x="285" y="312" text-anchor="middle">База гостей</text></g>
+              <text class="dlab lb1" x="150" y="120">один экран</text>
+              <text class="dlab lb2" x="360" y="40">без комиссии</text>
+              <text class="dlab lb3" x="395" y="236">бонусы и рассылки</text>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Демо -->
+    <section class="g2-section g2-section--dark" id="demo">
+      <span class="g2-gridlines" aria-hidden="true"></span>
+      <div class="g2-container">
+        <div class="g2-section-head g2-section-head--bar">
+          <h2 class="g2-h1"><span class="px">Потрогайте</span> <span class="dim">— так выглядит ваш вечер пятницы в Goulash</span></h2>
+          <p class="l-lead">Заказы из агрегаторов и вашего сайта в одном окне. Нажимайте на заказы, назначайте курьеров, зовите гостей в своё приложение, включайте пик. Цифры берутся из калькулятора выше.</p>
+        </div>
+        <section class="win" id="win" aria-label="Окно программы Goulash, демо">
+          <div class="wtop"><b>Goulash</b><span class="muted">Точка 1</span><span class="sp">Гостей в вашей базе <b id="baseN">1 284</b></span></div>
+          <div class="wtabs" role="tablist" aria-label="Разделы программы">
+            <button class="tab" role="tab" id="tab-orders" aria-selected="true" data-tab="orders">Заказы</button>
+            <button class="tab" role="tab" id="tab-couriers" aria-selected="false" data-tab="couriers">Курьеры</button>
+            <button class="tab" role="tab" id="tab-guests" aria-selected="false" data-tab="guests">Гости</button>
+            <button class="tab" role="tab" id="tab-reports" aria-selected="false" data-tab="reports">Отчёты</button>
+          </div>
+          <div class="hintline"><span id="hint">Идёт показ. Двигайте мышь по окну, чтобы взять управление.</span><button class="wlink replay" id="replay" type="button">Показать снова</button></div>
+          <div class="pane" id="pane-orders" role="tabpanel" aria-labelledby="tab-orders">
+            <div class="split">
+              <div>
+                <div class="filters"><div class="filters" id="filters" role="group" aria-label="Фильтр по каналу" style="border:0;flex:1"></div><label class="wswitch"><input type="checkbox" id="peak"> Пик: кухня не справляется</label></div>
+                <div class="peakbar" id="peakbar" hidden>Система сама сдвинула слот на 15 минут и убрала «Роллы Филадельфия» в стоп. Оператор ничего не нажимал.</div>
+                <div id="orders"></div>
+              </div>
+              <div class="panel" id="detail"></div>
+            </div>
+          </div>
+          <div class="pane" id="pane-couriers" role="tabpanel" aria-labelledby="tab-couriers" hidden>
+            <div class="split">
+              <div>
+                <div class="toggle" id="transport" role="group" aria-label="Тип доставки"><button type="button" data-t="foot" aria-pressed="false">Пешком</button><button type="button" data-t="bike" aria-pressed="true">Вело</button><button type="button" data-t="car" aria-pressed="false">Авто</button></div>
+                <div id="clist"></div>
+              </div>
+              <div class="panel"><h3>Заказ <span class="muted" id="cOrderInfo"></span></h3><div class="opts" id="cOrders"></div><p class="note">Время считается до гостя: курьер едет на точку, затем к адресу. Пешком 5 км/ч, вело 15, авто 25.</p></div>
+            </div>
+          </div>
+          <div class="pane" id="pane-guests" role="tabpanel" aria-labelledby="tab-guests" hidden>
+            <div class="split">
+              <div id="segs" role="group" aria-label="Сегмент гостей"></div>
+              <div class="panel"><h3 id="gTitle"></h3><p id="gOffer" class="note"></p><div><div class="lbl">Охват</div><div class="wbig" id="gReach"></div></div><div><div class="lbl">Вернутся, оценка в демо</div><div class="wbig" id="gReturn"></div></div><button class="wbtn" id="gLaunch" type="button">Запустить рассылку</button><ul class="log" id="gLog" aria-live="polite"></ul></div>
+            </div>
+          </div>
+          <div class="pane" id="pane-reports" role="tabpanel" aria-labelledby="tab-reports" hidden>
+            <div class="rtools">
+              <div class="toggle" id="period" role="group" aria-label="Период"><button type="button" data-p="7" aria-pressed="true">7 дней</button><button type="button" data-p="30" aria-pressed="false">30 дней</button></div>
+              <select id="point" aria-label="Точка"><option value="1">Все точки</option><option value=".42">Точка 1</option><option value=".33">Точка 2</option><option value=".25">Точка 3</option></select>
+            </div>
+            <div class="wstats"><div class="wstat"><span>Заказов</span><strong id="sOrders">0</strong></div><div class="wstat"><span>Выручка</span><strong id="sRev">0 ₽</strong></div><div class="wstat agg"><span>Отдано агрегаторам ≈</span><strong id="sComm">0 ₽</strong></div></div>
+            <div class="readout" id="readout" aria-live="polite"></div>
+            <div id="chartBox"></div>
+            <div class="legend"><span class="l1">Свой канал</span><span class="l2">Агрегаторы</span></div>
+          </div>
+          <div class="ghost" id="ghostA" aria-hidden="true"><svg viewBox="0 0 20 26"></svg><span class="tag">Администратор</span></div>
+          <div class="toast" id="toast" role="status"></div>
+        </section>
+      </div>
+    </section>
+
+    <!-- 5. Клиенты -->
+    <section class="g2-section g2-section--soft" id="proof">
+      <span class="g2-gridlines g2-gridlines--edges" aria-hidden="true"></span>
+      <div class="g2-container">
+        <div class="g2-section-head g2-section-head--bar">
+          <h2 class="g2-h1">Что пишут <span class="dim">те, кто уже подключился</span></h2>
+        </div>
+        <div class="l-stats">
+          <div><b>900+</b><span>точек подключено, по данным компании</span></div>
+          <div><b>150+</b><span>городов с автоматизированной доставкой</span></div>
+          <div><b>Десятки</b><span>отзывов на картах хвалят поддержку</span></div>
+        </div>
+        <div class="l-pgrid">
+          <article class="l-dcard"><div class="l-dcard__m">Вырос LTV гостей за полгода</div><p>Встроенная лояльность: кешбэк, подарки, база гостей с историей и сегментация для рассылок. Для одной небольшой точки цена может казаться высокой, но возвращающиеся гости её оправдывают.</p><div class="l-dcard__who">Михаил Смирнов · отзыв на crmindex, 2026</div></article>
+          <article class="l-dcard"><div class="l-dcard__m">−15 % списаний</div><p>Ушёл из Excel: отчёты по food cost, марже блюд и пикам. Оптимизировал меню, убрал убыточные позиции.</p><div class="l-dcard__who">Александр В. · отзыв на crmindex, 2026</div></article>
+          <article class="l-dcard"><div class="l-dcard__m">Два года на двух точках суши и пиццы</div><p>Пользуется системой уже два года на двух точках. Хвалит поддержку и быстрые ответы.</p><div class="l-dcard__who">Танзиля · отзыв на 2ГИС</div></article>
+          <article class="l-dcard"><div class="l-dcard__m">Заказы агрегаторов в одном окне</div><p>Синхронизация с «Яндекс Едой» и «Купером»: заказы приходят в один экран, цены обновляются на всех площадках. Минус: в выходные в пик поддержка отвечает медленнее.</p><div class="l-dcard__who">Илья Марков · отзыв на crmindex, 2026</div></article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. Подключение -->
+    <section class="g2-section g2-section--dark" id="connect">
+      <span class="g2-gridlines" aria-hidden="true"></span>
+      <div class="g2-container">
+        <div class="g2-section-head g2-section-head--bar">
+          <h2 class="g2-h1">Как подключаемся</h2>
+        </div>
+        <div class="l-conn">
+          <div class="l-cn"><i>01</i><h3>Созвон и расчёт</h3><p>Разбираем ваши цифры из калькулятора и считаем, что вернётся.</p></div>
+          <div class="l-cn"><i>02</i><h3>Перенос и настройка</h3><p>Меню, цены, зоны доставки, интеграция с вашей кассой. Срок зависит от кассы и набора модулей.</p></div>
+          <div class="l-cn"><i>03</i><h3>Обучение команды</h3><p>Настраиваем кухню и курьеров, обучаем персонал.</p></div>
+          <div class="l-cn"><i>04</i><h3>Запуск</h3><p>Первые заказы идут уже в одном окне.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. Цена -->
+    <section class="g2-section" id="price">
+      <span class="g2-gridlines" aria-hidden="true"></span>
+      <div class="g2-container">
+        <div class="g2-section-head g2-section-head--bar">
+          <h2 class="g2-h1">Сколько это стоит <span class="dim">и когда окупится</span></h2>
+          <p class="l-lead">Считаем честно: подписка против того, что вы возвращаете из комиссий.</p>
+        </div>
+        <div class="l-price">
+          <div class="l-pcard"><small>Подписка в расчёте</small><div class="l-pcard__big">15 000 ₽ <i>в месяц</i></div><span class="l-pcard__tag">Демо-значение. Точную цену назовёт менеджер.</span></div>
+          <div class="l-verdict" id="verdict" aria-live="polite"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. Вопросы -->
+    <section class="g2-section g2-section--soft g2-section--clip" id="faq">
+      <span class="g2-gridlines g2-gridlines--edges" aria-hidden="true"></span>
+      <div class="g2-container g2-faq">
+        <div class="g2-section-head g2-section-head--bar">
+          <h2 class="g2-h1">Частые вопросы</h2>
+        </div>
+        <div class="g2-accordion" data-g2-accordion>
+          <div class="g2-accordion__item is-open">
+            <button class="g2-accordion__head" type="button" aria-expanded="true" aria-controls="faq-0"><span>Агрегаторы останутся?</span><span class="g2-accordion__sign" aria-hidden="true"></span></button>
+            <div class="g2-accordion__body" id="faq-0"><div><p class="g2-accordion__text">Да. Заказы из агрегаторов попадают в общий контур: их видит кухня, они учитываются в аналитике и стоп-листах, а курьеры распределяются единым алгоритмом. Вы не отказываетесь от агрегаторов. Гостю не нужно скачивать приложение: заказать можно и на сайте.</p></div></div>
+          </div>
+          <div class="g2-accordion__item">
+            <button class="g2-accordion__head" type="button" aria-expanded="false" aria-controls="faq-1"><span>Работает ли это с моей кассой?</span><span class="g2-accordion__sign" aria-hidden="true"></span></button>
+            <div class="g2-accordion__body" id="faq-1"><div><p class="g2-accordion__text">Интеграция с POS-системой входит в подключение, а срок зависит от вашей кассы и набора модулей. Детали обсуждаются на созвоне.</p></div></div>
+          </div>
+          <div class="g2-accordion__item">
+            <button class="g2-accordion__head" type="button" aria-expanded="false" aria-controls="faq-2"><span>Сколько займёт подключение?</span><span class="g2-accordion__sign" aria-hidden="true"></span></button>
+            <div class="g2-accordion__body" id="faq-2"><div><p class="g2-accordion__text">Минимальная настройка занимает от 7 дней, полный переход сети в среднем 21 день.</p></div></div>
+          </div>
+          <div class="g2-accordion__item">
+            <button class="g2-accordion__head" type="button" aria-expanded="false" aria-controls="faq-3"><span>Что если мне не подойдёт?</span><span class="g2-accordion__sign" aria-hidden="true"></span></button>
+            <div class="g2-accordion__body" id="faq-3"><div><p class="g2-accordion__text">Калькулятор и блок цены выше показывают, окупится ли свой канал на вашем объёме. Если не окупится, вы увидите это сразу, без звонков.</p></div></div>
+          </div>
+          <div class="g2-accordion__item">
+            <button class="g2-accordion__head" type="button" aria-expanded="false" aria-controls="faq-4"><span>Что с поддержкой и сбоями?</span><span class="g2-accordion__sign" aria-hidden="true"></span></button>
+            <div class="g2-accordion__body" id="faq-4"><div><p class="g2-accordion__text">Сбои бывают у любой системы, и в отзывах на картах есть жалобы на них, поэтому ничего не обещаем сверх возможного. За каждым клиентом закреплён персональный менеджер, поддержка работает в режиме по тарифу, вплоть до 24/7. Заказы из агрегаторов попадают в общий контур, и кухня видит их в одном окне.</p></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 9. Оффер и форма -->
+    <section class="g2-section g2-section--dark l-offer" id="apply" data-done="false">
+      <canvas class="waves" id="waves" aria-hidden="true"></canvas>
+      <div class="g2-container l-offer__grid">
+        <div>
+          <div class="g2-section-head g2-section-head--bar">
+            <h2 class="g2-h1">Покажем, сколько вы <span class="px">отдаёте</span> и сколько можно вернуть</h2>
+            <p class="l-lead">Расчёт за 15 минут, по вашим цифрам. Цифры из калькулятора уже в форме.</p>
+          </div>
+          <p class="l-fine" id="prefillNote"></p>
+        </div>
+        <div>
+          <form class="l-form" id="form" novalidate data-state="idle" aria-label="Заявка на расчёт">
+            <div class="l-banner" role="alert" id="banner"><b>Не удалось отправить заявку.</b> Проверьте соединение. Введённые данные сохранены.<br><button type="button" class="l-link" id="retry">Повторить отправку</button></div>
+            <div class="l-f2">
+              <div class="l-f" data-fld="name"><label for="fName">Имя</label><input id="fName" name="name" autocomplete="name" placeholder="Как к вам обращаться"><span class="err">Введите имя, минимум 2 буквы.</span></div>
+              <div class="l-f" data-fld="phone"><label for="fPhone">Телефон</label><input id="fPhone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+7 (___) ___-__-__"><span class="err">Введите номер из 10 цифр после +7.</span></div>
+            </div>
+            <div class="l-f2">
+              <div class="l-f" data-fld="city"><label for="fCity">Город</label><input id="fCity" name="city" autocomplete="address-level2" placeholder="Например, Екатеринбург"><span class="err">Укажите город.</span></div>
+              <div class="l-f" data-fld="points"><label for="fPoints">Точек доставки</label><select id="fPoints" name="points"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6+">Больше 5</option></select></div>
+            </div>
+            <div class="l-f" data-fld="orders"><label for="fOrders">Заказов в день</label><input id="fOrders" name="orders" type="number" inputmode="numeric" min="1" max="1000" value="60"><span class="err">Введите число от 1 до 1000.</span></div>
+            <label class="l-chk" id="chk"><input type="checkbox" id="fOk"><span>Согласен на обработку персональных данных. Это демо: данные никуда не отправляются.</span></label>
+            <span class="l-f" style="display:none;color:#ff6b6b;font-size:14px" id="eOk">Нужно согласие, чтобы отправить заявку.</span>
+            <button class="g2-btn g2-btn--light g2-btn--lg g2-btn--block" id="submit" type="submit"><span class="l-spin" aria-hidden="true"></span><span id="sbmText">Получить расчёт</span></button>
+            <label class="l-sim"><input type="checkbox" id="simFail"> Симулировать сбой сети (для демонстрации ошибки)</label>
+          </form>
+          <div class="l-ok" id="okPanel" role="status">
+            <div class="l-ok__mark">OK</div>
+            <h3>Заявка отправлена</h3>
+            <p id="okText"></p>
+            <p class="l-fine">Это демо: данные никуда не уходят.</p>
+            <button class="g2-btn g2-btn--light g2-btn--sm" id="again" type="button" style="margin-top:16px">Отправить ещё одну</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="g2-section g2-section--dark l-foot">
+    <div class="g2-container">
+      <div class="l-foot__cols">
+        <div class="l-foot__disc"><b>Тестовое задание</b>Это не официальный сайт Goulash.tech. Тексты и цифры собраны из открытых источников, интерфейс и данные в демо придуманы.</div>
+        <div><b>Контакты компании</b>+7 495 868-36-08<br>info@goulash.tech</div>
+      </div>
+      <div class="l-giant" aria-hidden="true">Goulash.tech</div>
+    </div>
+  </footer>
+
+  <div class="l-bar" id="bar"><a class="g2-btn g2-btn--light g2-btn--md" href="#apply">Получить расчёт</a></div>
+
+  <script src="js/landing.js?v=4"></script>
+</body>
+</html>
