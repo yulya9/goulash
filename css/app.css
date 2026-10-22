@@ -1302,3 +1302,39 @@ html.rv-on .rv--up.is-in { animation-name: rvUp; }
 html.rv-on .rv--head.is-in { animation-name: rvHead; animation-duration: 1.1s; }
 html.rv-on .rv--fade.is-in { animation-name: rvFade; animation-duration: 1.2s; }
 @media (prefers-reduced-motion: reduce) { html.rv-on .rv:not(.is-in) { opacity: 1; } }
+
+
+/* ===== Кейсы: стопка карточек (фото слева, текст справа) ===== */
+.sc-list { display: grid; gap: 0; padding-bottom: 8px; }
+.sc { --sc-p: 0; position: sticky; top: calc(var(--g-header-h) + 24px + var(--i) * 18px); display: grid; grid-template-columns: 1fr 1fr; min-height: 440px; margin-bottom: 28px; overflow: hidden; border-radius: 24px; border: 1px solid var(--g-border-dark); background: #1b1b1b; color: var(--g-od-primary); transform-origin: 50% 0; transform: scale(calc(1 - var(--sc-p) * 0.05)); will-change: transform; }
+.sc::after { content: ""; position: absolute; inset: 0; background: #000; opacity: calc(var(--sc-p) * 0.55); pointer-events: none; }
+.sc__media { background-image: var(--img); background-size: cover; background-position: center; min-height: 100%; }
+.sc__body { display: flex; flex-direction: column; padding: 40px; }
+.sc__tag { margin: 0 0 16px; font-size: var(--g-t5-size); line-height: 1.2; letter-spacing: 0.08em; text-transform: uppercase; color: var(--g-cyan); }
+.sc__title { margin: 0 0 16px; font-size: var(--g-h2-size); line-height: var(--g-h2-lh); font-weight: 500; }
+.sc__text { margin: 0; font-size: var(--g-t3-size); line-height: 1.5; color: var(--g-od-secondary); }
+.sc__meta { display: grid; grid-template-columns: 0.7fr 0.9fr 1.4fr; gap: 16px; margin: auto 0 0; padding-top: 24px; border-top: 1px solid var(--g-line-on-dark); }
+.sc__meta dt { margin: 0 0 6px; font-size: var(--g-t5-size); color: var(--g-od-tertiary); }
+.sc__meta dd { margin: 0; font-size: var(--g-t2-size); line-height: 1.25; }
+.sc__meta .sc__res { color: var(--g-cyan); }
+.sc-note { margin: 20px 0 0; font-size: var(--g-t5-size); line-height: 1.4; color: var(--g-ol-tertiary); }
+.sc-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
+@media (max-width: 1023px) {
+  .sc { position: relative; top: auto; transform: none; grid-template-columns: 1fr; min-height: 0; margin-bottom: 16px; }
+  .sc::after { display: none; }
+  .sc__media { min-height: 220px; }
+  .sc__body { padding: 24px 20px; }
+  .sc__meta { grid-template-columns: 1fr 1fr; }
+  .sc__meta > div:last-child { grid-column: 1 / -1; }
+  .sc-actions .g2-btn { width: 100%; }
+}
+@media (prefers-reduced-motion: reduce) { .sc { transform: none; } .sc::after { display: none; } }
+
+/* Кейсы: sticky не работает внутри overflow:hidden; пока нет фото, на их месте тёмная заливка с точками */
+#cases.g2-section--clip { overflow: visible; }
+.sc__media { background-image: var(--img), radial-gradient(circle, rgba(255, 255, 255, 0.08) 1.2px, transparent 1.6px), linear-gradient(160deg, #26343f 0%, #1b1b1b 70%); background-size: cover, 10px 10px, cover; background-position: center, 0 0, center; }
+
+.sc__title { font-size: var(--g-h3-size); line-height: var(--g-h3-lh); white-space: nowrap; }
+.sc__text { max-width: 44ch; }
+.sc__meta .sc__res { font-size: var(--g-h3-size); line-height: 1.1; }
+@media (max-width: 1023px) { .sc__title { white-space: normal; } }

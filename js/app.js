@@ -447,6 +447,7 @@ function bind() {
   safe(() => bindStepsGallery());
   safe(() => bindHeaderStuck());
   safe(() => bindBurger());
+  safe(() => bindCaseStack());
   safe(() => bindCountUps());
   safe(() => bindPremiumReveal());
   safe(() => bindReveals());
@@ -840,4 +841,30 @@ function tweenNumber(el, to, format) {
     if (t < 1) el._tr = requestAnimationFrame(step);
   };
   el._tr = requestAnimationFrame(step);
+}
+
+
+// Кейсы: карточки ложатся стопкой, нижележащие чуть уменьшаются и темнеют
+function bindCaseStack() {
+  const list = document.querySelector("[data-sc-list]");
+  if (!list || reduceMotion) return;
+  const cards = [...list.querySelectorAll(".sc")];
+  const mq = window.matchMedia("(min-width: 1024px)");
+  let raf = 0;
+  const update = () => {
+    raf = 0;
+    cards.forEach((card, i) => {
+      const next = cards[i + 1];
+      if (!mq.matches || !next) { card.style.setProperty("--sc-p", "0"); return; }
+      const stick = parseFloat(getComputedStyle(card).top) || 0;
+      const h = card.offsetHeight;
+      const gap = next.getBoundingClientRect().top - stick;
+      const p = Math.min(1, Math.max(0, 1 - gap / h));
+      card.style.setProperty("--sc-p", p.toFixed(3));
+    });
+  };
+  const req = update;
+  window.addEventListener("scroll", req, { passive: true });
+  window.addEventListener("resize", req);
+  update();
 }
