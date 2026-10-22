@@ -1055,3 +1055,7 @@ input.is-invalid {
 @media (max-width: 768px) { .g2-hero__media { position: relative; top: auto; right: auto; width: 100%; height: auto; } .g2-hero__media .circuit { max-height: 360px; } }
 /* схема уже картинки: не заходит под заголовок */
 @media (min-width: 1024px) { .g2-hero__media { width: 600px; max-width: 46%; } }
+
+/* иконки схемы: матрица из LED-точек, погашенные точки едва видны; иконки подставляются в <g class="cb-icon"> */
+.circuit .cb-icon .off { fill: #2b2b2b; }
+.circuit .cb-icon .on { filter: drop-shadow(0 0 2.5px currentColor); }
