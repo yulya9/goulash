@@ -738,7 +738,9 @@
   // окно как экран ПК: размер фиксирован, на узких экранах масштабируется целиком
   const stage = $("gp-stage");
   function fit() {
-    const avail = stage.parentElement.clientWidth;
+    const pe = stage.parentElement;
+    const cs = getComputedStyle(pe);
+    const avail = pe.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
     const k = Math.min(1, avail / 1200);
     root.style.transform = `scale(${k})`;
     stage.style.width = 1200 * k + "px";
