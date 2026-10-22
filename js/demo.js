@@ -790,8 +790,9 @@
       cap.classList.remove("is-press");
       void cap.offsetWidth;
       cap.classList.add("is-press");
+      clearTimeout(cap._t);
+      cap._t = setTimeout(() => cap.classList.remove("is-press"), 460);
     });
-    cap.addEventListener("animationend", () => cap.classList.remove("is-press"), true);
     window.addEventListener("blur", hide);
     document.addEventListener("scroll", () => { if (shown) { wrap.classList.remove("is-on"); shown = false; } }, { passive: true });
   })();
