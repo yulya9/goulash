@@ -1232,12 +1232,6 @@ input.is-invalid {
 /* Цифры: сноска про источник */
 .stats-note { margin: 16px 0 0; font-size: var(--g-t5-size); line-height: 1.4; color: var(--g-od-tertiary); }
 
-/* Телефон: схема не уходит под шапку и без пустых полей сверху и снизу (рисунок занимает середину поля 640×600) */
-@media (max-width: 768px) {
-  .g2-hero__inner { padding-top: var(--g-header-h, 57px); justify-content: center; }
-  .g2-hero__media { overflow: hidden; }
-  .g2-hero__media .circuit { max-height: none; margin-block: -20%; }
-}
 
 /* Телефон, «Как начать»: заголовок шага всегда справа от иконки, описание под ним и не накладывается */
 @media (max-width: 767px) {
@@ -1258,3 +1252,41 @@ input.is-invalid {
 /* Отзывы: фото клиента в круге, без фото — инициалы */
 .g2-case__avatar { object-fit: cover; object-position: 40% 22%; }
 .g2-case__avatar--mono { display: grid; place-items: center; border: 1px solid var(--g-border-dark); background: rgba(255, 255, 255, 0.06); color: var(--g-od-secondary); font-size: var(--g-t5-size); line-height: 1; }
+
+/* ===== Телефон (до 1023px): шапка с бургером ===== */
+@media (max-width: 1023px) {
+  .g2-header__cta { display: none; }
+}
+
+/* ===== Телефон: первый экран — заголовок, подзаголовок, кнопки, затем анимация ===== */
+@media (max-width: 768px) {
+  .g2-header { background: var(--g-dark-primary); backdrop-filter: none; -webkit-backdrop-filter: none; }
+  .g2-hero { padding-top: var(--g-header-h); }
+  .g2-hero__inner { height: auto; min-height: 0; max-height: none; overflow: visible; justify-content: flex-start; gap: 8px; padding-top: 24px; padding-bottom: 8px; }
+  .g2-hero__media { position: relative; inset: auto; order: 1; width: 100%; height: auto; overflow: visible; }
+  .g2-hero__media .circuit { max-height: none; margin-block: -12%; }
+  .g2-hero__title, .g2-hero__lead { margin-bottom: 20px; }
+}
+
+/* ===== Кнопки: голубая того же размера, что белая ===== */
+.g2-btn--cyan.g2-btn--lg { font-size: var(--g-btn-md-size); padding: 12px 32px; min-height: 42px; }
+@media (max-width: 768px) {
+  .g2-connect .g2-btn--cyan { display: flex; width: 100%; }
+}
+
+/* ===== Телефон: отступы чуть меньше ===== */
+@media (max-width: 768px) {
+  :root { --g-section-py: 36px; }
+  .steps__cta { margin-top: 24px; }
+}
+
+/* ===== Телефон: футер ===== */
+@media (max-width: 767px) {
+  .g2-footer { padding-top: 24px; }
+  .g2-footer__top { flex-direction: column; align-items: flex-start; gap: 20px; padding: 0 16px 24px; }
+  .g2-footer__brand { width: 100%; justify-content: space-between; }
+  .g2-footer__nav { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 16px; width: 100%; }
+  .g2-footer__socials { padding: 0 16px 20px; }
+  .g2-footer__legal { gap: 14px; padding: 20px 16px 0; }
+  .g2-footer__bottom { padding: 20px 0; }
+}

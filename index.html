@@ -19,7 +19,7 @@
   <link rel="stylesheet" href="css/header.css?v=20261022" />
   <link rel="stylesheet" href="css/home.css?v=20261022" />
   <link rel="stylesheet" href="css/footer.css?v=1" />
-  <link rel="stylesheet" href="css/app.css?v=20261056" />
+  <link rel="stylesheet" href="css/app.css?v=20261058" />
   <link rel="stylesheet" href="css/demo.css?v=19" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M35.87 0H11.65C5.22 0 0 5.25 0 11.72v24.35C0 42.54 5.22 47.78 11.65 47.78h24.22c6.44 0 11.65-5.25 11.65-11.72V11.72C47.52 5.24 42.3 0 35.87 0z' fill='%2300FFFF'/%3E%3C/svg%3E" />
 </head>
@@ -57,9 +57,26 @@
       </nav>
       <div class="g2-header__actions">
         <a class="g2-btn g2-btn--light g2-btn--sm g2-header__cta" href="#connect">Подключить</a>
+        <button class="g2-burger" type="button" data-g2-burger aria-expanded="false" aria-controls="g2-menu" aria-label="Меню" > <span class="g2-burger__open"><svg class="g2-icon" viewBox="0 0 32 32" fill="currentColor" aria-hidden="true" focusable="false"><path d="M28 15.9995C28 16.2648 27.8946 16.5191 27.7071 16.7066C27.5196 16.8942 27.2652 16.9995 27 16.9995H5C4.73478 16.9995 4.48043 16.8942 4.29289 16.7066C4.10536 16.5191 4 16.2648 4 15.9995C4 15.7343 4.10536 15.48 4.29289 15.2924C4.48043 15.1049 4.73478 14.9995 5 14.9995H27C27.2652 14.9995 27.5196 15.1049 27.7071 15.2924C27.8946 15.48 28 15.7343 28 15.9995ZM5 8.99954H27C27.2652 8.99954 27.5196 8.89419 27.7071 8.70665C27.8946 8.51911 28 8.26476 28 7.99954C28 7.73433 27.8946 7.47997 27.7071 7.29244C27.5196 7.1049 27.2652 6.99954 27 6.99954H5C4.73478 6.99954 4.48043 7.1049 4.29289 7.29244C4.10536 7.47997 4 7.73433 4 7.99954C4 8.26476 4.10536 8.51911 4.29289 8.70665C4.48043 8.89419 4.73478 8.99954 5 8.99954ZM27 22.9995H5C4.73478 22.9995 4.48043 23.1049 4.29289 23.2924C4.10536 23.48 4 23.7343 4 23.9995C4 24.2648 4.10536 24.5191 4.29289 24.7066C4.48043 24.8942 4.73478 24.9995 5 24.9995H27C27.2652 24.9995 27.5196 24.8942 27.7071 24.7066C27.8946 24.5191 28 24.2648 28 23.9995C28 23.7343 27.8946 23.48 27.7071 23.2924C27.5196 23.1049 27.2652 22.9995 27 22.9995Z"/></svg></span> <span class="g2-burger__close"><svg class="g2-icon" viewBox="0 0 32 32" fill="currentColor" aria-hidden="true" focusable="false"><path d="M25.0921 23.7214C25.1821 23.8114 25.2535 23.9183 25.3022 24.0359C25.351 24.1535 25.376 24.2795 25.376 24.4068C25.376 24.5341 25.351 24.6601 25.3022 24.7777C25.2535 24.8953 25.1821 25.0022 25.0921 25.0922C25.0021 25.1822 24.8953 25.2536 24.7777 25.3023C24.6601 25.351 24.534 25.3761 24.4067 25.3761C24.2795 25.3761 24.1534 25.351 24.0358 25.3023C23.9182 25.2536 23.8114 25.1822 23.7214 25.0922L15.688 17.0576L7.65463 25.0922C7.47286 25.274 7.22631 25.3761 6.96924 25.3761C6.71217 25.3761 6.46563 25.274 6.28385 25.0922C6.10208 24.9104 5.99995 24.6639 5.99995 24.4068C5.99995 24.1497 6.10208 23.9032 6.28385 23.7214L14.3184 15.688L6.28385 7.65468C6.10208 7.4729 5.99995 7.22636 5.99995 6.96929C5.99995 6.71222 6.10208 6.46567 6.28385 6.2839C6.46563 6.10212 6.71217 6 6.96924 6C7.22631 6 7.47286 6.10212 7.65463 6.2839L15.688 14.3185L23.7214 6.2839C23.9031 6.10212 24.1497 6 24.4067 6C24.6638 6 24.9104 6.10212 25.0921 6.2839C25.2739 6.46567 25.376 6.71222 25.376 6.96929C25.376 7.22636 25.2739 7.4729 25.0921 7.65468L17.0576 15.688L25.0921 23.7214Z"/></svg></span> </button>
       </div>
     </div>
   </header>
+
+  <div class="g2-menu" id="g2-menu" data-g2-menu hidden>
+    <nav class="g2-menu__nav" aria-label="Мобильная навигация">
+      <a class="g2-menu__link" href="#demo">Как работает</a>
+      <a class="g2-menu__link" href="#calc">Калькулятор</a>
+      <a class="g2-menu__link" href="#steps">Как начать</a>
+      <a class="g2-menu__link" href="#cases">Отзывы</a>
+      <a class="g2-menu__link" href="#faq">Вопросы</a>
+    </nav>
+    <div class="g2-menu__footer">
+      <a class="g2-btn g2-btn--light g2-btn--lg g2-btn--block" href="#connect">
+        Подключить
+        <svg class="g2-icon g2-btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M9 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </div>
 
   <main id="main">
     <section class="g2-hero" id="hero">
@@ -869,7 +886,7 @@ aria-label="Rutube"
     </div>
   </div>
 
-  <script src="js/app.js?v=20261055"></script>
+  <script src="js/app.js?v=20261057"></script>
   <script src="js/demo.js?v=15"></script>
 </body>
 </html>

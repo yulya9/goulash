@@ -446,6 +446,7 @@ function bind() {
   safe(() => bindCasesSlider());
   safe(() => bindStepsGallery());
   safe(() => bindHeaderStuck());
+  safe(() => bindBurger());
   safe(() => bindCountUps());
   safe(() => bindReveals());
 }
@@ -738,3 +739,21 @@ function bindFaq() {
 }
 
 bind();
+
+
+// Мобильное меню: бургер открывает список разделов, ссылка или Esc закрывают
+function bindBurger() {
+  const btn = document.querySelector("[data-g2-burger]");
+  const menu = document.querySelector("[data-g2-menu]");
+  if (!btn || !menu) return;
+  const set = (open) => {
+    menu.hidden = !open;
+    btn.classList.toggle("is-open", open);
+    btn.setAttribute("aria-expanded", String(open));
+    document.documentElement.classList.toggle("g2-menu-open", open);
+  };
+  btn.addEventListener("click", () => set(menu.hidden));
+  menu.querySelectorAll("a").forEach((a) => a.addEventListener("click", () => set(false)));
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") set(false); });
+  window.matchMedia("(min-width: 1024px)").addEventListener("change", (m) => { if (m.matches) set(false); });
+}
