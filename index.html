@@ -19,7 +19,7 @@
   <link rel="stylesheet" href="css/header.css?v=20261022" />
   <link rel="stylesheet" href="css/home.css?v=20261022" />
   <link rel="stylesheet" href="css/footer.css?v=1" />
-  <link rel="stylesheet" href="css/app.css?v=20261086" />
+  <link rel="stylesheet" href="css/app.css?v=20261087" />
   <link rel="stylesheet" href="css/demo.css?v=19" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M35.87 0H11.65C5.22 0 0 5.25 0 11.72v24.35C0 42.54 5.22 47.78 11.65 47.78h24.22c6.44 0 11.65-5.25 11.65-11.72V11.72C47.52 5.24 42.3 0 35.87 0z' fill='%2300FFFF'/%3E%3C/svg%3E" />
 </head>
@@ -49,10 +49,10 @@
         <span class="g2-logo__text">Goulash<br>.tech</span>
       </a>
       <nav class="g2-header__nav" aria-label="Основная навигация">
-        <a class="g2-navlink" href="#demo">Как работает</a>
         <a class="g2-navlink" href="#calc">Калькулятор</a>
-        <a class="g2-navlink" href="#steps">Как начать</a>
+        <a class="g2-navlink" href="#demo">Как работает</a>
         <a class="g2-navlink" href="#cases">Кейсы</a>
+        <a class="g2-navlink" href="#steps">Как начать</a>
         <a class="g2-navlink" href="#faq">Вопросы</a>
       </nav>
       <div class="g2-header__actions">
@@ -64,10 +64,10 @@
 
   <div class="g2-menu" id="g2-menu" data-g2-menu hidden>
     <nav class="g2-menu__nav" aria-label="Мобильная навигация">
-      <a class="g2-menu__link" href="#demo">Как работает</a>
       <a class="g2-menu__link" href="#calc">Калькулятор</a>
-      <a class="g2-menu__link" href="#steps">Как начать</a>
+      <a class="g2-menu__link" href="#demo">Как работает</a>
       <a class="g2-menu__link" href="#cases">Кейсы</a>
+      <a class="g2-menu__link" href="#steps">Как начать</a>
       <a class="g2-menu__link" href="#faq">Вопросы</a>
     </nav>
     <div class="g2-menu__footer">
@@ -125,6 +125,34 @@
             <li class="g2-logostrip__item" style="--g2-i:9"><img class="g2-logostrip__img" src="assets/img/yapdomik.svg" alt="Японский домик" loading="eager" decoding="async" /></li>
             <li class="g2-logostrip__item" style="--g2-i:10"><img class="g2-logostrip__img" src="assets/img/magicburger.svg" alt="Magic burger" loading="eager" decoding="async" /></li>
             <li class="g2-logostrip__item" style="--g2-i:11"><img class="g2-logostrip__img" src="assets/img/sushiman.svg" alt="Сушиман" loading="eager" decoding="async" /></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="g2-section g2-section--dark" id="kitchens">
+      <span class="g2-gridlines" aria-hidden="true"></span>
+      <div class="g2-container">
+        <div class="g2-kitchens">
+          <h2 class="g2-h1 g2-kitchens__title">Для кого система — а&nbsp;для кого нет</h2>
+          <p class="app-kitchens__lead">Goulash подходит небольшим ресторанам с&nbsp;собственной доставкой. Работаем с&nbsp;кухнями, где заказ готовят и&nbsp;собирают до&nbsp;30&nbsp;минут: пицца, роллы, бургеры. Стейкхаусы и&nbsp;гриль с&nbsp;долгим приготовлением — не&nbsp;наш формат: маршруты и&nbsp;слоты под&nbsp;такие процессы не&nbsp;заточены.</p>
+          <ul class="g2-kitchens__list">
+            <li class="g2-kitchen">
+              <img class="g2-kitchen__icon" src="assets/img/kitchens/pizza.png" alt="Пицца / Паста" loading="lazy" decoding="async" width="96" height="96">
+              <span class="g2-kitchen__label"><span>Пицца</span><span>Паста</span></span>
+            </li>
+            <li class="g2-kitchen">
+              <img class="g2-kitchen__icon" src="assets/img/kitchens/rolls.png" alt="Роллы / WOK" loading="lazy" decoding="async" width="64" height="64">
+              <span class="g2-kitchen__label"><span>Роллы</span><span>WOK</span></span>
+            </li>
+            <li class="g2-kitchen">
+              <img class="g2-kitchen__icon" src="assets/img/kitchens/burgers.png" alt="Бургеры / Шаурма" loading="lazy" decoding="async" width="64" height="64">
+              <span class="g2-kitchen__label"><span>Бургеры</span><span>Шаурма</span></span>
+            </li>
+            <li class="g2-kitchen">
+              <img class="g2-kitchen__icon" src="assets/img/kitchens/soups.png" alt="Супы / Салаты" loading="lazy" decoding="async" width="64" height="64">
+              <span class="g2-kitchen__label"><span>Супы</span><span>Салаты</span></span>
+            </li>
           </ul>
         </div>
       </div>
@@ -212,6 +240,59 @@
               <li><span>Контроль кухни, списаний, смен, маршрутов и&nbsp;операционных отклонений ликвидируют 2% утечек в&nbsp;расходах</span></li>
             </ul>
           </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="g2-section g2-section--dark" id="calc">
+      <span class="g2-gridlines" aria-hidden="true"></span>
+      <div class="g2-container">
+        <div class="g2-section-head g2-section-head--bar">
+          <h2 class="g2-h1">Сколько вы&nbsp;можете сохранить на&nbsp;заказах</h2>
+          <p class="g2-section-head__sub">Введите свои показатели и&nbsp;выберите сценарий&nbsp;— калькулятор оценит потенциальную экономию на&nbsp;комиссии агрегаторов. Результат предварительный и&nbsp;зависит от&nbsp;фактической доли заказов в&nbsp;собственном канале.</p>
+        </div>
+
+        <div class="calcx">
+          <div class="calcx__main">
+            <form id="calc-form" class="calcx__fields" novalidate>
+              <label class="g2-field calcx__field">
+                <span class="calcx__label">Заказов в&nbsp;день</span>
+                <input class="g2-input" type="number" id="calc-orders" inputmode="numeric" min="1" max="1000" value="80" />
+                <span class="err" data-cerr="calc-orders"></span>
+              </label>
+              <label class="g2-field calcx__field">
+                <span class="calcx__label">Средний чек, ₽</span>
+                <input class="g2-input" type="number" id="calc-check" inputmode="numeric" min="100" max="10000" value="850" step="10" />
+                <span class="err" data-cerr="calc-check"></span>
+              </label>
+              <label class="g2-field calcx__field">
+                <span class="calcx__label">Доля заказов через агрегаторы, %</span>
+                <input class="g2-input" type="number" id="calc-share" inputmode="numeric" min="1" max="100" value="70" />
+                <span class="err" data-cerr="calc-share"></span>
+              </label>
+              <label class="g2-field calcx__field">
+                <span class="calcx__label">Комиссия агрегатора, %</span>
+                <input class="g2-input" type="number" id="calc-comm" inputmode="numeric" min="1" max="60" value="30" />
+                <span class="err" data-cerr="calc-comm"></span>
+              </label>
+            </form>
+            <div class="cx__scen">
+              <span class="cx__scen-k">Какая часть заказов из&nbsp;агрегаторов уйдёт в&nbsp;свой канал</span>
+              <div class="cx__opts" role="group" aria-label="Сценарий перехода">
+                <button type="button" class="g2-btn g2-btn--md g2-btn--outline-dark" data-shift="5" aria-pressed="false"><span>5%</span><small>осторожно</small></button>
+                <button type="button" class="g2-btn g2-btn--md g2-btn--outline-dark is-on" data-shift="10" aria-pressed="true"><span>10%</span><small>базово</small></button>
+                <button type="button" class="g2-btn g2-btn--md g2-btn--outline-dark" data-shift="20" aria-pressed="false"><span>20%</span><small>оптимистично</small></button>
+              </div>
+            </div>
+          </div>
+
+          <div class="g2-card calcx__card" id="calc-res" data-verdict="ok" aria-live="polite">
+            <p class="g2-card__label">Останется у&nbsp;вас, а&nbsp;не&nbsp;у&nbsp;агрегатора, в&nbsp;месяц</p>
+            <p class="g2-card__value calcx__value" id="calc-net">0 ₽</p>
+            <p class="g2-card__caption calcx__caption" id="calc-verdict"></p>
+            <hr class="g2-card__divider" />
+            <a class="g2-btn g2-btn--cyan g2-btn--lg g2-btn--block" href="#connect" id="calc-cta">Обсудить мой расчёт</a>
+          </div>
         </div>
       </div>
     </section>
@@ -339,192 +420,6 @@
       </div>
     </section>
 
-    <section class="g2-section g2-section--dark" id="calc">
-      <span class="g2-gridlines" aria-hidden="true"></span>
-      <div class="g2-container">
-        <div class="g2-section-head g2-section-head--bar">
-          <h2 class="g2-h1">Сколько вы&nbsp;можете сохранить на&nbsp;заказах</h2>
-          <p class="g2-section-head__sub">Введите свои показатели и&nbsp;выберите сценарий&nbsp;— калькулятор оценит потенциальную экономию на&nbsp;комиссии агрегаторов. Результат предварительный и&nbsp;зависит от&nbsp;фактической доли заказов в&nbsp;собственном канале.</p>
-        </div>
-
-        <div class="calcx">
-          <div class="calcx__main">
-            <form id="calc-form" class="calcx__fields" novalidate>
-              <label class="g2-field calcx__field">
-                <span class="calcx__label">Заказов в&nbsp;день</span>
-                <input class="g2-input" type="number" id="calc-orders" inputmode="numeric" min="1" max="1000" value="80" />
-                <span class="err" data-cerr="calc-orders"></span>
-              </label>
-              <label class="g2-field calcx__field">
-                <span class="calcx__label">Средний чек, ₽</span>
-                <input class="g2-input" type="number" id="calc-check" inputmode="numeric" min="100" max="10000" value="850" step="10" />
-                <span class="err" data-cerr="calc-check"></span>
-              </label>
-              <label class="g2-field calcx__field">
-                <span class="calcx__label">Доля заказов через агрегаторы, %</span>
-                <input class="g2-input" type="number" id="calc-share" inputmode="numeric" min="1" max="100" value="70" />
-                <span class="err" data-cerr="calc-share"></span>
-              </label>
-              <label class="g2-field calcx__field">
-                <span class="calcx__label">Комиссия агрегатора, %</span>
-                <input class="g2-input" type="number" id="calc-comm" inputmode="numeric" min="1" max="60" value="30" />
-                <span class="err" data-cerr="calc-comm"></span>
-              </label>
-            </form>
-            <div class="cx__scen">
-              <span class="cx__scen-k">Какая часть заказов из&nbsp;агрегаторов уйдёт в&nbsp;свой канал</span>
-              <div class="cx__opts" role="group" aria-label="Сценарий перехода">
-                <button type="button" class="g2-btn g2-btn--md g2-btn--outline-dark" data-shift="5" aria-pressed="false"><span>5%</span><small>осторожно</small></button>
-                <button type="button" class="g2-btn g2-btn--md g2-btn--outline-dark is-on" data-shift="10" aria-pressed="true"><span>10%</span><small>базово</small></button>
-                <button type="button" class="g2-btn g2-btn--md g2-btn--outline-dark" data-shift="20" aria-pressed="false"><span>20%</span><small>оптимистично</small></button>
-              </div>
-            </div>
-          </div>
-
-          <div class="g2-card calcx__card" id="calc-res" data-verdict="ok" aria-live="polite">
-            <p class="g2-card__label">Останется у&nbsp;вас, а&nbsp;не&nbsp;у&nbsp;агрегатора, в&nbsp;месяц</p>
-            <p class="g2-card__value calcx__value" id="calc-net">0 ₽</p>
-            <p class="g2-card__caption calcx__caption" id="calc-verdict"></p>
-            <hr class="g2-card__divider" />
-            <a class="g2-btn g2-btn--cyan g2-btn--lg g2-btn--block" href="#connect" id="calc-cta">Обсудить мой расчёт</a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="g2-section" id="steps">
-      <span class="g2-gridlines g2-gridlines--edges" aria-hidden="true"></span>
-      <div class="g2-container">
-        <div class="g2-section-head g2-section-head--bar">
-          <h2 class="g2-h1">Как начать работу с&nbsp;Goulash</h2>
-          <p class="g2-section-head__sub">Помогаем настроить систему под ваш ресторан и&nbsp;подготовиться к&nbsp;запуску. Минимальная настройка от&nbsp;7&nbsp;дней, полный переход сети в&nbsp;среднем около 21&nbsp;дня.</p>
-        </div>
-        <ol class="sg" data-sg>
-          <li class="sg__panel is-open" style="--i:0;--img:url(../assets/img/steps/01.jpg)">
-            <span class="sg__img" aria-hidden="true"></span>
-            <button type="button" class="sg__btn" aria-expanded="true" aria-controls="sg-0">
-              <span class="sg__top">
-                <span class="sg__tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg></span>
-              </span>
-              <span class="sg__vt" aria-hidden="true">Знакомимся</span>
-              <span class="sg__open" id="sg-0">
-                <span class="sg__title">Знакомимся</span>
-                <span class="sg__text">Изучаем особенности вашего ресторана и&nbsp;текущие процессы.</span>
-              </span>
-            </button>
-          </li>
-          <li class="sg__panel" style="--i:1;--img:url(../assets/img/steps/02.jpg)">
-            <span class="sg__img" aria-hidden="true"></span>
-            <button type="button" class="sg__btn" aria-expanded="false" aria-controls="sg-1">
-              <span class="sg__top">
-                <span class="sg__tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg></span>
-              </span>
-              <span class="sg__vt" aria-hidden="true">Настраиваем</span>
-              <span class="sg__open" id="sg-1">
-                <span class="sg__title">Настраиваем</span>
-                <span class="sg__text">Подготавливаем систему и&nbsp;необходимые интеграции.</span>
-              </span>
-            </button>
-          </li>
-          <li class="sg__panel" style="--i:2;--img:url(../assets/img/steps/03.jpg)">
-            <span class="sg__img" aria-hidden="true"></span>
-            <button type="button" class="sg__btn" aria-expanded="false" aria-controls="sg-2">
-              <span class="sg__top">
-                <span class="sg__tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l3 3 5-6"/></svg></span>
-              </span>
-              <span class="sg__vt" aria-hidden="true">Проверяем</span>
-              <span class="sg__open" id="sg-2">
-                <span class="sg__title">Проверяем</span>
-                <span class="sg__text">Тестируем работу системы и&nbsp;обучаем вашу команду.</span>
-              </span>
-            </button>
-          </li>
-          <li class="sg__panel" style="--i:3;--img:url(../assets/img/steps/04.jpg)">
-            <span class="sg__img" aria-hidden="true"></span>
-            <button type="button" class="sg__btn" aria-expanded="false" aria-controls="sg-3">
-              <span class="sg__top">
-                <span class="sg__tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg></span>
-              </span>
-              <span class="sg__vt" aria-hidden="true">Запускаем</span>
-              <span class="sg__open" id="sg-3">
-                <span class="sg__title">Запускаем</span>
-                <span class="sg__text">Переходим к&nbsp;работе и&nbsp;помогаем на&nbsp;первых этапах.</span>
-              </span>
-            </button>
-          </li>
-        </ol>
-        <div class="steps__cta">
-          <a class="g2-btn g2-btn--dark g2-btn--md" href="#connect">
-            Обсудить подключение
-            <svg class="g2-icon g2-btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
-          </a>
-        </div>
-      </div>
-    </section>
-    <section class="g2-section g2-section--dark g2-section--flush" id="numbers">
-      <span class="g2-gridlines" aria-hidden="true"></span>
-      <div class="g2-band" id="stats">
-        <div class="g2-container">
-          <div class="g2-stats">
-            <div class="g2-stats__title">
-              <div class="g2-section-head g2-section-head--bar" style="margin-bottom:0">
-                <h2 class="g2-h1">Гуляш<br><span class="g2-stats__pixel">в цифрах</span></h2>
-              </div>
-            </div>
-            <div class="g2-stat">
-              <p class="g2-stat__value" data-count="900" data-suffix="+">0+</p>
-              <p class="g2-stat__label">точек уже работают в&nbsp;Goulash</p>
-            </div>
-            <div class="g2-stat">
-              <p class="g2-stat__value" data-count="150" data-suffix="+">0+</p>
-              <p class="g2-stat__label">городов с&nbsp;автоматизированной доставкой</p>
-            </div>
-            <div class="g2-stat">
-              <p class="g2-stat__value" data-count="1.3" data-decimals="1" data-suffix=" млн+">0 млн+</p>
-              <p class="g2-stat__label">заказов в&nbsp;месяц проходит через систему</p>
-            </div>
-            <div class="g2-stat">
-              <p class="g2-stat__value" data-count="7" data-prefix="от " data-suffix=" дней">от 0 дней</p>
-              <p class="g2-stat__label">до&nbsp;запуска, минимальная настройка</p>
-            </div>
-            <div class="g2-stat">
-              <p class="g2-stat__value" data-count="4.8" data-decimals="1">0,0</p>
-              <p class="g2-stat__label">средняя оценка пользователей приложения</p>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </section>
-
-    <section class="g2-section g2-section--dark" id="kitchens">
-      <span class="g2-gridlines" aria-hidden="true"></span>
-      <div class="g2-container">
-        <div class="g2-kitchens">
-          <h2 class="g2-h1 g2-kitchens__title">Для кого система — а&nbsp;для кого нет</h2>
-          <p class="app-kitchens__lead">Goulash подходит небольшим ресторанам с&nbsp;собственной доставкой. Работаем с&nbsp;кухнями, где заказ готовят и&nbsp;собирают до&nbsp;30&nbsp;минут: пицца, роллы, бургеры. Стейкхаусы и&nbsp;гриль с&nbsp;долгим приготовлением — не&nbsp;наш формат: маршруты и&nbsp;слоты под&nbsp;такие процессы не&nbsp;заточены.</p>
-          <ul class="g2-kitchens__list">
-            <li class="g2-kitchen">
-              <img class="g2-kitchen__icon" src="assets/img/kitchens/pizza.png" alt="Пицца / Паста" loading="lazy" decoding="async" width="96" height="96">
-              <span class="g2-kitchen__label"><span>Пицца</span><span>Паста</span></span>
-            </li>
-            <li class="g2-kitchen">
-              <img class="g2-kitchen__icon" src="assets/img/kitchens/rolls.png" alt="Роллы / WOK" loading="lazy" decoding="async" width="64" height="64">
-              <span class="g2-kitchen__label"><span>Роллы</span><span>WOK</span></span>
-            </li>
-            <li class="g2-kitchen">
-              <img class="g2-kitchen__icon" src="assets/img/kitchens/burgers.png" alt="Бургеры / Шаурма" loading="lazy" decoding="async" width="64" height="64">
-              <span class="g2-kitchen__label"><span>Бургеры</span><span>Шаурма</span></span>
-            </li>
-            <li class="g2-kitchen">
-              <img class="g2-kitchen__icon" src="assets/img/kitchens/soups.png" alt="Супы / Салаты" loading="lazy" decoding="async" width="64" height="64">
-              <span class="g2-kitchen__label"><span>Супы</span><span>Салаты</span></span>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
     <section class="g2-section g2-section--soft g2-section--clip" id="cases">
       <div class="g2-container">
         <div class="g2-section-head g2-section-head--bar">
@@ -640,6 +535,112 @@
 </div>
 </div>
 </section>
+
+    <section class="g2-section" id="steps">
+      <span class="g2-gridlines g2-gridlines--edges" aria-hidden="true"></span>
+      <div class="g2-container">
+        <div class="g2-section-head g2-section-head--bar">
+          <h2 class="g2-h1">Как начать работу с&nbsp;Goulash</h2>
+          <p class="g2-section-head__sub">Помогаем настроить систему под ваш ресторан и&nbsp;подготовиться к&nbsp;запуску. Минимальная настройка от&nbsp;7&nbsp;дней, полный переход сети в&nbsp;среднем около 21&nbsp;дня.</p>
+        </div>
+        <ol class="sg" data-sg>
+          <li class="sg__panel is-open" style="--i:0;--img:url(../assets/img/steps/01.jpg)">
+            <span class="sg__img" aria-hidden="true"></span>
+            <button type="button" class="sg__btn" aria-expanded="true" aria-controls="sg-0">
+              <span class="sg__top">
+                <span class="sg__tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg></span>
+              </span>
+              <span class="sg__vt" aria-hidden="true">Знакомимся</span>
+              <span class="sg__open" id="sg-0">
+                <span class="sg__title">Знакомимся</span>
+                <span class="sg__text">Изучаем особенности вашего ресторана и&nbsp;текущие процессы.</span>
+              </span>
+            </button>
+          </li>
+          <li class="sg__panel" style="--i:1;--img:url(../assets/img/steps/02.jpg)">
+            <span class="sg__img" aria-hidden="true"></span>
+            <button type="button" class="sg__btn" aria-expanded="false" aria-controls="sg-1">
+              <span class="sg__top">
+                <span class="sg__tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg></span>
+              </span>
+              <span class="sg__vt" aria-hidden="true">Настраиваем</span>
+              <span class="sg__open" id="sg-1">
+                <span class="sg__title">Настраиваем</span>
+                <span class="sg__text">Подготавливаем систему и&nbsp;необходимые интеграции.</span>
+              </span>
+            </button>
+          </li>
+          <li class="sg__panel" style="--i:2;--img:url(../assets/img/steps/03.jpg)">
+            <span class="sg__img" aria-hidden="true"></span>
+            <button type="button" class="sg__btn" aria-expanded="false" aria-controls="sg-2">
+              <span class="sg__top">
+                <span class="sg__tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l3 3 5-6"/></svg></span>
+              </span>
+              <span class="sg__vt" aria-hidden="true">Проверяем</span>
+              <span class="sg__open" id="sg-2">
+                <span class="sg__title">Проверяем</span>
+                <span class="sg__text">Тестируем работу системы и&nbsp;обучаем вашу команду.</span>
+              </span>
+            </button>
+          </li>
+          <li class="sg__panel" style="--i:3;--img:url(../assets/img/steps/04.jpg)">
+            <span class="sg__img" aria-hidden="true"></span>
+            <button type="button" class="sg__btn" aria-expanded="false" aria-controls="sg-3">
+              <span class="sg__top">
+                <span class="sg__tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg></span>
+              </span>
+              <span class="sg__vt" aria-hidden="true">Запускаем</span>
+              <span class="sg__open" id="sg-3">
+                <span class="sg__title">Запускаем</span>
+                <span class="sg__text">Переходим к&nbsp;работе и&nbsp;помогаем на&nbsp;первых этапах.</span>
+              </span>
+            </button>
+          </li>
+        </ol>
+        <div class="steps__cta">
+          <a class="g2-btn g2-btn--dark g2-btn--md" href="#connect">
+            Обсудить подключение
+            <svg class="g2-icon g2-btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="g2-section g2-section--dark g2-section--flush" id="numbers">
+      <span class="g2-gridlines" aria-hidden="true"></span>
+      <div class="g2-band" id="stats">
+        <div class="g2-container">
+          <div class="g2-stats">
+            <div class="g2-stats__title">
+              <div class="g2-section-head g2-section-head--bar" style="margin-bottom:0">
+                <h2 class="g2-h1">Гуляш<br><span class="g2-stats__pixel">в цифрах</span></h2>
+              </div>
+            </div>
+            <div class="g2-stat">
+              <p class="g2-stat__value" data-count="900" data-suffix="+">0+</p>
+              <p class="g2-stat__label">точек уже работают в&nbsp;Goulash</p>
+            </div>
+            <div class="g2-stat">
+              <p class="g2-stat__value" data-count="150" data-suffix="+">0+</p>
+              <p class="g2-stat__label">городов с&nbsp;автоматизированной доставкой</p>
+            </div>
+            <div class="g2-stat">
+              <p class="g2-stat__value" data-count="1.3" data-decimals="1" data-suffix=" млн+">0 млн+</p>
+              <p class="g2-stat__label">заказов в&nbsp;месяц проходит через систему</p>
+            </div>
+            <div class="g2-stat">
+              <p class="g2-stat__value" data-count="7" data-prefix="от " data-suffix=" дней">от 0 дней</p>
+              <p class="g2-stat__label">до&nbsp;запуска, минимальная настройка</p>
+            </div>
+            <div class="g2-stat">
+              <p class="g2-stat__value" data-count="4.8" data-decimals="1">0,0</p>
+              <p class="g2-stat__label">средняя оценка пользователей приложения</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
 
     <section class="g2-section g2-connect" id="cta">
       <div class="g2-connect__glow" aria-hidden="true"></div>
@@ -765,9 +766,8 @@
         </div>
       </div>
     </section>
-  </main>
 
-  <section class="g2-section g2-section--dark g2-section--flush" id="contacts">
+    <section class="g2-section g2-section--dark g2-section--flush" id="contacts">
 <!-- по макету: в полосах «Работаем по всей России» и «Контакты» только линии
 по краям контейнера, внутренние колонки — начиная с полосы «Карьера» -->
 <span class="g2-gridlines" aria-hidden="true"></span>
@@ -928,7 +928,7 @@ aria-label="Rutube"
     </div>
   </div>
 
-  <script src="js/app.js?v=20261066"></script>
+  <script src="js/app.js?v=20261087"></script>
   <script src="js/demo.js?v=16"></script>
 </body>
 </html>
