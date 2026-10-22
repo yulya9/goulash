@@ -1003,7 +1003,7 @@ input.is-invalid {
 .calcx__fields { display: grid; grid-template-columns: minmax(0, 1fr); gap: 24px; }
 .calcx__field { display: grid; gap: 8px; }
 .calcx__label { font-size: var(--g-t5-size); line-height: var(--g-t5-lh); color: var(--g-od-tertiary); }
-.calcx__field .g2-input { -moz-appearance: textfield; }
+.calcx__field .g2-input { -moz-appearance: textfield; border-radius: 12px; }
 .calcx__field .g2-input::-webkit-outer-spin-button, .calcx__field .g2-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
 .calcx__field .g2-input.is-invalid { border-color: var(--g-error); }
 .calcx__field .err { min-height: 0; font-size: var(--g-t5-size); }
