@@ -266,6 +266,39 @@ async function sendLead(payload) {
   }
 }
 
+// Окно с результатом отправки заявки
+let leadModalFocus = null;
+function openLeadModal(kind) {
+  const m = document.getElementById("lead-modal");
+  const ok = kind === "ok";
+  m.dataset.kind = kind;
+  document.getElementById("lead-modal-title").textContent = ok ? "Заявка отправлена" : "Не\u00a0удалось отправить заявку";
+  document.getElementById("lead-modal-text").innerHTML = ok
+    ? "Менеджер свяжется с\u00a0вами по\u00a0указанному номеру. Остальное обсудим на\u00a0звонке."
+    : 'Данные остались в\u00a0форме. Попробуйте ещё раз или напишите нам в\u00a0<a class="lead-modal__link" href="https://t.me/GoulashPrivatBot" target="_blank" rel="noopener noreferrer">Telegram</a>.';
+  document.getElementById("lead-modal-ok").textContent = ok ? "Понятно" : "Попробовать ещё раз";
+  leadModalFocus = document.activeElement;
+  m.hidden = false;
+  document.documentElement.classList.add("has-modal");
+  document.getElementById("lead-modal-ok").focus();
+}
+function closeLeadModal() {
+  const m = document.getElementById("lead-modal");
+  if (m.hidden) return;
+  m.hidden = true;
+  document.documentElement.classList.remove("has-modal");
+  if (leadModalFocus && document.contains(leadModalFocus)) leadModalFocus.focus({ preventScroll: true });
+}
+function bindLeadModal() {
+  const m = document.getElementById("lead-modal");
+  m.addEventListener("click", (e) => {
+    if (e.target === m || e.target.closest("[data-close-modal]")) closeLeadModal();
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeLeadModal();
+  });
+}
+
 async function submitLead(event) {
   event.preventDefault();
   const form = event.currentTarget;
@@ -285,98 +318,57 @@ async function submitLead(event) {
   try {
     await sendLead(payload);
     form.reset();
-    setFormState(
-      form,
-      "sent",
-      "Заявка отправлена. Менеджер свяжется с\u00a0вами." + (payload.calc ? " Расчёт приложен." : "")
-    );
+    paintErrors(form, {});
+    setFormState(form, "sent", "");
+    openLeadModal("ok");
   } catch (err) {
-    setFormState(
-      form,
-      "failed",
-      'Не\u00a0удалось отправить заявку. Данные сохранены: попробуйте ещё раз или напишите нам в\u00a0<a class="form__desc--link" href="https://t.me/GoulashPrivatBot" target="_blank" rel="noopener noreferrer">Telegram</a>.'
-    );
+    setFormState(form, "failed", "");
+    openLeadModal("fail");
   } finally {
     btn.disabled = false;
     btn.textContent = "Оставить заявку";
   }
 }
 
-function bind() {
-  ["calc-orders", "calc-check", "calc-comm", "calc-share"].forEach((id) => {
-    document.getElementById(id).addEventListener("input", () => {
-      state.calcTouched = true;
-      updateCalc();
-    });
-  });
-
-  document.querySelectorAll("[data-shift]").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      state.shift = Number(btn.dataset.shift);
-      state.calcTouched = true;
-      document.querySelectorAll("[data-shift]").forEach((b) => {
-        b.classList.toggle("is-on", b === btn);
-        b.setAttribute("aria-pressed", String(b === btn));
-      });
-      updateCalc();
-    });
-  });
-
-  document.getElementById("lead-form").addEventListener("submit", submitLead);
-
-  updateCalc();
-  bindFaq();
-  bindQuotes();
-  bindCasesSlider();
-  bindHeaderStuck();
-  bindCountUps();
-  bindReveals();
+function safe(fn) {
+  try {
+    fn();
+  } catch (err) {
+    console.error(err);
+  }
 }
 
-function bindCasesSlider() {
-  const track = document.querySelector("[data-g2-slider-track]");
-  if (!track) return;
-  const prev = document.querySelector("[data-g2-slider-prev]");
-  const next = document.querySelector("[data-g2-slider-next]");
-  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+function bind() {
+  // форма заявки подключается первой: что бы ни случилось дальше, обычную отправку браузером она перехватит
+  safe(() => document.getElementById("lead-form").addEventListener("submit", submitLead));
+  safe(bindLeadModal);
 
-  function step() {
-    const card = track.querySelector(".g2-case");
-    const gap = parseFloat(getComputedStyle(track).columnGap) || 20;
-    return card ? card.getBoundingClientRect().width + gap : 400;
-  }
-  function sync() {
-    const max = track.scrollWidth - track.clientWidth - 2;
-    if (prev) prev.disabled = track.scrollLeft <= 2;
-    if (next) next.disabled = track.scrollLeft >= max;
-  }
-  function go(dir) {
-    track.scrollBy({ left: dir * step(), behavior: reduce ? "auto" : "smooth" });
-  }
-  if (prev) prev.addEventListener("click", () => go(-1));
-  if (next) next.addEventListener("click", () => go(1));
-  track.addEventListener("scroll", sync, { passive: true });
-  window.addEventListener("resize", sync);
-  sync();
-
-  // перетаскивание мышью
-  let down = false, startX = 0, startLeft = 0, moved = false;
-  track.addEventListener("pointerdown", (e) => {
-    if (e.pointerType !== "mouse" || e.button !== 0) return;
-    down = true; moved = false; startX = e.clientX; startLeft = track.scrollLeft;
+  safe(() => {
+    ["calc-orders", "calc-check", "calc-comm", "calc-share"].forEach((id) => {
+      document.getElementById(id).addEventListener("input", () => {
+        state.calcTouched = true;
+        updateCalc();
+      });
+    });
+    document.querySelectorAll("[data-shift]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        state.shift = Number(btn.dataset.shift);
+        state.calcTouched = true;
+        document.querySelectorAll("[data-shift]").forEach((b) => {
+          b.classList.toggle("is-on", b === btn);
+          b.setAttribute("aria-pressed", String(b === btn));
+        });
+        updateCalc();
+      });
+    });
+    updateCalc();
   });
-  window.addEventListener("pointermove", (e) => {
-    if (!down) return;
-    const dx = e.clientX - startX;
-    if (Math.abs(dx) > 4) { moved = true; track.classList.add("is-dragging"); }
-    if (moved) track.scrollLeft = startLeft - dx;
-  });
-  window.addEventListener("pointerup", () => {
-    if (!down) return;
-    down = false;
-    track.classList.remove("is-dragging");
-  });
-  track.addEventListener("click", (e) => { if (moved) { e.preventDefault(); moved = false; } }, true);
+  safe(bindFaq);
+  safe(bindQuotes);
+  safe(bindCasesSlider);
+  safe(bindHeaderStuck);
+  safe(bindCountUps);
+  safe(bindReveals);
 }
 
 function bindReveals() {

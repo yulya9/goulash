@@ -1106,3 +1106,24 @@ input.is-invalid {
   border: 1px solid var(--g-border-situative);
   transition: background-color 600000s 0s, color 600000s 0s;
 }
+
+/* Окно результата отправки заявки */
+.lead-modal { position: fixed; inset: 0; z-index: 1000; display: grid; place-items: center; padding: 16px; background: rgba(10, 10, 12, 0.66); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); animation: leadFade 0.2s ease both; }
+.lead-modal[hidden] { display: none; }
+.has-modal { overflow: hidden; }
+.lead-modal__box { position: relative; width: min(440px, 100%); display: grid; gap: 16px; justify-items: start; padding: 40px 32px 32px; border-radius: var(--g-r-xl); background: var(--g-dark-card); color: var(--g-od-primary); border: 1px solid var(--g-line-on-dark); animation: leadRise 0.28s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.lead-modal__x { position: absolute; top: 12px; right: 12px; width: 36px; height: 36px; display: grid; place-items: center; border-radius: var(--g-r-sm); color: var(--g-od-tertiary); background: none; border: 0; cursor: pointer; transition: color var(--g-dur) var(--g-ease); }
+.lead-modal__x:hover { color: var(--g-od-primary); }
+.lead-modal__x svg { width: 20px; height: 20px; }
+.lead-modal__icon { width: 48px; height: 48px; display: grid; place-items: center; border-radius: 50%; border: 1.5px solid var(--g-cyan); color: var(--g-cyan); }
+.lead-modal[data-kind="fail"] .lead-modal__icon { border-color: var(--g-error); color: var(--g-error); }
+.lead-modal__ic { width: 22px; height: 22px; }
+.lead-modal[data-kind="ok"] .lead-modal__ic--fail, .lead-modal[data-kind="fail"] .lead-modal__ic--ok { display: none; }
+.lead-modal__title { margin: 0; font-size: var(--g-h3-size); line-height: var(--g-h3-lh); }
+.lead-modal__text { margin: 0; font-size: var(--g-t4-size); line-height: 1.45; color: var(--g-od-secondary); }
+.lead-modal__link { color: var(--g-cyan); text-decoration: underline; text-underline-offset: 2px; }
+.lead-modal__box .g2-btn { margin-top: 8px; }
+@keyframes leadFade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes leadRise { from { opacity: 0; transform: translateY(12px) scale(0.98); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .lead-modal, .lead-modal__box { animation: none; } }
+@media (max-width: 480px) { .lead-modal__box { padding: 36px 20px 24px; } }
