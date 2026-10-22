@@ -1228,3 +1228,6 @@ input.is-invalid {
 .sg .sg__panel::before { content: ""; position: absolute; inset: 0; z-index: 1; background: rgba(10, 10, 12, 0.58); opacity: 1; pointer-events: none; transition: opacity 0.5s; }
 .sg .sg__panel:not(.is-open):hover::before { opacity: 0.8; }
 .sg .sg__panel.is-open::before { opacity: 0; }
+
+/* Цифры: сноска про источник */
+.stats-note { margin: 16px 0 0; font-size: var(--g-t5-size); line-height: 1.4; color: var(--g-od-tertiary); }
