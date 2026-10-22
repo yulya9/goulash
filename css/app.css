@@ -1115,7 +1115,7 @@ input.is-invalid {
 .lead-modal__x { position: absolute; top: 12px; right: 12px; width: 36px; height: 36px; display: grid; place-items: center; border-radius: var(--g-r-sm); color: var(--g-od-tertiary); background: none; border: 0; cursor: pointer; transition: color var(--g-dur) var(--g-ease); }
 .lead-modal__x:hover { color: var(--g-od-primary); }
 .lead-modal__x svg { width: 20px; height: 20px; }
-.lead-modal__icon { width: 56px; height: 56px; display: grid; place-items: center; justify-self: center; border-radius: 50%; background: var(--g-cyan); color: var(--g-ol-primary); }
+.lead-modal__icon { width: 56px; height: 56px; display: grid; place-items: center; justify-self: center; margin-inline: auto; border-radius: 50%; background: var(--g-cyan); color: var(--g-ol-primary); }
 .lead-modal[data-kind="fail"] .lead-modal__icon { background: var(--g-error); color: var(--g-light-primary); }
 .lead-modal__ic { display: block; width: 26px; height: 26px; }
 .lead-modal[data-kind="ok"] .lead-modal__ic--fail, .lead-modal[data-kind="fail"] .lead-modal__ic--ok { display: none; }
