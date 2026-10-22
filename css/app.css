@@ -1231,3 +1231,20 @@ input.is-invalid {
 
 /* Цифры: сноска про источник */
 .stats-note { margin: 16px 0 0; font-size: var(--g-t5-size); line-height: 1.4; color: var(--g-od-tertiary); }
+
+/* Телефон: схема не уходит под шапку и без пустых полей сверху и снизу (рисунок занимает середину поля 640×600) */
+@media (max-width: 768px) {
+  .g2-hero__inner { padding-top: var(--g-header-h, 57px); justify-content: center; }
+  .g2-hero__media { overflow: hidden; }
+  .g2-hero__media .circuit { max-height: none; margin-block: -20%; }
+}
+
+/* Телефон, «Как начать»: заголовок шага всегда справа от иконки, описание под ним и не накладывается */
+@media (max-width: 767px) {
+  .sg .sg__btn { display: grid; grid-template-columns: 48px minmax(0, 1fr); grid-template-rows: auto 1fr; column-gap: 16px; align-items: center; padding: 20px; }
+  .sg .sg__top { grid-column: 1; grid-row: 1; width: auto; }
+  .sg .sg__vt { grid-column: 2; grid-row: 1; margin: 0; order: 0; font-size: var(--g-t2-size); color: var(--g-od-primary); }
+  .sg .sg__open { grid-column: 1 / -1; grid-row: 2; align-self: end; max-width: none; }
+  .sg .sg__panel.is-open .sg__open { max-height: none; margin-top: 72px; }
+  .sg .sg__panel.is-open::before { opacity: 1; background: linear-gradient(180deg, rgba(10, 10, 12, 0.2) 0%, rgba(10, 10, 12, 0.82) 100%); }
+}
