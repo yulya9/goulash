@@ -213,16 +213,13 @@
 .gp__user:hover { background: rgba(255, 255, 255, 0.5); }
 .gp__i { width: 18px; height: 18px; border-radius: 50%; border: 1.5px solid #7fb0c4; color: #7fb0c4; font-size: 11px; line-height: 1; display: inline-grid; place-items: center; }
 .gp__i:hover { background: #7fb0c4; color: var(--gp-dark); }
-.gp__stat { cursor: var(--gp-cursor); border-radius: 6px; transition: background 0.2s, opacity 0.2s; }
-.gp__stat:hover { background: rgba(255, 255, 255, 0.04); }
+.gp__stat { cursor: var(--gp-cursor); border-radius: 6px; transition: opacity 0.2s; }
 .gp__stat:focus-visible { outline: 2px solid #7fb0c4; outline-offset: 2px; }
 .gp__stats.has-stage .gp__stat:not(.is-on) { opacity: 0.55; }
 .gp__stat.is-on { background: rgba(255, 255, 255, 0.07); }
 .gp__payrow { text-align: left; width: 100%; transition: opacity 0.2s, background 0.2s; }
-.gp__payrow:hover { background: #17303b; }
 .gp__pay.has-pick .gp__payrow:not(.is-on) { opacity: 0.45; }
 .gp__cells span[data-uid] { cursor: var(--gp-cursor); }
-.gp__cells span[data-uid]:hover { filter: brightness(1.2); outline: 1px solid #fff; }
 .gp__badge { cursor: var(--gp-cursor); }
 .gp__badge:hover { background: #b5403f; }
 .gp__col-h { cursor: var(--gp-cursor); border-radius: 4px; }
