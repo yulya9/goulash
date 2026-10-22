@@ -189,93 +189,160 @@ function digits(phone) {
   return phone.replace(/\D/g, "");
 }
 
-const LEAD_MSG = {
-  name: "Укажите имя",
-  phone: "Введите номер полностью, например +7\u00a0900\u00a0000-00-00",
-  city: "Укажите город",
-  company: "Укажите название компании",
-  points: "Укажите количество точек",
-  privacy: "Нужно согласие на обработку данных",
+// ---- Форма заявки: проверка полей, состояния, отправка ----
+const NB = " ";
+const LEAD_FIELDS = {
+  name: {
+    check(v) {
+      v = v.trim();
+      if (v.length < 2) return "Укажите имя";
+      if (/\d/.test(v)) return "Имя без цифр, пожалуйста";
+      return "";
+    },
+  },
+  phone: {
+    check(v) {
+      let d = digits(v);
+      if (d.length === 11 && d[0] === "8") d = "7" + d.slice(1);
+      if (d.length !== 11 || d[0] !== "7") return "Введите номер полностью: +7" + NB + "900" + NB + "000-00-00";
+      return "";
+    },
+  },
+  city: { check: (v) => (v.trim().length < 2 ? "Укажите город" : "") },
+  company: { check: (v) => (v.trim().length < 2 ? "Укажите название компании" : "") },
+  points: {
+    check(v) {
+      if (!String(v).trim()) return "Укажите количество точек";
+      const n = Number(v);
+      if (!Number.isInteger(n) || n < 1 || n > 999) return "Укажите число от 1 до 999";
+      return "";
+    },
+  },
+  privacy: { check: (_v, el) => (el.checked ? "" : "Нужно согласие на обработку данных") },
 };
 
+function leadValue(form, name) {
+  const el = form.querySelector(`[name="${name}"]`);
+  return name === "privacy" ? "" : el.value;
+}
+
+function setFieldError(form, name, msg) {
+  const el = form.querySelector(`[name="${name}"]`);
+  const wrap = el.closest(".wpcf7-form-control-wrap");
+  wrap.querySelectorAll(".wpcf7-not-valid-tip").forEach((n) => n.remove());
+  if (name !== "privacy") {
+    el.classList.toggle("wpcf7-not-valid", Boolean(msg));
+    el.setAttribute("aria-invalid", msg ? "true" : "false");
+  }
+  if (!msg) {
+    el.removeAttribute("aria-describedby");
+    return;
+  }
+  const tip = document.createElement("span");
+  tip.className = "wpcf7-not-valid-tip";
+  tip.id = "tip-" + name;
+  tip.setAttribute("role", "alert");
+  tip.textContent = msg;
+  wrap.appendChild(tip);
+  el.setAttribute("aria-describedby", tip.id);
+}
+
+function validateField(form, name) {
+  const el = form.querySelector(`[name="${name}"]`);
+  const msg = LEAD_FIELDS[name].check(leadValue(form, name), el);
+  setFieldError(form, name, msg);
+  return msg;
+}
+
 function validateLead(form) {
-  const data = Object.fromEntries(new FormData(form));
   const errors = {};
-  if (!String(data.name || "").trim()) errors.name = LEAD_MSG.name;
-  if (digits(String(data.phone || "")).length < 10) errors.phone = LEAD_MSG.phone;
-  if (!String(data.city || "").trim()) errors.city = LEAD_MSG.city;
-  if (!String(data.company || "").trim()) errors.company = LEAD_MSG.company;
-  if (!(Number(data.points) >= 1)) errors.points = LEAD_MSG.points;
-  if (!form.querySelector('[name="privacy"]').checked) errors.privacy = LEAD_MSG.privacy;
-  return { data, errors };
+  Object.keys(LEAD_FIELDS).forEach((name) => {
+    const msg = validateField(form, name);
+    if (msg) errors[name] = msg;
+  });
+  return { data: Object.fromEntries(new FormData(form)), errors };
 }
 
-function paintErrors(form, errors) {
-  form.querySelectorAll(".wpcf7-not-valid-tip").forEach((n) => n.remove());
-  form.querySelectorAll(".wpcf7-not-valid").forEach((n) => {
-    n.classList.remove("wpcf7-not-valid");
-    n.setAttribute("aria-invalid", "false");
-  });
-  Object.entries(errors).forEach(([name, msg]) => {
-    const input = form.querySelector(`[name="${name}"]`);
-    const wrap = input.closest(".wpcf7-form-control-wrap");
-    if (name !== "privacy") {
-      input.classList.add("wpcf7-not-valid");
-      input.setAttribute("aria-invalid", "true");
-    }
-    const tip = document.createElement("span");
-    tip.className = "wpcf7-not-valid-tip";
-    tip.setAttribute("role", "alert");
-    tip.textContent = msg;
-    wrap.appendChild(tip);
-  });
+function setSummary(form, text) {
+  const s = document.getElementById("lead-summary");
+  s.textContent = text || "";
+  s.hidden = !text;
 }
 
-function setFormState(form, status, html) {
+function setFormState(form, status) {
   form.classList.remove("init", "invalid", "sending", "sent", "failed");
   form.classList.add(status);
   form.dataset.status = status;
-  const out = document.getElementById("form-out");
-  out.innerHTML = html || "";
-  out.setAttribute("aria-hidden", html ? "false" : "true");
+  const busy = status === "sending";
+  form.setAttribute("aria-busy", String(busy));
+  form.querySelectorAll("input").forEach((i) => {
+    if (i.type === "checkbox") i.disabled = busy;
+    else i.readOnly = busy;
+  });
 }
 
-// Адрес приёма заявок. Сейчас открытый тестовый сервис httpbin.org: он принимает запрос и возвращает его обратно,
-// никуда дальше данные не уходят. Для боевого сайта заменить на свой адрес (CRM, Telegram-бот, сервис форм).
-// Состояние ошибки можно посмотреть по адресу ?form=error.
-const LEAD_ENDPOINT = "https://httpbin.org/post";
+// маска телефона: +7 (900) 000-00-00
+function formatPhone(raw) {
+  let d = digits(raw);
+  if (!d) return "";
+  if (d[0] === "8") d = "7" + d.slice(1);
+  if (d[0] !== "7") d = "7" + d;
+  d = d.slice(0, 11);
+  let out = "+7";
+  if (d.length > 1) out += NB + "(" + d.slice(1, 4);
+  if (d.length >= 4) out += ")";
+  if (d.length > 4) out += NB + d.slice(4, 7);
+  if (d.length > 7) out += "-" + d.slice(7, 9);
+  if (d.length > 9) out += "-" + d.slice(9, 11);
+  return out;
+}
 
-async function sendLead(payload) {
-  if (new URLSearchParams(location.search).get("form") === "error") {
-    await new Promise((r) => setTimeout(r, 900));
-    throw new Error("demo");
-  }
-  const ctrl = new AbortController();
-  const timer = setTimeout(() => ctrl.abort(), 10000);
-  try {
-    const res = await fetch(LEAD_ENDPOINT, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ...payload, source: "landing", sentAt: new Date().toISOString() }),
-      signal: ctrl.signal,
+function bindLeadForm() {
+  const form = document.getElementById("lead-form");
+  form.addEventListener("submit", submitLead);
+  Object.keys(LEAD_FIELDS).forEach((name) => {
+    const el = form.querySelector(`[name="${name}"]`);
+    // проверка при уходе из поля; пока человек исправляет, ошибка снимается сразу, как только значение верное
+    el.addEventListener("blur", () => {
+      if (name !== "privacy" && el.value !== "") validateField(form, name);
     });
-    if (!res.ok) throw new Error("http " + res.status);
-    return await res.json();
-  } finally {
-    clearTimeout(timer);
-  }
+    const live = () => {
+      if (el.classList.contains("wpcf7-not-valid") || document.getElementById("tip-" + name)) validateField(form, name);
+      if (!form.querySelector(".wpcf7-not-valid-tip")) setSummary(form, "");
+    };
+    el.addEventListener(name === "privacy" ? "change" : "input", live);
+  });
+  const phone = form.querySelector('[name="phone"]');
+  phone.addEventListener("input", () => {
+    const pos = phone.selectionStart;
+    const before = phone.value.length;
+    phone.value = formatPhone(phone.value);
+    if (pos !== null && pos >= before) phone.setSelectionRange(phone.value.length, phone.value.length);
+  });
+  phone.addEventListener("focus", () => {
+    if (!phone.value) phone.value = "+7" + NB;
+  });
+  phone.addEventListener("blur", () => {
+    if (digits(phone.value).length <= 1) phone.value = "";
+  });
 }
 
 // Окно с результатом отправки заявки
 let leadModalFocus = null;
-function openLeadModal(kind) {
+const FAIL_TEXT = {
+  offline: "Нет соединения с интернетом. Проверьте подключение и отправьте заявку ещё раз.",
+  timeout: "Сервер слишком долго не отвечает. Попробуйте ещё раз чуть позже.",
+  server: "Сервер вернул ошибку. Попробуйте ещё раз или напишите нам в" + NB + '<a class="lead-modal__link" href="https://t.me/GoulashPrivatBot" target="_blank" rel="noopener noreferrer">Telegram</a>.',
+  other: "Данные остались в" + NB + 'форме. Попробуйте ещё раз или напишите нам в' + NB + '<a class="lead-modal__link" href="https://t.me/GoulashPrivatBot" target="_blank" rel="noopener noreferrer">Telegram</a>.',
+};
+function openLeadModal(kind, reason) {
   const m = document.getElementById("lead-modal");
   const ok = kind === "ok";
   m.dataset.kind = kind;
-  document.getElementById("lead-modal-title").textContent = ok ? "Заявка отправлена" : "Не\u00a0удалось отправить заявку";
+  document.getElementById("lead-modal-title").textContent = ok ? "Заявка отправлена" : "Не" + NB + "удалось отправить заявку";
   document.getElementById("lead-modal-text").innerHTML = ok
-    ? "Менеджер свяжется с\u00a0вами по\u00a0указанному номеру. Остальное обсудим на\u00a0звонке."
-    : 'Данные остались в\u00a0форме. Попробуйте ещё раз или напишите нам в\u00a0<a class="lead-modal__link" href="https://t.me/GoulashPrivatBot" target="_blank" rel="noopener noreferrer">Telegram</a>.';
+    ? "Менеджер свяжется с" + NB + "вами по" + NB + "указанному номеру. Остальное обсудим на" + NB + "звонке."
+    : FAIL_TEXT[reason] || FAIL_TEXT.other;
   document.getElementById("lead-modal-ok").textContent = ok ? "Понятно" : "Попробовать ещё раз";
   leadModalFocus = document.activeElement;
   m.hidden = false;
@@ -299,33 +366,69 @@ function bindLeadModal() {
   });
 }
 
+// Адрес приёма заявок. Сейчас открытый тестовый сервис httpbin.org: он принимает запрос и возвращает его обратно,
+// никуда дальше данные не уходят. Для боевого сайта заменить на свой адрес (CRM, Telegram-бот, сервис форм).
+// Состояния можно посмотреть по адресу: ?form=error (ошибка сервера), ?form=offline (нет сети), ?form=timeout (долгий ответ).
+const LEAD_ENDPOINT = "https://httpbin.org/post";
+
+async function sendLead(payload) {
+  const demo = new URLSearchParams(location.search).get("form");
+  const fail = (reason) => Object.assign(new Error(reason), { reason });
+  if (demo === "error") { await new Promise((r) => setTimeout(r, 900)); throw fail("server"); }
+  if (demo === "offline" || navigator.onLine === false) { await new Promise((r) => setTimeout(r, 500)); throw fail("offline"); }
+  if (demo === "timeout") { await new Promise((r) => setTimeout(r, 1400)); throw fail("timeout"); }
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), 10000);
+  try {
+    const res = await fetch(LEAD_ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...payload, source: "landing", sentAt: new Date().toISOString() }),
+      signal: ctrl.signal,
+    });
+    if (!res.ok) throw fail("server");
+    return await res.json();
+  } catch (err) {
+    if (err.reason) throw err;
+    if (err.name === "AbortError") throw fail("timeout");
+    throw fail(navigator.onLine === false ? "offline" : "other");
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
 async function submitLead(event) {
   event.preventDefault();
   const form = event.currentTarget;
+  if (form.classList.contains("sending")) return;
   const btn = document.getElementById("lead-submit");
   const { data, errors } = validateLead(form);
-  paintErrors(form, errors);
-  if (Object.keys(errors).length) {
-    setFormState(form, "invalid", "");
-    const first = form.querySelector(".wpcf7-not-valid") || form.querySelector('[name="privacy"]');
-    if (first) first.focus();
+  const bad = Object.keys(errors);
+  if (bad.length) {
+    setFormState(form, "invalid");
+    setSummary(form, bad.length === 1 ? "Проверьте поле, отмеченное красным" : "Проверьте поля, отмеченные красным");
+    const first = form.querySelector(`[name="${bad[0]}"]`);
+    first.focus();
     return;
   }
-  const payload = { ...data, calc: state.calcTouched ? state.calc : null };
+  setSummary(form, "");
+  const payload = { ...data, phone: "+" + digits(data.phone).replace(/^8/, "7"), calc: state.calcTouched ? state.calc : null };
   btn.disabled = true;
+  btn.classList.add("is-loading");
   btn.textContent = "Отправляем…";
-  setFormState(form, "sending", "");
+  setFormState(form, "sending");
   try {
     await sendLead(payload);
     form.reset();
-    paintErrors(form, {});
-    setFormState(form, "sent", "");
+    Object.keys(LEAD_FIELDS).forEach((n) => setFieldError(form, n, ""));
+    setFormState(form, "sent");
     openLeadModal("ok");
   } catch (err) {
-    setFormState(form, "failed", "");
-    openLeadModal("fail");
+    setFormState(form, "failed");
+    openLeadModal("fail", err.reason);
   } finally {
     btn.disabled = false;
+    btn.classList.remove("is-loading");
     btn.textContent = "Оставить заявку";
   }
 }
@@ -340,7 +443,7 @@ function safe(fn) {
 
 function bind() {
   // форма заявки подключается первой: что бы ни случилось дальше, обычную отправку браузером она перехватит
-  safe(() => document.getElementById("lead-form").addEventListener("submit", submitLead));
+  safe(bindLeadForm);
   safe(bindLeadModal);
 
   safe(() => {

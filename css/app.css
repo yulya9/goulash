@@ -1127,3 +1127,23 @@ input.is-invalid {
 @keyframes leadRise { from { opacity: 0; transform: translateY(12px) scale(0.98); } to { opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: reduce) { .lead-modal, .lead-modal__box { animation: none; } }
 @media (max-width: 480px) { .lead-modal__box { padding: 36px 20px 24px; } }
+
+/* Состояния формы заявки */
+.g2-form .wpcf7-response-output:empty { display: none !important; }
+.g2-form input.g2-input { transition: border-color var(--g-dur) var(--g-ease), box-shadow var(--g-dur) var(--g-ease); }
+.g2-form input.g2-input:hover:not(:focus):not(.wpcf7-not-valid) { border-color: var(--g-ol-muted); }
+.g2-form input.g2-input:focus { border-color: var(--g-light-primary); box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1); }
+.g2-form input.g2-input.wpcf7-not-valid { border-color: var(--g-error); box-shadow: 0 0 0 3px rgba(255, 47, 47, 0.14); }
+.g2-form input.g2-input.wpcf7-not-valid:focus { border-color: var(--g-error); box-shadow: 0 0 0 3px rgba(255, 47, 47, 0.22); }
+.g2-form input.g2-input[readonly] { opacity: 0.6; cursor: progress; }
+.g2-form .wpcf7-not-valid-tip { display: block; margin-top: 8px; padding-left: 4px; font-size: var(--g-t5-size); line-height: 1.35; color: var(--g-error); animation: tipIn 0.18s ease both; }
+@keyframes tipIn { from { opacity: 0; transform: translateY(-3px); } to { opacity: 1; transform: none; } }
+.g2-form .form__checkbox input[type="checkbox"]:focus-visible { outline: 2px solid var(--g-light-primary); outline-offset: 2px; }
+.g2-form .form__checkbox:has(.wpcf7-not-valid-tip) .wpcf7-list-item-label { color: var(--g-error); }
+.g2-form .form__checkbox input[type="checkbox"]:disabled { opacity: 0.6; cursor: progress; }
+.lead-summary { margin: 0; padding: 10px 14px; border: 1px solid var(--g-error); border-radius: 12px; font-size: var(--g-t5-size); line-height: 1.35; color: var(--g-error); background: rgba(255, 47, 47, 0.08); }
+.lead-summary[hidden] { display: none; }
+.g2-form .g2-form__submit.is-loading { pointer-events: none; }
+.g2-form .g2-form__submit.is-loading::before { content: ""; display: inline-block; width: 16px; height: 16px; margin-right: 10px; vertical-align: -3px; border: 2px solid rgba(4, 4, 6, 0.25); border-top-color: var(--g-ol-primary); border-radius: 50%; animation: leadSpin 0.7s linear infinite; }
+@keyframes leadSpin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .g2-form .wpcf7-not-valid-tip { animation: none; } .g2-form .g2-form__submit.is-loading::before { animation-duration: 1.6s; } }
