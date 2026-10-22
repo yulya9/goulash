@@ -1386,3 +1386,20 @@ html.rv-on .rv--fade.is-in { animation-name: rvFade; animation-duration: 1.2s; }
 #partners .g2-partners-mobile { padding-block: 56px; }
 #partners .g2-marquee { margin-top: 28px; }
 @media (max-width: 767px) { #partners .g2-partners-mobile { padding-block: 40px; } }
+
+/* Кейсы на телефоне: компактнее (низкое фото, меньше полей и шрифтов, показатели в одну строку) */
+@media (max-width: 767px) {
+  .sc { margin-bottom: 12px; border-radius: 20px; }
+  .sc__media { min-height: 0; height: 150px; background-position: center 18%; }
+  .sc__body { padding: 16px; }
+  .sc__tag { margin-bottom: 6px; font-size: 14px !important; }
+  .sc__title { margin-bottom: 8px; font-size: 22px; line-height: 1.15; }
+  .sc__text { font-size: 15px; line-height: 1.45; }
+  .sc__meta { grid-template-columns: auto auto 1fr; gap: 14px; margin-top: 14px; padding-top: 12px; }
+  .sc__meta > div:last-child { grid-column: auto; }
+  .sc__meta dt { margin-bottom: 2px; font-size: 12px; }
+  .sc__meta dd { font-size: 15px; }
+  .sc__meta dd.sc__res { white-space: nowrap; }
+  .sc-note { margin-top: 12px; }
+  .sc-actions { margin-top: 16px; }
+}
