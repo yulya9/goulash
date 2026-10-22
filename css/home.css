@@ -611,6 +611,11 @@
 	font-variant-numeric: tabular-nums;
 }
 
+/* Убираем лишний визуальный зазор между цифрами в метриках */
+.g2-bento__value--tight {
+	letter-spacing: -0.06em;
+}
+
 /* Отдельные значения набраны пиксельным шрифтом (см. макет) */
 .g2-bento__value--pixel {
 	font-family: var(--g-font-pixel);
