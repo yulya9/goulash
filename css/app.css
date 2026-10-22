@@ -1216,12 +1216,10 @@ input.is-invalid {
 .sg__top { align-items: flex-start; }
 @media (prefers-reduced-motion: reduce) { .sg__img { transition: none; } }
 
-/* Панели шагов: одинаковый вид на всех: точки и зеленовато-бирюзовое свечение снизу; фото проявляется только в раскрытой */
-.sg__panel { background: var(--g-dark-card); }
-.sg__img { opacity: 0; filter: none; transform: scale(1.06); transition: opacity 0.6s, transform 0.9s cubic-bezier(0.22, 1, 0.36, 1); z-index: 0; }
-.sg__panel.is-open .sg__img { opacity: 1; transform: scale(1); }
-.sg__img::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(10, 10, 12, 0.05) 25%, rgba(10, 10, 12, 0.78) 100%); }
-.sg__panel::before { z-index: 1; background-image: radial-gradient(circle, rgba(255, 255, 255, 0.07) 1.2px, transparent 1.6px); background-size: 10px 10px; opacity: 1; mix-blend-mode: normal; }
-.sg__panel::after { z-index: 1; inset: auto 0 0 0; height: 75%; background: radial-gradient(75% 95% at 28% 100%, rgba(0, 255, 210, 0.2), transparent 70%); opacity: 0.8; }
-.sg__panel.is-open::after { opacity: 1; }
-.sg__btn { z-index: 2; }
+/* Панели шагов: на всех брендовый фон с пиксельными точками и зеленовато-бирюзовым свечением (как у формы); фото проявляется в раскрытой поверх него */
+.sg .sg__panel { background-color: #222222; background-image: url("../assets/img/cta-bg.png"); background-repeat: no-repeat; background-size: auto 150%; background-position: left bottom; background-blend-mode: lighten; }
+.sg .sg__panel::before, .sg .sg__panel::after { content: none; }
+.sg .sg__panel:nth-child(n) .sg__img { background-image: var(--img); opacity: 0; filter: none; transform: scale(1.06); transition: opacity 0.6s, transform 0.9s cubic-bezier(0.22, 1, 0.36, 1); z-index: 0; }
+.sg .sg__panel.is-open:nth-child(n) .sg__img { opacity: 1; transform: scale(1); }
+.sg .sg__img::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(10, 10, 12, 0.05) 25%, rgba(10, 10, 12, 0.78) 100%); }
+.sg .sg__btn { z-index: 2; }
