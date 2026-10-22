@@ -135,7 +135,7 @@ function updateCalc() {
   setText("calc-verdict", v.title);
 
   const netEl = document.getElementById("calc-net");
-  netEl.textContent = `+${rub(r.net)}`;
+  tweenNumber(netEl, r.net, (v) => `+${rub(Math.round(v))}`);
   flash(netEl);
 
   const lossEl = document.getElementById("hero-loss");
@@ -448,6 +448,7 @@ function bind() {
   safe(() => bindHeaderStuck());
   safe(() => bindBurger());
   safe(() => bindCountUps());
+  safe(() => bindPremiumReveal());
   safe(() => bindReveals());
 }
 
@@ -566,11 +567,16 @@ function bindCountUps() {
       el.textContent = `${prefix}${formatCount(target, decimals)}${suffix}`;
       return;
     }
-    const start = performance.now();
-    const duration = 1100;
+    const rvOn = document.documentElement.classList.contains("rv-on");
+    const idx = Number(getComputedStyle(el).getPropertyValue("--rv-i")) || 0;
+    const delay = rvOn ? 250 + idx * 90 : 0;
+    el.textContent = `${prefix}${formatCount(0, decimals)}${suffix}`;
+    const start = performance.now() + delay;
+    const duration = rvOn ? 1800 : 1100;
     function frame(now) {
+      if (now < start) { requestAnimationFrame(frame); return; }
       const t = Math.min(1, (now - start) / duration);
-      const eased = 1 - Math.pow(1 - t, 3);
+      const eased = t >= 1 ? 1 : 1 - Math.pow(2, -10 * t);
       el.textContent = `${prefix}${formatCount(target * eased, decimals)}${suffix}`;
       if (t < 1) requestAnimationFrame(frame);
       else el.textContent = `${prefix}${formatCount(target, decimals)}${suffix}`;
@@ -756,4 +762,82 @@ function bindBurger() {
   menu.querySelectorAll("a").forEach((a) => a.addEventListener("click", () => set(false)));
   document.addEventListener("keydown", (e) => { if (e.key === "Escape") set(false); });
   window.matchMedia("(min-width: 1024px)").addEventListener("change", (m) => { if (m.matches) set(false); });
+}
+
+
+// Десктоп: появление блоков при скролле (подъём с размытием у заголовков, каскад у карточек)
+function bindPremiumReveal() {
+  const desktop = window.matchMedia("(min-width: 1024px)").matches;
+  if (!desktop || reduceMotion || !("IntersectionObserver" in window)) return;
+
+  const GROUPS = [
+    [".g2-section:not(#hero) .g2-section-head:not(.g2-sources-head .g2-section-head), .g2-sources-head, .g2-stats__title, .g2-kitchens__title, .app-kitchens__lead, .g2-faq__caption", "head"],
+    [".g2-bento > *", "up"],
+    [".gp-frame", "fade"],
+    [".calcx__main, .calcx__card", "up"],
+    [".sg__panel", "up"],
+    [".steps__cta", "up"],
+    [".g2-stat", "up"],
+    [".g2-kitchens__list > *", "up"],
+    ["#quotes-track", "fade"],
+    [".g2-accordion__item", "up"],
+    [".g2-connect__inner > *", "up"],
+    ["#connect .g2-form", "up"],
+  ];
+
+  const seen = new Set();
+  const counters = new Map();
+  const targets = [];
+  GROUPS.forEach(([sel, kind]) => {
+    document.querySelectorAll(sel).forEach((el) => {
+      if (seen.has(el)) return;
+      seen.add(el);
+      const parent = el.parentElement;
+      const i = counters.get(parent) || 0;
+      counters.set(parent, i + 1);
+      el.style.setProperty("--rv-i", String(Math.min(i, 6)));
+      el.classList.add("rv", "rv--" + kind);
+      targets.push(el);
+    });
+  });
+  if (!targets.length) return;
+  document.documentElement.classList.add("rv-on");
+
+  const done = (el) => {
+    el.classList.remove("rv", "rv--head", "rv--up", "rv--fade", "is-in");
+    el.style.removeProperty("--rv-i");
+  };
+  const io = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const el = entry.target;
+        io.unobserve(el);
+        el.classList.add("is-in");
+        el.addEventListener("animationend", () => done(el), { once: true });
+      });
+    },
+    { threshold: 0.12, rootMargin: "0px 0px -6% 0px" }
+  );
+  targets.forEach((el) => io.observe(el));
+}
+
+// Плавная смена числа (калькулятор): от прежнего значения к новому
+function tweenNumber(el, to, format) {
+  const from = el._tv == null ? to : el._tv;
+  el._tv = to;
+  if (reduceMotion || from === to) {
+    el.textContent = format(to);
+    return;
+  }
+  const t0 = performance.now();
+  const dur = 600;
+  cancelAnimationFrame(el._tr);
+  const step = (now) => {
+    const t = Math.min(1, (now - t0) / dur);
+    const e = 1 - Math.pow(1 - t, 3);
+    el.textContent = format(from + (to - from) * e);
+    if (t < 1) el._tr = requestAnimationFrame(step);
+  };
+  el._tr = requestAnimationFrame(step);
 }
