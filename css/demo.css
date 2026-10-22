@@ -370,3 +370,6 @@
 .gp-cur__cap.is-press i { animation: gpSqueeze 0.42s cubic-bezier(0.22, 1, 0.36, 1); }
 @keyframes gpSqueeze { 0% { transform: scale(1, 1); } 28% { transform: scale(0.62, 0.88); } 62% { transform: scale(1.08, 1.03); } 100% { transform: scale(1, 1); } }
 @media (prefers-reduced-motion: reduce) { .gp-cur__cap.is-press i { animation: none; } }
+
+/* тёмный фон секции: вместо мягкой тени тонкая светлая обводка и едва заметный отсвет */
+.g2-section--dark .gp-stage { box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1), 0 2px 6px rgba(0, 0, 0, 0.35), 0 24px 60px rgba(0, 0, 0, 0.45), 0 0 120px rgba(0, 255, 255, 0.05); }
