@@ -139,9 +139,8 @@ html.dm-lock { overflow: hidden; }
     flex: none;
     width: 42px;
     height: 5px;
-    margin: -11px auto 0;
-    padding: 10px 0;
-    box-sizing: content-box;
+    margin: -10px auto 0;
+    padding: 0;
     border-radius: 999px;
     background: #8da3ad;
     touch-action: none;
