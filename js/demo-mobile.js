@@ -240,6 +240,29 @@
   });
   document.addEventListener("pointerup", (e) => finishDrag(e.clientY));
   document.addEventListener("pointercancel", () => { dragStartY = null; });
+  // Fallback: listen at document level because mobile browsers may retarget/cancel
+  // touch events when the sheet header uses native vertical scrolling.
+  let touchStartY = null;
+  let touchStartedAtTop = false;
+  document.addEventListener("touchstart", (e) => {
+    if (modal.hidden || e.touches.length !== 1) return;
+    const rect = modal.querySelector(".dm")?.getBoundingClientRect();
+    if (!rect) return;
+    const y = e.touches[0].clientY;
+    touchStartedAtTop = y >= rect.top && y <= rect.top + 90;
+    touchStartY = touchStartedAtTop ? y : null;
+  }, { passive: true, capture: true });
+  document.addEventListener("touchend", (e) => {
+    if (touchStartY === null || !touchStartedAtTop || !e.changedTouches.length) return;
+    const distance = e.changedTouches[0].clientY - touchStartY;
+    touchStartY = null;
+    touchStartedAtTop = false;
+    if (distance > 40 && !modal.hidden) closeModal();
+  }, { passive: true, capture: true });
+  document.addEventListener("touchcancel", () => {
+    touchStartY = null;
+    touchStartedAtTop = false;
+  }, { passive: true, capture: true });
   modal.addEventListener("click", (e) => { if (e.target === modal) closeModal(); });
   document.addEventListener("keydown", (e) => {
     if (e.key !== "Escape" || modal.hidden) return;
