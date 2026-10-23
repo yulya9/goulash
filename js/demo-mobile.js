@@ -213,15 +213,27 @@
   }
   openBtn.addEventListener("click", openModal);
   $("dm-close").addEventListener("click", closeModal);
-  // На телефоне демо закрывается жестом вниз за верхнюю ручку-шторку.
+  // Закрытие свайпом вниз: поддерживаем touch и pointer, отслеживаем отпускание на документе.
   const grabber = modal.querySelector(".dm__grabber");
   let dragStartY = null;
-  grabber.addEventListener("pointerdown", (e) => { dragStartY = e.clientY; grabber.setPointerCapture(e.pointerId); });
-  grabber.addEventListener("pointerup", (e) => {
-    if (dragStartY !== null && e.clientY - dragStartY > 65) closeModal();
+  const startDrag = (y) => { dragStartY = y; };
+  const finishDrag = (y) => {
+    if (dragStartY !== null && y - dragStartY > 45) closeModal();
     dragStartY = null;
+  };
+  grabber.addEventListener("pointerdown", (e) => {
+    if (e.pointerType === "mouse" && e.button !== 0) return;
+    startDrag(e.clientY);
   });
-  grabber.addEventListener("pointercancel", () => { dragStartY = null; });
+  document.addEventListener("pointerup", (e) => { if (dragStartY !== null) finishDrag(e.clientY); });
+  document.addEventListener("pointercancel", () => { dragStartY = null; });
+  grabber.addEventListener("touchstart", (e) => {
+    if (e.touches.length) startDrag(e.touches[0].clientY);
+  }, { passive: true });
+  document.addEventListener("touchend", (e) => {
+    if (dragStartY !== null && e.changedTouches.length) finishDrag(e.changedTouches[0].clientY);
+  }, { passive: true });
+  document.addEventListener("touchcancel", () => { dragStartY = null; }, { passive: true });
   modal.addEventListener("click", (e) => { if (e.target === modal) closeModal(); });
   document.addEventListener("keydown", (e) => {
     if (e.key !== "Escape" || modal.hidden) return;
