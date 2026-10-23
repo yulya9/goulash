@@ -139,12 +139,14 @@ html.dm-lock { overflow: hidden; }
     flex: none;
     width: 42px;
     height: 5px;
-    margin: -1px auto 0;
+    margin: -11px auto 0;
+    padding: 10px 0;
+    box-sizing: content-box;
     border-radius: 999px;
     background: #8da3ad;
     touch-action: none;
     cursor: grab;
   }
-  .dm__top { padding-top: 8px; }
+  .dm__top { padding-top: 8px; touch-action: pan-y; }
   .dm__close { display: none; }
 }
