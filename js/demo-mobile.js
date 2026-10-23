@@ -213,27 +213,25 @@
   }
   openBtn.addEventListener("click", openModal);
   $("dm-close").addEventListener("click", closeModal);
-  // Закрытие свайпом вниз: поддерживаем touch и pointer, отслеживаем отпускание на документе.
+  // Надёжный свайп: увеличенная зона захвата, жест можно начать на ручке или в верхней шапке.
   const grabber = modal.querySelector(".dm__grabber");
+  const topbar = modal.querySelector(".dm__top");
   let dragStartY = null;
-  const startDrag = (y) => { dragStartY = y; };
-  const finishDrag = (y) => {
-    if (dragStartY !== null && y - dragStartY > 45) closeModal();
-    dragStartY = null;
-  };
-  grabber.addEventListener("pointerdown", (e) => {
+  const startDrag = (e) => {
     if (e.pointerType === "mouse" && e.button !== 0) return;
-    startDrag(e.clientY);
+    dragStartY = e.clientY;
+  };
+  const finishDrag = (e) => {
+    if (dragStartY === null) return;
+    const distance = e.clientY - dragStartY;
+    dragStartY = null;
+    if (distance > 40 && !modal.hidden) closeModal();
+  };
+  [grabber, topbar].forEach((el) => {
+    el.addEventListener("pointerdown", startDrag);
   });
-  document.addEventListener("pointerup", (e) => { if (dragStartY !== null) finishDrag(e.clientY); });
+  document.addEventListener("pointerup", finishDrag);
   document.addEventListener("pointercancel", () => { dragStartY = null; });
-  grabber.addEventListener("touchstart", (e) => {
-    if (e.touches.length) startDrag(e.touches[0].clientY);
-  }, { passive: true });
-  document.addEventListener("touchend", (e) => {
-    if (dragStartY !== null && e.changedTouches.length) finishDrag(e.changedTouches[0].clientY);
-  }, { passive: true });
-  document.addEventListener("touchcancel", () => { dragStartY = null; }, { passive: true });
   modal.addEventListener("click", (e) => { if (e.target === modal) closeModal(); });
   document.addEventListener("keydown", (e) => {
     if (e.key !== "Escape" || modal.hidden) return;
