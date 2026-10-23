@@ -217,20 +217,28 @@
   const grabber = modal.querySelector(".dm__grabber");
   const topbar = modal.querySelector(".dm__top");
   let dragStartY = null;
-  const startDrag = (e) => {
-    if (e.pointerType === "mouse" && e.button !== 0) return;
-    dragStartY = e.clientY;
-  };
-  const finishDrag = (e) => {
+  const startDrag = (y) => { dragStartY = y; };
+  const finishDrag = (y) => {
     if (dragStartY === null) return;
-    const distance = e.clientY - dragStartY;
+    const distance = y - dragStartY;
     dragStartY = null;
     if (distance > 40 && !modal.hidden) closeModal();
   };
-  [grabber, topbar].forEach((el) => {
-    el.addEventListener("pointerdown", startDrag);
+  [grabber, topbar].filter(Boolean).forEach((el) => {
+    el.addEventListener("pointerdown", (e) => {
+      if (e.pointerType === "mouse" && e.button !== 0) return;
+      startDrag(e.clientY);
+    });
+    // Touch events are needed on mobile browsers that cancel pointer events during vertical gestures.
+    el.addEventListener("touchstart", (e) => {
+      if (e.touches.length === 1) startDrag(e.touches[0].clientY);
+    }, { passive: true });
+    el.addEventListener("touchend", (e) => {
+      if (e.changedTouches.length) finishDrag(e.changedTouches[0].clientY);
+    }, { passive: true });
+    el.addEventListener("touchcancel", () => { dragStartY = null; }, { passive: true });
   });
-  document.addEventListener("pointerup", finishDrag);
+  document.addEventListener("pointerup", (e) => finishDrag(e.clientY));
   document.addEventListener("pointercancel", () => { dragStartY = null; });
   modal.addEventListener("click", (e) => { if (e.target === modal) closeModal(); });
   document.addEventListener("keydown", (e) => {
