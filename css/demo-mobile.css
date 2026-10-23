@@ -123,3 +123,15 @@ html.dm-lock { overflow: hidden; }
 
 .dm__toast { position: absolute; left: 12px; right: 12px; bottom: calc(18px + env(safe-area-inset-bottom)); z-index: 7; padding: 12px 14px; border-radius: 12px; background: #12262f; color: #fff; font-size: 14px; text-align: center; opacity: 0; transform: translateY(8px); pointer-events: none; transition: opacity 0.2s, transform 0.2s; }
 .dm__toast.is-on { opacity: 1; transform: none; }
+
+
+/* На телефоне демо открывается как нижняя модалка, а не на весь экран */
+@media (max-width: 480px) {
+  .dm {
+    height: min(82dvh, 720px);
+    height: min(82vh, 720px);
+    height: min(82dvh, 720px);
+    max-height: calc(100dvh - env(safe-area-inset-top) - 24px);
+    border-radius: 22px 22px 0 0;
+  }
+}
