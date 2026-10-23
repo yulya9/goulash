@@ -150,6 +150,6 @@ html.dm-lock { overflow: hidden; }
     touch-action: none;
     cursor: grab;
   }
-  .dm__top { padding-top: 8px; touch-action: pan-y; }
+  .dm__top { padding-top: 8px; touch-action: none; }
   .dm__close { display: none; }
 }
