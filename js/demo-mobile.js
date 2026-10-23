@@ -52,6 +52,7 @@
   modal.setAttribute("aria-label", "Демо интерфейса Goulash на телефоне");
   modal.innerHTML = `
     <div class="dm" id="dm">
+      <div class="dm__grabber" aria-label="Потяните вниз, чтобы закрыть демо"></div>
       <header class="dm__top">
         <div class="dm__brand">
           <svg viewBox="0 0 48 48" fill="none" aria-hidden="true"><path d="M35.8708 0H11.6535C5.21774 0 0 5.24615 0 11.7169V36.0662C0 42.5369 5.21774 47.7831 11.6535 47.7831H35.8708C42.3065 47.7831 47.5243 42.5369 47.5243 36.0662V11.7154C47.5243 5.24462 42.3065 0 35.8708 0Z" fill="#00FFFF"/><path d="M15.8418 15.9297H7.92188V23.8928V31.8558H15.8418V23.8928V15.9297Z" fill="#040406"/><path d="M31.6827 15.9295V7.96484H23.7628H15.8413V15.9295H23.7628H31.6827Z" fill="#040406"/><path d="M15.8413 31.8555V39.8201H23.7628H31.6827V31.8555H23.7628H15.8413Z" fill="#040406"/><path d="M39.6031 23.8945H31.6831V31.8576H39.6031V23.8945Z" fill="#040406"/></svg>
@@ -212,6 +213,15 @@
   }
   openBtn.addEventListener("click", openModal);
   $("dm-close").addEventListener("click", closeModal);
+  // На телефоне демо закрывается жестом вниз за верхнюю ручку-шторку.
+  const grabber = modal.querySelector(".dm__grabber");
+  let dragStartY = null;
+  grabber.addEventListener("pointerdown", (e) => { dragStartY = e.clientY; grabber.setPointerCapture(e.pointerId); });
+  grabber.addEventListener("pointerup", (e) => {
+    if (dragStartY !== null && e.clientY - dragStartY > 65) closeModal();
+    dragStartY = null;
+  });
+  grabber.addEventListener("pointercancel", () => { dragStartY = null; });
   modal.addEventListener("click", (e) => { if (e.target === modal) closeModal(); });
   document.addEventListener("keydown", (e) => {
     if (e.key !== "Escape" || modal.hidden) return;
