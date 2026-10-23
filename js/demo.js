@@ -270,7 +270,7 @@
     const nextLabel = o.stage >= 4 ? "Отметить доставленным" : "Передать дальше: " + STAGES[o.stage + 1];
     $("gp-sheet").innerHTML = `
       <div class="gp__sheet-h">
-        <div><h3>Заказ ${esc(o.id)}${o.pre ? " · предварительный" : ""}</h3><p>${esc(o.src)} · ${esc(o.phone)}</p></div>
+        <div><h3>Заказ ${esc(o.id)}${o.pre ? ", предварительный" : ""}</h3><p>${esc(o.src)}, ${esc(o.phone)}</p></div>
         <button type="button" class="gp__x" id="gp-x" aria-label="Закрыть">×</button>
       </div>
       <div class="gp__facts2">
@@ -335,7 +335,7 @@
       const ready = orders.filter((o) => o.stage === 3).sort(bySort);
       dlgState.taxi.forEach((u) => { if (!ready.find((o) => o.uid === u)) dlgState.taxi.delete(u); });
       html = head("Такси", "Выберите готовые заказы, которые поедут на такси.") +
-        `<div class="gp__rows">${ready.length ? ready.map((o) => `<label><input type="checkbox" data-pick="${o.uid}"${dlgState.taxi.has(o.uid) ? " checked" : ""}><span><b>${esc(o.id)}</b> · ${money(o.sum)}${NB}₽</span><em>к ${o.t}</em></label>`).join("") : '<p class="gp__none">Готовых заказов нет.</p>'}</div>` +
+        `<div class="gp__rows">${ready.length ? ready.map((o) => `<label><input type="checkbox" data-pick="${o.uid}"${dlgState.taxi.has(o.uid) ? " checked" : ""}><span><b>${esc(o.id)}</b>, ${money(o.sum)}${NB}₽</span><em>к ${o.t}</em></label>`).join("") : '<p class="gp__none">Готовых заказов нет.</p>'}</div>` +
         `<button type="button" class="gp__next" id="gp-do"${dlgState.taxi.size ? "" : " disabled"}>Вызвать такси${dlgState.taxi.size ? " (" + dlgState.taxi.size + ")" : ""}</button>`;
     } else if (k === "writeoff") {
       const items = ["Пепперони 30 см", "Филадельфия", "Бургер классик", "Шаурма XL"];
@@ -473,7 +473,7 @@
     if (name === "Станция кухни") {
       const items = orders.filter((o) => o.stage === 2).sort(bySort);
       host.innerHTML = `<h3>Станция кухни</h3><p>${items.length ? "Заказы в работе. Нажмите «Готово», когда блюда собраны." : "Все блюда приготовлены."}</p>
-        <div class="gp__tickets">${items.map((o) => `<div class="gp__ticket${o.late ? " is-late" : ""}"><strong>${esc(o.id)}</strong><span>к ${o.t}${o.late ? " · −" + o.late + NB + "мин" : ""}</span><ul>${dishesOf(o).map((d) => `<li>${esc(d)}${stops.has(d) ? " (стоп)" : ""}</li>`).join("")}</ul><button type="button" data-ready="${o.uid}">Готово</button></div>`).join("")}</div>`;
+        <div class="gp__tickets">${items.map((o) => `<div class="gp__ticket${o.late ? " is-late" : ""}"><strong>${esc(o.id)}</strong><span>к ${o.t}${o.late ? ", −" + o.late + NB + "мин" : ""}</span><ul>${dishesOf(o).map((d) => `<li>${esc(d)}${stops.has(d) ? " (стоп)" : ""}</li>`).join("")}</ul><button type="button" data-ready="${o.uid}">Готово</button></div>`).join("")}</div>`;
     } else if (name === "Стоп-лист") {
       host.innerHTML = `<h3>Стоп-лист</h3><p>Блюдо в стопе пропадает из каналов заказа. Нажмите на строку, чтобы поставить или снять.</p>
         <div class="gp__stoplist">${DISHES.map((d) => `<button type="button" class="gp__stoprow${stops.has(d) ? " is-stop" : ""}" data-dish="${esc(d)}"><span>${esc(d)}<em>${stops.has(d) ? "в стопе" : "в меню"}</em></span><span>${stops.has(d) ? "Снять" : "В стоп"}</span></button>`).join("")}</div>`;
@@ -512,7 +512,7 @@
         <div class="gp__seg">${SOURCES.slice(0, 3).map((s) => `<button type="button" class="${d.src === s ? "is-on" : ""}" data-sc="src" data-v="${s}">${s}</button>`).join("")}</div>
         <input class="gp__field" data-sc="phone" type="tel" inputmode="tel" placeholder="Телефон гостя" value="${esc(d.phone)}" aria-label="Телефон гостя">
         <div class="gp__rows">${Object.keys(PRICES).map((k) => `<div class="gp__step"><span>${esc(k)} <em>${PRICES[k]}${NB}₽</em></span><div><button type="button" data-sc="qty" data-d="-1" data-k="${esc(k)}" aria-label="Меньше">−</button><b>${d.qty[k] || 0}</b><button type="button" data-sc="qty" data-d="1" data-k="${esc(k)}" aria-label="Больше">+</button></div></div>`).join("")}</div>
-        <button type="button" class="gp__next" data-sc="accept">Принять заказ · ${money(total)}${NB}₽</button>`;
+        <button type="button" class="gp__next" data-sc="accept">Принять заказ, ${money(total)}${NB}₽</button>`;
     },
     "Зал"() {
       const names = ["Свободен", "Занят", "Просит счёт"];
@@ -531,7 +531,7 @@
     },
     "Пост охраны"() {
       return `<h3>Пост охраны</h3><p>Кто сейчас на посту. Нажмите, чтобы отметить приход или уход.</p>
-        <div class="gp__rows">${sc.guard.map((g, i) => `<button type="button" class="gp__line gp__btnrow${g[2] ? " is-ok" : ""}" data-sc="guard" data-i="${i}"><span><b>${g[0]}</b> · ${g[1]}</span><em>${g[2] ? "на посту" : "не пришёл"}</em></button>`).join("")}</div>`;
+        <div class="gp__rows">${sc.guard.map((g, i) => `<button type="button" class="gp__line gp__btnrow${g[2] ? " is-ok" : ""}" data-sc="guard" data-i="${i}"><span><b>${g[0]}</b>, ${g[1]}</span><em>${g[2] ? "на посту" : "не пришёл"}</em></button>`).join("")}</div>`;
     },
     "Учёт расходов"() {
       const total = sc.exp.reduce((s, e) => s + e[1], 0);
@@ -549,7 +549,7 @@
     },
     "Учёт товаров"() {
       return `<h3>Учёт товаров</h3><p>Остатки на складе. Низкие остатки подсвечены, нажмите «+», чтобы заказать.</p>
-        <div class="gp__rows">${sc.stock.map((s, i) => `<div class="gp__line${s[1] < s[2] ? " is-low" : ""}"><span>${s[0]}</span><em>${s[1]}${s[1] < s[2] ? " · мало" : ""}</em><button type="button" class="gp__mini" data-sc="stock" data-i="${i}">+10</button></div>`).join("")}</div>`;
+        <div class="gp__rows">${sc.stock.map((s, i) => `<div class="gp__line${s[1] < s[2] ? " is-low" : ""}"><span>${s[0]}</span><em>${s[1]}${s[1] < s[2] ? ", мало" : ""}</em><button type="button" class="gp__mini" data-sc="stock" data-i="${i}">+10</button></div>`).join("")}</div>`;
     },
     "Закупочные цены"() {
       return `<h3>Закупочные цены</h3><p>Измените цену поставщика, чтобы увидеть, как она отразится на себестоимости.</p>
