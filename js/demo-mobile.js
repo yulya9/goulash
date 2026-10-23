@@ -213,55 +213,77 @@
   }
   openBtn.addEventListener("click", openModal);
   $("dm-close").addEventListener("click", closeModal);
-  // Надёжный свайп: увеличенная зона захвата, жест можно начать на ручке или в верхней шапке.
+  // Drag the mobile sheet with the finger; follow the gesture and shrink slightly.
   const grabber = modal.querySelector(".dm__grabber");
   const topbar = modal.querySelector(".dm__top");
+  const sheet = modal.querySelector(".dm");
   let dragStartY = null;
-  const startDrag = (y) => { dragStartY = y; };
-  const finishDrag = (y) => {
+  let dragLastY = 0;
+  let dragStartedAt = 0;
+  let dragMode = null;
+  const beginDrag = (y, mode) => {
+    if (modal.hidden || dragStartY !== null) return;
+    dragStartY = y;
+    dragLastY = y;
+    dragStartedAt = Date.now();
+    dragMode = mode;
+    sheet.style.transition = "none";
+  };
+  const moveDrag = (y) => {
+    if (dragStartY === null || !sheet) return;
+    dragLastY = y;
+    const distance = Math.max(0, y - dragStartY);
+    const scale = 1 - Math.min(distance * 0.00012, 0.045);
+    sheet.style.transform = `translateY(${distance}px) scale(${scale})`;
+    sheet.style.transformOrigin = "top center";
+  };
+  const resetDrag = () => {
+    if (!sheet) return;
+    sheet.style.transition = "";
+    sheet.style.transform = "";
+    sheet.style.transformOrigin = "";
+  };
+  const endDrag = (y) => {
     if (dragStartY === null) return;
-    const distance = y - dragStartY;
+    const distance = Math.max(0, y - dragStartY);
+    const elapsed = Math.max(1, Date.now() - dragStartedAt);
+    const fastSwipe = distance > 45 && distance / elapsed > 0.45;
     dragStartY = null;
-    if (distance > 40 && !modal.hidden) closeModal();
+    const shouldClose = distance > 120 || fastSwipe;
+    dragMode = null;
+    if (shouldClose && !modal.hidden) {
+      resetDrag();
+      closeModal();
+    } else {
+      resetDrag();
+    }
   };
   [grabber, topbar].filter(Boolean).forEach((el) => {
     el.addEventListener("pointerdown", (e) => {
       if (e.pointerType === "mouse" && e.button !== 0) return;
-      startDrag(e.clientY);
+      beginDrag(e.clientY, "pointer");
     });
-    // Touch events are needed on mobile browsers that cancel pointer events during vertical gestures.
     el.addEventListener("touchstart", (e) => {
-      if (e.touches.length === 1) startDrag(e.touches[0].clientY);
+      if (e.touches.length === 1) beginDrag(e.touches[0].clientY, "touch");
     }, { passive: true });
-    el.addEventListener("touchend", (e) => {
-      if (e.changedTouches.length) finishDrag(e.changedTouches[0].clientY);
-    }, { passive: true });
-    el.addEventListener("touchcancel", () => { dragStartY = null; }, { passive: true });
   });
-  document.addEventListener("pointerup", (e) => finishDrag(e.clientY));
-  document.addEventListener("pointercancel", () => { dragStartY = null; });
-  // Fallback: listen at document level because mobile browsers may retarget/cancel
-  // touch events when the sheet header uses native vertical scrolling.
-  let touchStartY = null;
-  let touchStartedAtTop = false;
-  document.addEventListener("touchstart", (e) => {
-    if (modal.hidden || e.touches.length !== 1) return;
-    const rect = modal.querySelector(".dm")?.getBoundingClientRect();
-    if (!rect) return;
-    const y = e.touches[0].clientY;
-    touchStartedAtTop = y >= rect.top && y <= rect.top + 90;
-    touchStartY = touchStartedAtTop ? y : null;
+  document.addEventListener("pointermove", (e) => {
+    if (dragMode === "pointer") moveDrag(e.clientY);
+  });
+  document.addEventListener("pointerup", (e) => {
+    if (dragMode === "pointer") endDrag(e.clientY);
+  });
+  document.addEventListener("pointercancel", () => {
+    if (dragMode === "pointer") { dragStartY = null; dragMode = null; resetDrag(); }
+  });
+  document.addEventListener("touchmove", (e) => {
+    if (dragMode === "touch" && e.touches.length === 1) moveDrag(e.touches[0].clientY);
   }, { passive: true, capture: true });
   document.addEventListener("touchend", (e) => {
-    if (touchStartY === null || !touchStartedAtTop || !e.changedTouches.length) return;
-    const distance = e.changedTouches[0].clientY - touchStartY;
-    touchStartY = null;
-    touchStartedAtTop = false;
-    if (distance > 40 && !modal.hidden) closeModal();
+    if (dragMode === "touch" && e.changedTouches.length) endDrag(e.changedTouches[0].clientY);
   }, { passive: true, capture: true });
   document.addEventListener("touchcancel", () => {
-    touchStartY = null;
-    touchStartedAtTop = false;
+    if (dragMode === "touch") { dragStartY = null; dragMode = null; resetDrag(); }
   }, { passive: true, capture: true });
   modal.addEventListener("click", (e) => { if (e.target === modal) closeModal(); });
   document.addEventListener("keydown", (e) => {
