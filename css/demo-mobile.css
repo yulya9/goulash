@@ -135,6 +135,8 @@ html.dm-lock { overflow: hidden; }
     border-radius: 22px 22px 0 0;
   }
   .dm__grabber {
+    position: relative;
+    z-index: 5;
     display: block;
     flex: none;
     width: 42px;
@@ -143,6 +145,8 @@ html.dm-lock { overflow: hidden; }
     padding: 0;
     border-radius: 999px;
     background: #8da3ad;
+    opacity: 1;
+    visibility: visible;
     touch-action: none;
     cursor: grab;
   }
