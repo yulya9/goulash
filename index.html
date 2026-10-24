@@ -941,5 +941,20 @@ aria-label="Rutube"
   <script src="js/app.js?v=20261087"></script>
   <script src="js/demo.js?v=17"></script>
   <script src="js/demo-mobile.js?v=9"></script>
+  <script>
+  (function () {
+    try {
+      var key = "goulash-landing-visit-counted";
+      if (sessionStorage.getItem(key)) return;
+      sessionStorage.setItem(key, "1");
+      fetch("https://abacus.jasoncameron.dev/hit/yulya9-goulash/landing-visits", {
+        method: "GET",
+        mode: "cors",
+        cache: "no-store",
+        keepalive: true
+      }).catch(function () {});
+    } catch (e) {}
+  })();
+  </script>
 </body>
 </html>
