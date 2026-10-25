@@ -41,7 +41,7 @@
         const data = await response.json();
         if (!Number.isFinite(data.value)) throw new Error("Invalid response");
         countEl.textContent = data.value.toLocaleString("ru-RU");
-        statusEl.textContent = "Зафиксированные открытия за ${day}.";
+        statusEl.textContent = "Зафиксированные открытия за " + day + " (UTC).";
       } catch (error) {
         countEl.textContent = "—";
         statusEl.textContent = "Не удалось получить данные. Попробуй обновить позже.";
