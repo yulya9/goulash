@@ -17,20 +17,21 @@
 <body>
   <main>
     <p>GOULASH / СТАТИСТИКА</p>
-    <h1>Открытия сайта</h1>
+    <h1>Посещения за сегодня</h1>
     <div class="number" id="count" aria-live="polite">—</div>
     <p id="status">Загружаю счётчик…</p>
     <button id="refresh" type="button">Обновить</button>
-    <small>Считаются открытия сайта, максимум один раз за сессию браузера. Это не точное число уникальных людей: боты могут учитываться, а блокировщики — мешать подсчёту.</small>
+    <small>Счётчик обновляется ежедневно по UTC. Открытия считаются максимум один раз за сессию браузера в течение дня. Это не точное число уникальных людей: боты могут учитываться, а блокировщики — мешать подсчёту.</small>
   </main>
   <script>
     const countEl = document.getElementById("count");
     const statusEl = document.getElementById("status");
+    const day = new Date().toISOString().slice(0, 10);
     async function loadCount() {
       countEl.textContent = "—";
       statusEl.textContent = "Загружаю счётчик…";
       try {
-        const response = await fetch("https://abacus.jasoncameron.dev/get/yulya9-goulash/landing-visits", { cache: "no-store" });
+        const response = await fetch("https://abacus.jasoncameron.dev/get/yulya9-goulash/landing-visits-" + day, { cache: "no-store" });
         if (response.status === 404) {
           countEl.textContent = "0";
           statusEl.textContent = "Пока нет зафиксированных открытий.";
@@ -40,7 +41,7 @@
         const data = await response.json();
         if (!Number.isFinite(data.value)) throw new Error("Invalid response");
         countEl.textContent = data.value.toLocaleString("ru-RU");
-        statusEl.textContent = "Текущее общее число зафиксированных открытий.";
+        statusEl.textContent = "Зафиксированные открытия за ${day}.";
       } catch (error) {
         countEl.textContent = "—";
         statusEl.textContent = "Не удалось получить данные. Попробуй обновить позже.";
